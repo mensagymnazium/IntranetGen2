@@ -1,5 +1,5 @@
 {
-  "name": "MI",
+  "name": "mi",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,6 +10,7 @@
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
+    "react-helmet": "5.2.1",
     "rimraf": "^3.0.0"
   },
   "scripts": {
