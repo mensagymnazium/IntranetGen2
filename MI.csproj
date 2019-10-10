@@ -17,8 +17,15 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="MI.Server.DataAccess\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="MI.Server.DataAccess\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="MI.Server.DataAccess\**" />
+    <None Remove="MI.Server.DataAccess\**" />
   </ItemGroup>
 
   <ItemGroup>
