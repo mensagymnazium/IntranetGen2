@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MI.Server.DataAccess.DbObjects
 {
@@ -28,6 +26,11 @@ namespace MI.Server.DataAccess.DbObjects
         public string Mail { get; set; }
 
         public string Password { get; set; }
+
+
+        public bool IsStudent { get; set; } //true means user is student, false means user is teacher
+
+        public string StudentsClass { get; set; }
 
     }
 }
