@@ -9,7 +9,7 @@ namespace MI.Server.DataAccess.Database
 {
     public class MensaIntranetContext : DbContext
     {
-        public MensaIntranetContext() : base("DataSource=localhost;Integrated Security=True;Database=MITestDb")
+        public MensaIntranetContext() : base("DataSource=.;Integrated Security=True;Database=MITestDb")
         {
             Configuration.AutoDetectChangesEnabled = true;
             Configuration.LazyLoadingEnabled = false;
