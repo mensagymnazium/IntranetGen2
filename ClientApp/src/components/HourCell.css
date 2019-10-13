@@ -1,0 +1,14 @@
+﻿HourCell > *, HourCell >*>*
+{
+    float:left;
+}
+HourCell div{
+    background-color: gray;
+
+}
+HourCell div h3{
+    color: lightgray;
+}
+HourCell{
+    border: 2px outset;
+}
