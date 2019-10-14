@@ -5,11 +5,11 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects.Configuration
 {
-    public class UserDbConfiguration : EntityTypeConfiguration<UserDb>
+    internal class DbBaseConfiguration<T> : EntityTypeConfiguration<T> where T : DbBase
     {
-        public UserDbConfiguration()
+        public DbBaseConfiguration()
         {
-            HasIndex(u => u.Guid).IsUnique();
+            HasKey(u => u.Id);
         }
     }
 }

@@ -4,10 +4,7 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects
 {
-    public abstract class DbBase
+    public class TeacherDb : UserBase
     {
-        public Guid Id { get; set; }
-
-        public bool IsDeleted { get; set; } = false;
     }
 }

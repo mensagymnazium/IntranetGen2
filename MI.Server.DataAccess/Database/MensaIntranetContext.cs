@@ -9,19 +9,20 @@ namespace MI.Server.DataAccess.Database
 {
     public class MensaIntranetContext : DbContext
     {
-        public MensaIntranetContext() : base("DataSource=.;Integrated Security=True;Database=MITestDb")
+        public MensaIntranetContext() : base("Data Source=.;Integrated Security=True;Database=MITestDb")
         {
             Configuration.AutoDetectChangesEnabled = true;
             Configuration.LazyLoadingEnabled = false;
             Database.Initialize(true);
         }
 
-        public DbSet<UserDb> Users { get; set; }
+        public DbSet<StudentDb> Students { get; set; }
         public DbSet<SubjectDb> Subjects { get; set; }
+        public DbSet<TeacherDb> Teachers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new UserDbConfiguration());
+            modelBuilder.Configurations.Add(new SubjectDbConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
