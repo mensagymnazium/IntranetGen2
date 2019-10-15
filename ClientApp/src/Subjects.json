@@ -1,0 +1,314 @@
+﻿[
+  {
+    "id": "historiologie",
+    "name": "Historiologie",
+    "teacher": "Václav Brdek",
+    "category": 0,
+    "period": {
+      "day": 0,
+      "period": 3
+    },
+    "students": 3,
+    "capacity": 21,
+    "description": "Historiologie je v podstatě historie na druhou!"
+  },
+  {
+    "id": "seminar_s_ceskeho_jazyka",
+    "name": "Seminář s českého jazyka",
+    "teacher": "josef dobrovský",
+    "category": 0,
+    "period": {
+      "day": 0,
+      "period": 3
+    },
+    "students": 4,
+    "capacity": 31,
+    "description": "Přihlašte jse na Seminář s českého jazyka!\nbude to zábava!"
+  },
+  {
+    "id": "experimentalni_lingvistika",
+    "name": "Experimentální lingvistika",
+    "teacher": "Marcela Fatrová",
+    "category": 0,
+    "period": {
+      "day": 0,
+      "period": 3
+    },
+    "students": 10,
+    "capacity": 12,
+    "description": "Přihlašte se na Experimentální lingvistika!\nBude to zábava!"
+  },
+  {
+    "id": "cimrmanologie",
+    "name": "Cimrmanologie",
+    "teacher": "Jára Cimrman",
+    "category": 1,
+    "period": {
+      "day": 0,
+      "period": 3
+    },
+    "students": 10,
+    "capacity": 10,
+    "description": "Jára Cimrman byl největším vynálezcem, cestovatelem, spisovatelem, dramatikem a pedagogem všech dob. Můžeme o tom vést spory, můžeme s tím nesouhlasit, ale to je tak všechno, co se proti tomu dá dělat."
+  },
+  {
+    "id": "micove_hry_pro_invalidy",
+    "name": "Míčové hry pro invalidy",
+    "teacher": "Aleš Presl",
+    "category": 1,
+    "period": {
+      "day": 0,
+      "period": 3
+    },
+    "students": 23,
+    "capacity": 27,
+    "description": "Přihlašte se na Míčové hry pro invalidy!\nBude to zábava!"
+  },
+  {
+    "id": "kyberneticka_bezpecnost",
+    "name": "Kybernetická Bezpečnost\"); -- ",
+    "teacher": "undefined",
+    "category": 2,
+    "period": {
+      "day": 0,
+      "period": 3
+    },
+    "students": 4,
+    "capacity": 31,
+    "description": "Sakra, nefunguje to."
+  },
+  {
+    "id": "prvouka",
+    "name": "Prvouka",
+    "teacher": "Jan Ámos Komenský",
+    "category": 0,
+    "period": {
+      "day": 0,
+      "period": 4
+    },
+    "students": 19,
+    "capacity": 31,
+    "description": "Přihlašte se na Prvouka!\nBude to zábava!"
+  },
+  {
+    "id": "mala_a_velka_nasobilka",
+    "name": "Malá a velká násobilka",
+    "teacher": "Matúš Kepič",
+    "category": 1,
+    "period": {
+      "day": 0,
+      "period": 4
+    },
+    "students": 13,
+    "capacity": 13,
+    "description": "Přihlašte se na Malá a velká násobilka!\nBude to zábava!"
+  },
+  {
+    "id": "bistromatika",
+    "name": "Bistromatika",
+    "teacher": "Douglas Adams",
+    "category": 1,
+    "period": {
+      "day": 0,
+      "period": 4
+    },
+    "students": 3,
+    "capacity": 9,
+    "description": "Přihlašte se na Bistromatika!\nBude to zábava!"
+  },
+  {
+    "id": "spani",
+    "name": "Spaní",
+    "teacher": "Šípková Růženka",
+    "category": 1,
+    "period": {
+      "day": 0,
+      "period": 4
+    },
+    "students": 14,
+    "capacity": 24,
+    "description": "Přihlašte se na Spaní!\nBude to zábava!"
+  },
+  {
+    "id": "kvantova_fyzika",
+    "name": "Kvantová fyzika",
+    "teacher": "Max Planck",
+    "category": 0,
+    "period": {
+      "day": 2,
+      "period": 3
+    },
+    "students": 18,
+    "capacity": 18,
+    "description": "Kvantová fyzika je soustavou fyzikálních teorií, která souběžně s teorií relativity ve 20. století předefinovala do té doby platné základy klasické fyziky. Zatímco teorie relativity vysvětluje především kosmologické otázky týkajících se velkých celků, kvantová fyzika se primárně týká nejmenších, tzv. elementárních částic. Obě teorie, které se experimentálně potvrdily, se však nedaří sloučit do jednoho funkčního celku, tzv. teorie všeho.\n\nKvantová fyzika vychází z toho, že určité měřitelné veličiny se nemění spojitě (plynule), ale v násobcích určitého minimálního množství zvaného kvantum, které je dané Planckovou konstantou. K dalším základním principům patří to, že částice lze současně popsat i jako vlny (dualita částice a vlnění), nelze současně změřit jejich polohu a hybnost (princip neurčitosti) nebo že pozorování má vliv na pozorovaný systém. Obvykle v rámci kvantové teorie rozlišujeme kvantovou mechaniku a kvantovou teorii pole."
+  },
+  {
+    "id": "planovani_casu",
+    "name": "Plánování času",
+    "teacher": "Max Planck",
+    "category": 0,
+    "period": {
+      "day": 2,
+      "period": 3
+    },
+    "students": 12,
+    "capacity": 12,
+    "description": "Přihlašte se na Plánování času!\nBude to zábava!"
+  },
+  {
+    "id": "implementace_webovych_rozhrani",
+    "name": "Implementace webových rozhraní",
+    "teacher": "Benjamin Swart",
+    "category": 0,
+    "period": {
+      "day": 2,
+      "period": 3
+    },
+    "students": 9,
+    "capacity": 9,
+    "description": "Přihlašte se na Implementace webových rozhraní!\nBude to zábava!"
+  },
+  {
+    "id": "test",
+    "name": "Jak se mažou předměty?",
+    "teacher": "Marcela Fatrová",
+    "category": 0,
+    "period": {
+      "day": 2,
+      "period": 3
+    },
+    "students": 12,
+    "capacity": 21,
+    "description": "Přihlašte se na Jak se mažou předměty?!\nBude to zábava!"
+  },
+  {
+    "id": "protahovani",
+    "name": "Protahování",
+    "teacher": "Reed Richards",
+    "category": 1,
+    "period": {
+      "day": 2,
+      "period": 3
+    },
+    "students": 1,
+    "capacity": 18,
+    "description": "Přihlašte se na Protahování!\nBude to zábava!"
+  },
+  {
+    "id": "zaklady_zodpovednosti",
+    "name": "Základy zodpovědnosti",
+    "teacher": "Benjamin Parker",
+    "category": 1,
+    "period": {
+      "day": 2,
+      "period": 3
+    },
+    "students": 1,
+    "capacity": 20,
+    "description": "Přihlašte se na Základy zodpovědnosti!\nBude to zábava!"
+  },
+  {
+    "id": "tvorba_ikon",
+    "name": "Tvorba ikon 😊",
+    "teacher": "Hana Šromová",
+    "category": 1,
+    "period": {
+      "day": 2,
+      "period": 3
+    },
+    "students": 9,
+    "capacity": 25,
+    "description": "Přihlašte se na Tvorba ikon 😊!\nBude to zábava!"
+  },
+  {
+    "id": "silne_teoreticka_fyzika",
+    "name": "Silně teoretická fyzika",
+    "teacher": "Randall Munroe",
+    "category": 2,
+    "period": {
+      "day": 2,
+      "period": 3
+    },
+    "students": 4,
+    "capacity": 14,
+    "description": "Přihlašte se na Silně teoretická fyzika!\nBude to zábava!"
+  },
+  {
+    "id": "programovani_v_malbolge",
+    "name": "Programování v Malbolge",
+    "teacher": "Ben Olmstead",
+    "category": 2,
+    "period": {
+      "day": 2,
+      "period": 3
+    },
+    "students": 8,
+    "capacity": 22,
+    "description": "Přihlašte se na Programování v Malbolge!\nBude to zábava!"
+  },
+  {
+    "id": "teoreticka_xenobiologie",
+    "name": "Teoretická Xenobiologie",
+    "teacher": "Václav Brdek",
+    "category": 1,
+    "period": {
+      "day": 3,
+      "period": 3
+    },
+    "students": 11,
+    "capacity": 11,
+    "description": "Přihlašte se na Teoretická Xenobiologie!\nBude to zábava!"
+  },
+  {
+    "id": "pocitacova_grafika",
+    "name": "Počítačová grafika",
+    "teacher": "Hana Šromová",
+    "category": 1,
+    "period": {
+      "day": 3,
+      "period": 3
+    },
+    "students": 5,
+    "capacity": 21,
+    "description": "Práce v semináři je zaměřena na různé formy v oblasti počítačové grafiky. Práce v semináři vyplývá podle zkušeností studenta, takže je velmi individuální. Na konkrétních úkolech se studenti naučí chápat principy grafického designu, propagačního výtvarnictví a seznámí se s grafickými editory (Gimp, Inkscape, Photoshop, Ilustrator, …). V jednotlivých zadáních pak budou moc realizovat vlastní tvůrčí nápady a rozvíjet tak svůj osobitý výtvarný projev. Další část semináře je zaměřena na digitální fotografii a její využití pro vlastní animovaný film (technika stop motion). Cílem je představit všechna specifika animovaného filmu a postupně si vyzkoušet nejrůznější technologie a druhy animací. Postupně pak přejdeme k flash animacím a základům 3D grafiky. Studenti se tak naučí veškeré kroky potřebné pro vlastní tvorbu a natočí si několik autorských filmů. Součástí bude samozřejmě seznámení se se střihem filmu a celkovou finální úpravou."
+  },
+  {
+    "id": "historie_22_stoleti",
+    "name": "Historie 22. století",
+    "teacher": "Václav Brdek",
+    "category": 0,
+    "period": {
+      "day": 4,
+      "period": 3
+    },
+    "students": 17,
+    "capacity": 17,
+    "description": "Přihlašte se na Historie 22. století!\nBude to zábava!"
+  },
+  {
+    "id": "syntax_error",
+    "name": "Javaskriptová syntaxe a JSX",
+    "teacher": "Michal Žáček",
+    "category": 1,
+    "period": {
+      "day": 4,
+      "period": 3
+    },
+    "students": 18,
+    "capacity": 20,
+    "description": "Stalo se vám někdy, že jste odeslali pull request a ani jeden soubor nebyl bez hrubých syntaktických chyb? Přijdě na můj předmět!"
+  },
+  {
+    "id": "sarkasticke_nazvy_predmetu",
+    "name": "Sarkastické názvy předmětů",
+    "teacher": "Benjamin Swart",
+    "category": 2,
+    "period": {
+      "day": 4,
+      "period": 3
+    },
+    "students": 4,
+    "capacity": 12,
+    "description": "Wow, sarkasmus v testovacích datech. Jak originální."
+  }
+]

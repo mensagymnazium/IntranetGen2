@@ -1,9 +1,8 @@
-import "./HourCell.css";
-export default class HourCell extends components {
-    return() {
-        <div>
-            <h3>this.props.period</h3>
-            <div>{this.props.children}</div>
-        </div>
+import React, { Component } from 'react';
+import "../style/HourCell.css";
+
+export default class HourCell extends Component {
+    render() {
+      return <></>;
     }
 }
