@@ -19,7 +19,7 @@ export default class SubjectSchedule extends Component {
     return this.state.subjects.map(subject => (
       <div key={subject.id}>
         <h3>{subject.name}</h3> <i>{subject.teacher}</i> - {subject.period.toString()}<br />
-        {subject.description}
+        <span style={{ whiteSpace: "pre-wrap" }}>{subject.description}</span>
       </div>
     ));
 
