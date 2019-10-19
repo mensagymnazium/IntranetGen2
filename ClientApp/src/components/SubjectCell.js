@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
-import "../style/SubjectCell.css";
+import { Link } from "react-router-dom";
+import "../style/SubjectSelectionTable.css";
 
 export default class SubjectCell extends Component {
     render() {
-      return <></>;
+        return <div className = "subjectCell">
+            <Link to={"/subjects/" + this.props.subject.id} className="scheduleLink">
+                <div className = "subjectNameWrapper">
+                    <div className = "subjectName">{this.props.subject.name}</div>
+                    <div className = "teacherName">{this.props.subject.teacher}</div>
+                </div>
+            </Link>
+        </div>;
     }
 }
