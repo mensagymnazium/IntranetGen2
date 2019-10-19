@@ -23,10 +23,11 @@ export default class SubjectSelectionTable extends Component {
                                                 <div className="periodName">
                                                     {periodName}
                                                 </div>
+                                                
                                                 <div className="subjectsSubRow">
                                                     {
                                                         periodSubjects.map(subject => {
-                                                            return <SubjectCell subject={subject} key={subject.id}/>;
+                                                            return <SubjectCell subject={subject} bold={subject.id === this.props.selectedSubject} key={subject.id}/>;
                                                         })
                                                     }
                                                 </div>

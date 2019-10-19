@@ -3,7 +3,31 @@
 }
 
 .subjectTable {
-    width: 75%;
+    width: 31.5cm;
+}
+
+@media(max-width: 36.5cm) {
+    .subjectTable {
+        width: 26.5cm;
+    }
+}
+
+@media(max-width: 31.5cm) {
+    .subjectTable {
+        width: 21.5cm;
+    }
+}
+
+@media(max-width: 26.5cm) {
+    .subjectTable {
+        width: 16.5cm;
+    }
+}
+
+@media(max-width: 21.5cm) {
+    .subjectTable {
+        width: 11.5cm;
+    }
 }
 
 .scheduleRow {

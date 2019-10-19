@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import SubjectSelectionTable from './SubjectSelectionTable';
@@ -24,26 +23,27 @@ export default class SubjectSchedule extends Component {
     }
 
     render() {
+        var selectedSubject = this.state.subjects.find(subject => subject.id === this.props.match.params.subject);
+        console.log(this.props.match.params.subject);
+
         return (<>
             <Helmet>
                 <title>Rozvrh | Intranet</title>
             </Helmet>
 
-            <SubjectSelectionTable subjects={this.state.subjects} />
+            <SubjectSelectionTable subjects={this.state.subjects} selectedSubject={selectedSubject ? selectedSubject.id : null} />
 
-            <Route path="/subjects/:subject" render={(props) => {
-                var subject = this.state.subjects.find(subject => subject.id === props.match.params.subject);
-
-                if (subject) {
+            {(() => {
+                if (selectedSubject) {
                     return (<>
                         <Helmet>
-                            <title>{subject.name} | Rozvrh | Intranet</title>
+                            <title>{selectedSubject.name} | Rozvrh | Intranet</title>
                         </Helmet>
 
-                        <SubjectDetails subject={subject} select = {(id) => this.selectSubject(id)}/>
+                        <SubjectDetails subject={selectedSubject} select = {(id) => this.selectSubject(id)}/>
                     </>);
                 }
-            }}/>
+            })()}
         </>);
     }
 }

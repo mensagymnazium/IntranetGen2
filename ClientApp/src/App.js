@@ -18,7 +18,7 @@ export default class App extends Component {
 
           <Route path="/login" component={Login} />
 
-          <Route path="/subjects" component={SubjectSchedule} />
+          <Route path="/subjects/:subject?" component={SubjectSchedule} />
 
           <Route component={NotFound} />
         </Switch>
