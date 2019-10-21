@@ -273,6 +273,19 @@
     "description": "Práce v semináři je zaměřena na různé formy v oblasti počítačové grafiky. Práce v semináři vyplývá podle zkušeností studenta, takže je velmi individuální. Na konkrétních úkolech se studenti naučí chápat principy grafického designu, propagačního výtvarnictví a seznámí se s grafickými editory (Gimp, Inkscape, Photoshop, Ilustrator, …). V jednotlivých zadáních pak budou moc realizovat vlastní tvůrčí nápady a rozvíjet tak svůj osobitý výtvarný projev. Další část semináře je zaměřena na digitální fotografii a její využití pro vlastní animovaný film (technika stop motion). Cílem je představit všechna specifika animovaného filmu a postupně si vyzkoušet nejrůznější technologie a druhy animací. Postupně pak přejdeme k flash animacím a základům 3D grafiky. Studenti se tak naučí veškeré kroky potřebné pro vlastní tvorbu a natočí si několik autorských filmů. Součástí bude samozřejmě seznámení se se střihem filmu a celkovou finální úpravou."
   },
   {
+    "id": "studia_mudlu",
+    "name": "Studia mudlů",
+    "teacher": "Charita Burbageová",
+    "category": 1,
+    "period": {
+      "day": 3,
+      "period": 4
+    },
+    "students": 0,
+    "capacity": 30,
+    "description": "Přihlašte se na Studia mudlů!\nBude to zábava!"
+  },
+  {
     "id": "historie_22_stoleti",
     "name": "Historie 22. století",
     "teacher": "Václav Brdek",
