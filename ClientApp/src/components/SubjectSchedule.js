@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
+import { Redirect } from 'react-router-dom';
 
 import SubjectSelectionTable from './SubjectSelectionTable';
 import SubjectDetails from './SubjectDetails';
@@ -16,15 +17,19 @@ export default class SubjectSchedule extends Component {
         };
     }
 
-    selectSubject(subjectID) {
-        var subject = this.state.subjects.find(subject => subject.id === subjectID);
+    selectSubject(subjectId) {
+        var subject = this.state.subjects.find(subject => subject.id === subjectId);
         
         console.log(`Přihlášen předmět "${subject.name}".`);
     }
 
     render() {
-        var selectedSubject = this.state.subjects.find(subject => subject.id === this.props.match.params.subject);
-        console.log(this.props.match.params.subject);
+        var selectedSubjectId = this.props.match.params.subject;
+        var selectedSubject = this.state.subjects.find(subject => subject.id === selectedSubjectId);
+        
+        if (selectedSubjectId && !selectedSubject) {
+            return <Redirect to="/subjects"/>
+        }
 
         return (<>
             <Helmet>
@@ -33,17 +38,15 @@ export default class SubjectSchedule extends Component {
 
             <SubjectSelectionTable subjects={this.state.subjects} selectedSubject={selectedSubject ? selectedSubject.id : null} />
 
-            {(() => {
-                if (selectedSubject) {
-                    return (<>
-                        <Helmet>
-                            <title>{selectedSubject.name} | Rozvrh | Intranet</title>
-                        </Helmet>
+            {selectedSubject && 
+                <>
+                    <Helmet>
+                        <title>{selectedSubject.name} | Rozvrh | Intranet</title>
+                    </Helmet>
 
-                        <SubjectDetails subject={selectedSubject} select = {(id) => this.selectSubject(id)}/>
-                    </>);
-                }
-            })()}
+                    <SubjectDetails subject={selectedSubject} select = {(id) => this.selectSubject(id)}/>
+                </>
+            }
         </>);
     }
 }

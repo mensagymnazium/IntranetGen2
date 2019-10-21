@@ -3,57 +3,44 @@
 }
 
 .subjectTable {
-    width: 31.5cm;
+    width: fit-content;
 }
 
-@media(max-width: 36.5cm) {
-    .subjectTable {
-        width: 26.5cm;
-    }
-}
-
-@media(max-width: 31.5cm) {
-    .subjectTable {
-        width: 21.5cm;
-    }
-}
-
-@media(max-width: 26.5cm) {
-    .subjectTable {
-        width: 16.5cm;
-    }
-}
-
-@media(max-width: 21.5cm) {
-    .subjectTable {
-        width: 11.5cm;
-    }
-}
-
-.scheduleRow {
+.subjectsRow {
     display: flex;
-    overflow: hidden;
     align-content: stretch;
 }
 
 .dayName {
-    align-items: center;
-    justify-content: center;
+    display: flex;
     height: 0.7cm;
 }
 
 .periodName {
-    width: 1.5cm;
-    text-align: center;
-
     display: inline-flex;
+    width: 1.5cm;
+
+    text-align: center;
+}
+
+.dayName, .periodName {
+    font-weight: bold;
+
     align-items: center;
     justify-content: center;
 }
 
 .subjectsSubRow {
-    width: calc(100% - 1.5cm);
+    display: grid;
     height: 100%;
+    max-width: 75vw;
+    grid-template-columns: repeat(auto-fit, 5cm);
+}
+
+@media(max-width: 40cm) {
+    .subjectsSubRow {
+        max-width: calc(100vw - 10cm);
+    }
 }
 
 .subjectCell {
@@ -92,4 +79,20 @@
 
 .dayName:first-child, .subjectTable {
     border-radius: 5px 5px 0 0;
+}
+
+@media(max-width: 20cm) {
+    .subjectTable, .periodName, .subjectsRow, .subjectsSubRow, .subjectCell {
+        display: block;
+        width: 100%;
+    }
+
+    .subjectsSubRow {
+        max-width: 100%;
+    }
+
+    .dayName, .periodName {
+        display: flex;
+        height: 1cm;
+    }
 }
