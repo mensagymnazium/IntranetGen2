@@ -11,8 +11,16 @@ export default class SubjectDetails extends Component {
             <div>Hodina: {this.props.subject.period.toString()}</div>
             <div>Oblast: {this.props.subject.category}</div>
             <div>Kapacita: {this.props.subject.students + "/" + this.props.subject.capacity}</div>
-
-            <button onClick={() => this.props.select(this.props.subject.id)}>Přihlásit</button>
+            <br/>
+            
+            {!this.props.CRUDMode ?
+                <button onClick={() => this.props.select(this.props.subject.id)}>Přihlásit</button>
+                :<>
+                    <button onClick={() => this.props.openEditor()}>Upravit</button>
+                    <button onClick={() => this.props.remove(this.props.subject.id)}>Smazat</button>
+                    <button onClick={() => this.props.openEmptyEditor()}>Vytvořit Nový</button>
+                </>
+                }
         </div>);
     }
 }
