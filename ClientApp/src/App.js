@@ -5,6 +5,7 @@ import Login from './components/Login';
 import SubjectSchedule from './components/SubjectSchedule';
 import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
+import CRUD from './components/CRUD';
 
 export default class App extends Component {
   displayName = App.name
@@ -19,6 +20,8 @@ export default class App extends Component {
           <Route path="/login" component={Login} />
 
           <Route path="/subjects/:subject?" component={SubjectSchedule} />
+
+          <Route path="/CRUD/:subject?" component={CRUD} /> {/*Provizorní*/}
 
           <Route component={NotFound} />
         </Switch>
