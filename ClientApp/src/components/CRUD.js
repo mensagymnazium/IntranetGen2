@@ -73,7 +73,7 @@ export default class CRUD extends Component {
                     <br /><br /><textarea name="description" style={{ whiteSpace: "pre-wrap" }} rows="4" cols="40" defaultValue={selectedSubject ? selectedSubject.description : ""} />
 
                     <hr /><p>ID: {selectedSubject ? selectedSubjectId : "New Subject"}</p><hr />
-                    <button type="button" onClick={() => { if (confirm("Vrátit se bez uložení změn?")) { window.location = "/subjects/" + selectedSubjectId } }}>Zpět</button>
+                    <button type="button" onClick={() => { if (window.confirm("Vrátit se bez uložení změn?")) { window.location = "/subjects/" + selectedSubjectId } }}>Zpět</button>
                     <button type="button" onClick={() => this.editSubject(selectedSubject ? selectedSubject : null, document.getElementById("SubjectCRUDForm"))}>Uložit změny</button>
                     <button type="button" onClick={() => this.removeSubject(selectedSubjectId)}>Odstranit</button>
 
