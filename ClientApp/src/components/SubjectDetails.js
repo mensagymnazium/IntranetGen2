@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 
 export default class SubjectDetails extends Component {
     render() {
@@ -13,14 +14,14 @@ export default class SubjectDetails extends Component {
             <div>Kapacita: {this.props.subject.students + "/" + this.props.subject.capacity}</div>
             <br/>
             
-            {!this.props.CRUDMode ?
-                <button onClick={() => this.props.select(this.props.subject.id)}>Přihlásit</button>
-                :<>
-                    <button onClick={() => this.props.openEditor()}>Upravit</button>
-                    <button onClick={() => this.props.remove(this.props.subject.id)}>Smazat</button>
-                    <button onClick={() => this.props.openEmptyEditor()}>Vytvořit Nový</button>
+            {(!this.props.CRUDMode ?
+                <button onClick={() => this.props.select(this.props.subject.id)}>Přihlásit</button> :
+                <>
+                    <Link to={"/edit/" + this.props.subject.id}><button>Upravit předmět</button></Link>
+                    <Link to={"/edit/"}><button>Nový Předmět</button></Link>
                 </>
-                }
+             )}
+                
         </div>);
     }
 }
