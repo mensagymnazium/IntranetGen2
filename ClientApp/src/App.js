@@ -19,8 +19,10 @@ export default class App extends Component {
 
           <Route path="/login" component={Login} />
 
-                <Route path="/subjects/:subject?" component={SubjectSchedule} />
-                <Route path="/edit/:subject?" component={CRUD} />   
+          <Route path="/subjects/:subject?" component={SubjectSchedule} />
+
+          <Route path="/edit/:subject?" component={CRUD} />  
+                
           <Route component={NotFound} />
         </Switch>
       </div>

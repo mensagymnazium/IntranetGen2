@@ -22,7 +22,7 @@ export default class SubjectSchedule extends Component {
     selectSubject(subjectId) {
         var subject = this.state.subjects.find(subject => subject.id === subjectId);
 
-        console.log(`Zvolen předmět "${subject.name}" s ID "${subjectId}"`);
+        console.log(`Přihlášen předmět "${subject.name}" s ID "${subjectId}".`);
     }
     
 
