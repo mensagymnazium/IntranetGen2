@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import SubjectSelectionTable from './SubjectSelectionTable';
 import SubjectDetails from './SubjectDetails';
+import CRUD from './CRUD';
 
 import FakeSubjects from "../Subjects.json";
 import Subject from "../objects/Subject";
@@ -13,15 +14,17 @@ export default class SubjectSchedule extends Component {
         super();
 
         this.state = {
-            subjects: FakeSubjects.map(Subject.from)
+            subjects: FakeSubjects.map(Subject.from),
+            CRUD: true
         };
     }
 
     selectSubject(subjectId) {
         var subject = this.state.subjects.find(subject => subject.id === subjectId);
-        
-        console.log(`Přihlášen předmět "${subject.name}".`);
+
+        console.log(`Zvolen předmět "${subject.name}" s ID "${subjectId}"`);
     }
+    
 
     render() {
         var selectedSubjectId = this.props.match.params.subject;
@@ -38,13 +41,13 @@ export default class SubjectSchedule extends Component {
 
             <SubjectSelectionTable subjects={this.state.subjects} selectedSubject={selectedSubject ? selectedSubject.id : null} />
 
-            {selectedSubject && 
+            {selectedSubject &&
                 <>
                     <Helmet>
                         <title>{selectedSubject.name} | Rozvrh | Intranet</title>
                     </Helmet>
 
-                    <SubjectDetails subject={selectedSubject} select = {(id) => this.selectSubject(id)}/>
+                <SubjectDetails subject={selectedSubject} select={(id) => this.selectSubject(id)} CRUDMode={this.state.CRUD} />}
                 </>
             }
         </>);
