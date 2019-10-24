@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default class SubjectDetails extends Component {
     render() {
-        return (<div>
+        return (<div className="SubjectDetailsDiv">
             <h2>{this.props.subject.name}</h2>
             
             <div style={{whiteSpace: "pre-wrap"}}>{this.props.subject.description}</div><br/>

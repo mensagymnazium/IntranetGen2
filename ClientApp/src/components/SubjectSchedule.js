@@ -47,7 +47,7 @@ export default class SubjectSchedule extends Component {
                         <title>{selectedSubject.name} | Rozvrh | Intranet</title>
                     </Helmet>
 
-                <SubjectDetails subject={selectedSubject} select={(id) => this.selectSubject(id)} CRUDMode={this.state.CRUD} />}
+                <SubjectDetails subject={selectedSubject} select={(id) => this.selectSubject(id)} CRUDMode={this.state.CRUD} />
                 </>
             }
         </>);
