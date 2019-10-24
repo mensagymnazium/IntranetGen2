@@ -2,6 +2,7 @@
 import FakeSubjects from "../Subjects.json";
 import Subject from "../objects/Subject";
 import { Link } from "react-router-dom";
+import { Helmet } from 'react-helmet';
 
 export default class CRUD extends Component {
     constructor() {
@@ -13,9 +14,11 @@ export default class CRUD extends Component {
     }
 
     editSubject(subject, newData) {
+        {/* newData contains the info from the CRUD Form, most variables are self-explanatory and accessed with newData.{variable}.value
+         * Exception: The variables saying which classes should see the subject are named {ShowToClass0} to {ShowToClass7}, accessed with newData.{variable}.checked */}
         if (!subject) { this.createSubject(newData); } else {
             console.log(`Editován Předmět "${subject.name} s ID "${subject.id}"`);
-            window.location = "/subjects/" + newData.id.value;
+            window.location = "/subjects/" + subject.id;
         }
     }
 
@@ -28,8 +31,13 @@ export default class CRUD extends Component {
                 newId = newId.substr(0, i) + IdReplaceBy[IdReplace.indexOf(newId[i])] + newId.substr(i + 1);
             }
         }
-        console.log(`Vytvořen Předmět "${newData.name.value}" s ID "${newId}"`);
-        window.location = "/subjects/" + newData.id.value;
+        if (/^[\x00-\x7F]*$/.test(newId) && newData.name.value) {
+            console.log(`Vytvořen Předmět "${newData.name.value}" s ID "${newId}"`);
+            window.location = "/subjects/" + newData.id.value;
+        }
+        else {
+            console.log(`V názvu "${newData.name.value}" jsou použity nepovolené znaky, nebo byl název prázdný`);
+        }
     }
 
     removeSubject(subjectId) {
@@ -43,11 +51,10 @@ export default class CRUD extends Component {
         var selectedSubjectId = this.props.match.params.subject;
         var selectedSubject = this.state.subjects.find(subject => subject.id === selectedSubjectId);
         
-        return (
-
+        return (<>
+            <Helmet><title>{selectedSubject ? selectedSubject.name : "Nový Předmět"} | Editace | Intranet</title></Helmet>
             <div>
-            <br /><br />
-                <form id="SubjectCRUDForm">
+                <form id="SubjectCRUDForm" method="post">
                     <input type="text" name="name" defaultValue={selectedSubject ? selectedSubject.name : ""} />
                     <hr />
                     <span>Vyučující: </span><input type="text" name="teacher" defaultValue={selectedSubject ? selectedSubject.teacher : ""} />
@@ -71,13 +78,22 @@ export default class CRUD extends Component {
                     <br /><span>Oblast: </span>{/*To be added*/}
                     <br /><span>Maximální Kapacita: </span><input type="number" name="capacity" defaultValue={selectedSubject ? selectedSubject.capacity : 20} />
                     <br /><br /><textarea name="description" style={{ whiteSpace: "pre-wrap" }} rows="4" cols="40" defaultValue={selectedSubject ? selectedSubject.description : ""} />
+                    <br /><p>Zobrazovat třídě:</p>
+                          <input type="checkbox" name="ShowToClass0" /> Prima
+                    <br /><input type="checkbox" name="ShowToClass1" /> Sekunda
+                    <br /><input type="checkbox" name="ShowToClass2" /> Tercie
+                    <br /><input type="checkbox" name="ShowToClass3" /> Kvarta
+                    <br /><input type="checkbox" name="ShowToClass4" /> Kvinta
+                    <br /><input type="checkbox" name="ShowToClass5" /> Sexta
+                    <br /><input type="checkbox" name="ShowToClass6" /> Septima
+                    <br /><input type="checkbox" name="ShowToClass7" /> Oktáva
 
-                    <hr /><p>ID: {selectedSubject ? selectedSubjectId : "New Subject"}</p><hr />
-                    <button type="button" onClick={() => { if (window.confirm("Vrátit se bez uložení změn?")) { window.location = "/subjects/" + selectedSubjectId } }}>Zpět</button>
+                    <hr /><p>{selectedSubject ? `ID:${selectedSubjectId}` : "Nový Předmět"}</p><hr />
+                    <button type="button" onClick={() => { if (window.confirm("Vrátit se bez uložení změn?")) { window.location = "/subjects/" + selectedSubjectId }}}>Zpět</button>
                     <button type="button" onClick={() => this.editSubject(selectedSubject ? selectedSubject : null, document.getElementById("SubjectCRUDForm"))}>Uložit změny</button>
                     <button type="button" onClick={() => this.removeSubject(selectedSubjectId)}>Odstranit</button>
 
             </form>
-        </div>);
+        </div></>);
 }
 }
