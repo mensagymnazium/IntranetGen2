@@ -5,7 +5,7 @@ import Login from './components/Login';
 import SubjectSchedule from './components/SubjectSchedule';
 import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
-import CRUD from './components/CRUD';
+import SubjectManagement from './components/SubjectManagement';
 
 export default class App extends Component {
   displayName = App.name
@@ -21,7 +21,7 @@ export default class App extends Component {
 
           <Route path="/subjects/:subject?" component={SubjectSchedule} />
 
-          <Route path="/edit/:subject?" component={CRUD} />  
+          <Route path="/edit/:subject?" component={SubjectManagement} />  
                 
           <Route component={NotFound} />
         </Switch>

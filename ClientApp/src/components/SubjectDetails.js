@@ -17,10 +17,10 @@ export default class SubjectDetails extends Component {
             {(!this.props.CRUDMode ?
                 <button onClick={() => this.props.select(this.props.subject.id)}>Přihlásit</button> :
                 <>
-                    <Link to={"/edit/" + this.props.subject.id}><button>Upravit předmět</button></Link>
-                    <Link to={"/edit/"}><button>Nový Předmět</button></Link>
+                    <Link to={"/edit/" + this.props.subject.id}><button>Upravit</button></Link>
+                    <button onClick={() => this.props.remove(this.props.subject.id)}>Smazat</button>
                 </>
-             )}
+            )}
                 
         </div>);
     }

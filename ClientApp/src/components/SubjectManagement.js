@@ -4,7 +4,7 @@ import Subject from "../objects/Subject";
 import { Link } from "react-router-dom";
 import { Helmet } from 'react-helmet';
 
-export default class CRUD extends Component {
+export default class SubjectManagement extends Component {
     constructor() {
         super();
 
@@ -50,7 +50,7 @@ export default class CRUD extends Component {
     render() {
         var selectedSubjectId = this.props.match.params.subject;
         var selectedSubject = this.state.subjects.find(subject => subject.id === selectedSubjectId);
-        
+
         return (<>
             <Helmet><title>{selectedSubject ? selectedSubject.name : "Nový Předmět"} | Editace | Intranet</title></Helmet>
             <div>
@@ -74,12 +74,12 @@ export default class CRUD extends Component {
                         <option value={3}>7. - 8.</option>
                         <option value={4}>9. - 10.</option>
                     </select>
-                
+
                     <br /><span>Oblast: </span>{/*To be added*/}
                     <br /><span>Maximální Kapacita: </span><input type="number" name="capacity" defaultValue={selectedSubject ? selectedSubject.capacity : 20} />
                     <br /><br /><textarea name="description" style={{ whiteSpace: "pre-wrap" }} rows="4" cols="40" defaultValue={selectedSubject ? selectedSubject.description : ""} />
                     <br /><p>Zobrazovat třídě:</p>
-                          <input type="checkbox" name="ShowToClass0" /> Prima
+                    <input type="checkbox" name="ShowToClass0" /> Prima
                     <br /><input type="checkbox" name="ShowToClass1" /> Sekunda
                     <br /><input type="checkbox" name="ShowToClass2" /> Tercie
                     <br /><input type="checkbox" name="ShowToClass3" /> Kvarta
@@ -89,11 +89,10 @@ export default class CRUD extends Component {
                     <br /><input type="checkbox" name="ShowToClass7" /> Oktáva
 
                     <hr /><p>{selectedSubject ? `ID:${selectedSubjectId}` : "Nový Předmět"}</p><hr />
-                    <button type="button" onClick={() => { if (window.confirm("Vrátit se bez uložení změn?")) { window.location = "/subjects/" + selectedSubjectId }}}>Zpět</button>
+                    <button type="button" onClick={() => { if (window.confirm("Vrátit se bez uložení změn?")) { window.location = "/subjects/" + selectedSubjectId } }}>Zpět</button>
                     <button type="button" onClick={() => this.editSubject(selectedSubject ? selectedSubject : null, document.getElementById("SubjectCRUDForm"))}>Uložit změny</button>
-                    <button type="button" onClick={() => this.removeSubject(selectedSubjectId)}>Odstranit</button>
 
-            </form>
-        </div></>);
-}
+                </form>
+            </div></>);
+    }
 }
