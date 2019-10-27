@@ -16,8 +16,8 @@ namespace MI
     {
         public static void Main(string[] args)
         {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<MensaIntranetContext>());
-            var db = new MensaIntranetContext();
+            {/*Commented for frontend development purposes*/}//Database.SetInitializer(new CreateDatabaseIfNotExists<MensaIntranetContext>());
+            //var db = new MensaIntranetContext();
             CreateWebHostBuilder(args).Build().Run();
         }
 

@@ -9,6 +9,11 @@ export default class SubjectCell extends Component {
                 <div className = "subjectNameWrapper" style={{fontWeight: this.props.bold ? "bold" : "normal"}}>
                     <div className = "subjectName">{this.props.subject.name}</div>
                     <div className = "teacherName">{this.props.subject.teacher}</div>
+                    {this.props.CRUDMode ?
+                        <>
+                            <button className="subjectCellEdit subjectCellCRUD" onClick={() => window.location =  "/edit/" + this.props.subject.id }><img src="https://img.icons8.com/material-rounded/24/000000/edit.png" alt="Edit Icon" /></button>
+                            <button className="subjectCellRemove subjectCellCRUD" onClick={() => this.props.remove(this.props.subject.id)}><img src="https://img.icons8.com/material-rounded/24/000000/filled-trash.png" alt="Remove Icon" /></button>
+                        </> : null}
                 </div>
             </Link>
         </div>;

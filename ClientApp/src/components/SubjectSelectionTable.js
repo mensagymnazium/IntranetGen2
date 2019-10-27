@@ -16,7 +16,7 @@ export default class SubjectSelectionTable extends Component {
                 <div className="subjectsSubRow">
                     {
                         subjects.map(subject => {
-                            return <SubjectCell subject={subject} bold={subject.id === this.props.selectedSubject} key={subject.id}/>;
+                            return <SubjectCell subject={subject} bold={subject.id === this.props.selectedSubject} key={subject.id} CRUDMode={this.props.CRUDMode} remove={(id) => this.props.remove ? this.props.remove(id) : null}/>;
                         })
                     }
                 </div>

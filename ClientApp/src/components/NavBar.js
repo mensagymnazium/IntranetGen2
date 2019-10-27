@@ -9,7 +9,7 @@ export default class NavBar extends Component {
       <h1 style={{ display: "inline", padding: "10px" }}>Intranet</h1>
       <Link to="/" style={style}>Úvodní stránka</Link>
       <Link to="/login" style={style}>Přihlášení</Link>
-      <Link to="/subjects" style={style}>Rozvrh</Link>
+        <Link to="/subjects" style={style}>Rozvrh</Link>
     </div>);
   }
 }

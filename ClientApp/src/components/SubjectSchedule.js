@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { Redirect } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import SubjectSelectionTable from './SubjectSelectionTable';
 import SubjectDetails from './SubjectDetails';
@@ -13,15 +14,22 @@ export default class SubjectSchedule extends Component {
         super();
 
         this.state = {
-            subjects: FakeSubjects.map(Subject.from)
+            subjects: FakeSubjects.map(Subject.from),
+            CRUD: true
         };
     }
 
     selectSubject(subjectId) {
         var subject = this.state.subjects.find(subject => subject.id === subjectId);
-        
-        console.log(`Přihlášen předmět "${subject.name}".`);
+
+        console.log(`Přihlášen předmět "${subject.name}" s ID "${subjectId}".`);
     }
+    removeSubject(subjectId) {
+        var subject = this.state.subjects.find(subject => subject.id === subjectId);
+
+        console.log(`Odstraněn předmět "${subject.name}" s ID "${subjectId}".`);
+    }
+    
 
     render() {
         var selectedSubjectId = this.props.match.params.subject;
@@ -36,17 +44,19 @@ export default class SubjectSchedule extends Component {
                 <title>Rozvrh | Intranet</title>
             </Helmet>
 
-            <SubjectSelectionTable subjects={this.state.subjects} selectedSubject={selectedSubject ? selectedSubject.id : null} />
+            <SubjectSelectionTable subjects={this.state.subjects} selectedSubject={selectedSubject ? selectedSubject.id : null} CRUDMode={this.state.CRUD} remove={(id) => this.removeSubject(id)} />
+            
 
-            {selectedSubject && 
+            {selectedSubject &&
                 <>
                     <Helmet>
                         <title>{selectedSubject.name} | Rozvrh | Intranet</title>
                     </Helmet>
 
-                    <SubjectDetails subject={selectedSubject} select = {(id) => this.selectSubject(id)}/>
+                <SubjectDetails subject={selectedSubject} select={(id) => this.selectSubject(id)} remove={(id) => this.removeSubject(id)} CRUDMode={this.state.CRUD} />
                 </>
             }
+            <hr /><Link to={"/edit/"}><button>Nový Předmět</button></Link>
         </>);
     }
 }

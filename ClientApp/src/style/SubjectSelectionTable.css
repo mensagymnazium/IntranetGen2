@@ -50,6 +50,31 @@
 
     text-align: center;
     vertical-align: middle;
+    position: relative;
+}
+.scheduleLink:hover .subjectCellCRUD{
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.subjectCellCRUD {
+    position: absolute;
+    background: white;
+    cursor: pointer;
+    border: solid black 2px;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+.subjectCellEdit{
+    left: 0;
+    border-top-right-radius: 7px;
+    border-width: 2px 2px 1px 1px;
+}
+.subjectCellRemove {
+    right: 0;
+    border-top-left-radius: 7px;
+    border-width: 2px 1px 1px 2px;
 }
 
 .scheduleLink {
