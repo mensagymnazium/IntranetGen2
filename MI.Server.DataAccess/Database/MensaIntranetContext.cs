@@ -34,8 +34,14 @@ namespace MI.Server.DataAccess.Database
             });
             modelBuilder.Entity<SubjectDb>()
                 .HasOne<TeacherDb>(s => s.Teacher)
-                .WithMany(s => s.Subjects)
-                .HasForeignKey(s => s.SubjectId);
+                .WithMany(s => s.Subjects);
+
+            modelBuilder.Entity<TeacherDb>(entity => {
+                entity.HasKey(s => s.Id);
+                entity.Property(s => s.Id).IsRequired().ValueGeneratedOnAdd();
+                entity.Property(s => s.UserName).IsRequired();
+                entity.Property(s => s.Password).IsRequired();
+            });
             modelBuilder.Entity<TeacherDb>(entity=> {
                 entity.HasKey(t => t.Id);
                 entity.Property(t=>t.UserName).IsRequired();
