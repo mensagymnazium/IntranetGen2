@@ -6,13 +6,18 @@ namespace MI.Server.DataAccess.DbObjects
 {
     public class StudentDb : UserBase
     {
-        public StudentDb()
+        public enum GradeEnum
         {
-            Subjects = new HashSet<SubjectDb>();
+            Prima = 10,
+            Sekunda = 20,
+            Tercie = 30,
+            Kvarta = 40,
+            Kvinta = 50,
+            Sexta = 60,
+            Septima = 70,
+            Oktava = 80
         }
-
-        public virtual ICollection<SubjectDb> Subjects { get; set; }
-
-        public string StudentClass { get; set; }
+        public virtual IList<SubjectDb> Subjects { get; set; }
+        public GradeEnum StudentClass { get; set; }
     }
 }

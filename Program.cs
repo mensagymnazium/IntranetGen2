@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using MI.Server.DataAccess.Database;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace MI
 {
@@ -16,8 +8,10 @@ namespace MI
     {
         public static void Main(string[] args)
         {
-            {/*Commented for frontend development purposes*/}//Database.SetInitializer(new CreateDatabaseIfNotExists<MensaIntranetContext>());
-            //var db = new MensaIntranetContext();
+            using (var context = new MensaIntranetContext())
+            {
+                context.Database.EnsureCreated();
+            }
             CreateWebHostBuilder(args).Build().Run();
         }
 
