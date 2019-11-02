@@ -19,5 +19,6 @@ namespace MI.Server.DataAccess.DbObjects
         }
         public virtual IList<SubjectDb> Subjects { get; set; }
         public GradeEnum StudentClass { get; set; }
+        public IList<EnrollementDb> Enrollements { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace MI.Server.DataAccess.Database
         public DbSet<StudentDb> Students { get; set; }
         public DbSet<SubjectDb> Subjects { get; set; }
         public DbSet<TeacherDb> Teachers { get; set; }
+        public DbSet<EnrollementDb> Enrollements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,6 +41,15 @@ namespace MI.Server.DataAccess.Database
                 entity.Property(t=>t.UserName).IsRequired();
                 entity.Property(t => t.Password).IsRequired();
             });
+            modelBuilder.Entity<EnrollementDb>().HasKey(key => new { key.Student, key.Subject });
+            modelBuilder.Entity<EnrollementDb>()
+                .HasOne<StudentDb>(sc => sc.Student)
+                .WithMany(s => s.Enrollements)
+                .HasForeignKey(sc => sc.Student);
+            modelBuilder.Entity<EnrollementDb>()
+                .HasOne<SubjectDb>(sc => sc.Subject)
+                .WithMany(s => s.Enrollements)
+                .HasForeignKey(sc => sc.Subject);
         }
     }
 }

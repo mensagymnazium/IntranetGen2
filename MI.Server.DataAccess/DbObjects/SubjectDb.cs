@@ -48,6 +48,6 @@ namespace MI.Server.DataAccess.DbObjects
         }
 
         public virtual Grades ForClass { get; set; }
-
+        public IList<EnrollementDb> Enrollements { get; set; }
     }
 }
