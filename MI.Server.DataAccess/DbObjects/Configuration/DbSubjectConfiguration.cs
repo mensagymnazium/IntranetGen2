@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MI.Server.DataAccess.DbObjects.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
     {
         public void Configure(EntityTypeBuilder<SubjectDb> builder)
         {
-            builder.HasKey(s => s.SubjectId);
             builder.HasOne<TeacherDb>(s => s.Teacher)
                 .WithMany(s => s.Subjects);
         }

@@ -1,11 +1,9 @@
 ﻿using MI.Server.DataAccess.Database;
-using MI.Server.DataAccess.DbObjects;
-using System;
-using System.Collections.Generic;
+using MI.Server.DataAccess.DbObjects.Entities;
+using MI.Server.DataAccess.DbObjects.Enums;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace MI.Data
+namespace MI.Data.DataAccess.Database
 {
     public static class DbInitializer
     {
@@ -31,7 +29,8 @@ namespace MI.Data
 
             var teachers = new TeacherDb[]
             {
-                new TeacherDb{UserName="cajaucitel", Password="123456"}
+                new TeacherDb{UserName="cajaucitel", Password="123456"},
+                new TeacherDb{UserName="stec", Password="asdf456"}
             };
             foreach (TeacherDb teacherDb in teachers)
             {
@@ -41,7 +40,9 @@ namespace MI.Data
 
             var subjects = new SubjectDb[]
             {
-                new SubjectDb{SubjectId="sarkasticky_predmet", Teacher=teachers[0], ForClass=GradesEnum.Prima|GradesEnum.Sekunda}
+                new SubjectDb{Teacher=teachers[0], Name="IM",           Grades=GradeEnum.Prima|GradeEnum.Sekunda, DayPeriod=DayEnum.Monday, PeriodPeriod=PeriodEnum.Period1_2, Description="Random Description"},
+                new SubjectDb{Teacher=teachers[0], Name="Experiment",   Grades=GradeEnum.Prima|GradeEnum.Sekunda, DayPeriod=DayEnum.Monday, PeriodPeriod=PeriodEnum.Period3_4},
+                new SubjectDb{Teacher=teachers[0], Name="OnlyTheory",   Grades=GradeEnum.Septima|GradeEnum.Oktava, DayPeriod=DayEnum.Tuesday, PeriodPeriod=PeriodEnum.Period5_6}
             };
             foreach (SubjectDb subjectDb in subjects)
             {
@@ -51,7 +52,9 @@ namespace MI.Data
 
             var studentSubjects = new StudentSubjectsDb[]
             {
-                new StudentSubjectsDb{Student=students[1], Subject=subjects[0]}
+                new StudentSubjectsDb{Student=students[1], Subject=subjects[0]},
+                new StudentSubjectsDb{Student=students[1], Subject=subjects[2]},
+                new StudentSubjectsDb{Student=students[1], Subject=subjects[1]}
             };
             foreach (StudentSubjectsDb studentSubjectsDb in studentSubjects)
             {

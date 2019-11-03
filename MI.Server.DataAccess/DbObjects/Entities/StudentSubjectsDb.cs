@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MI.Server.DataAccess.DbObjects
+namespace MI.Server.DataAccess.DbObjects.Entities
 {
-    public class StudentSubjectsDb
+    public class StudentSubjectsDb : DbBase
     {
-        public int Id { get; set; }
         public StudentDb Student { get; set; }
         public SubjectDb Subject { get; set; }
 
-        public bool IsDeleted { get; set; } = false;
     }
 }

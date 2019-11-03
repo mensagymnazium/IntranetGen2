@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MI.Server.DataAccess.DbObjects.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,15 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
     {
         public void Configure(EntityTypeBuilder<StudentSubjectsDb> builder)
         {
-            builder.HasKey(s => s.Id);
-            builder.Property(s => s.Id).ValueGeneratedOnAdd();
             builder
                 .HasOne<SubjectDb>(sc => sc.Subject)
-                .WithMany(s => s.StudentSubjects);
+                .WithMany(s => s.StudentSubjects)
+                .HasForeignKey(s => s.Id);
+
             builder
                 .HasOne<StudentDb>(sc => sc.Student)
-                .WithMany(s => s.StudentSubjects);
+                .WithMany(s => s.StudentSubjects)
+                .HasForeignKey(s => s.Id);
         }
     }
 }

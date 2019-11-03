@@ -4,8 +4,9 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects.Entities
 {
-    public class TeacherDb : UserBase
+    public abstract class DbBase
     {
-        public virtual ICollection<SubjectDb> Subjects { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public int Id { get; set; }
     }
 }

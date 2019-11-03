@@ -1,5 +1,5 @@
-﻿using MI.Server.DataAccess.DbObjects;
-using MI.Server.DataAccess.DbObjects.Configuration;
+﻿using MI.Server.DataAccess.DbObjects.Configuration;
+using MI.Server.DataAccess.DbObjects.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MI.Server.DataAccess.Database
@@ -20,15 +20,11 @@ namespace MI.Server.DataAccess.Database
         {
             //modelBuilder.Configurations.Add(new SubjectDbConfiguration());
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new DbStudentConfiguration());
             modelBuilder.ApplyConfiguration(new DbTeacherConfiguration());
             modelBuilder.ApplyConfiguration(new DbSubjectConfiguration());
             modelBuilder.ApplyConfiguration(new DbStudentSubjectsConfiguration());
-
-            modelBuilder.Entity<StudentDb>().ToTable("Students");
-            modelBuilder.Entity<SubjectDb>().ToTable("Subjects");
-            modelBuilder.Entity<TeacherDb>().ToTable("Teachers");
-            modelBuilder.Entity<StudentSubjectsDb>().ToTable("StudentSubjects");
         }
     }
 }
