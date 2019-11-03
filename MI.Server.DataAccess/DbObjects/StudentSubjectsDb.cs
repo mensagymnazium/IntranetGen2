@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects
 {
-    public class EnrollementDb
+    public class StudentSubjectsDb : DbBase
     {
         public StudentDb Student { get; set; }
         public SubjectDb Subject { get; set; }

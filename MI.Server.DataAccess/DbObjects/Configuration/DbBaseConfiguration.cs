@@ -3,15 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MI.Server.DataAccess.DbObjects.Configuration
 {
-    internal class DbBaseConfiguration<T> : IEntityTypeConfiguration<T> where T : DbBase
+    internal class DbBaseConfiguration : IEntityTypeConfiguration<DbBase>
     {
-        public DbBaseConfiguration()
+        public void Configure(EntityTypeBuilder<DbBase> builder)
         {
-        }
-
-        public void Configure(EntityTypeBuilder<T> builder)
-        {
-            throw new System.NotImplementedException();
+            builder.Property(b=>b.Id).ValueGeneratedOnAdd().IsRequired();
         }
     }
 }

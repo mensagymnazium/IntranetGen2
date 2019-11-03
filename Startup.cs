@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using MI.Models;
+using MI.Server.DataAccess.Database;
 
 namespace MI
 {
@@ -31,7 +31,7 @@ namespace MI
                 configuration.RootPath = "ClientApp/build";
             });
 
-            services.AddDbContext<MIContext>(options =>
+            services.AddDbContext<MensaIntranetContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MIContext")));
         }
 

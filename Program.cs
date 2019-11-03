@@ -1,6 +1,9 @@
+using MI.Data;
 using MI.Server.DataAccess.Database;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
 
 namespace MI
 {
@@ -8,11 +11,28 @@ namespace MI
     {
         public static void Main(string[] args)
         {
-            using (var context = new MensaIntranetContext())
+            var host = CreateWebHostBuilder(args).Build();
+
+            CreateDbIfNotExists(host);
+
+            host.Run();
+        }
+        private static void CreateDbIfNotExists(IWebHost host)
+        {
+            using (var scope = host.Services.CreateScope())
             {
-                context.Database.EnsureCreated();
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<MensaIntranetContext>();
+                    //context.Database.EnsureCreated();
+                    DbInitializer.Initialize(context);
+                }
+                catch(System.Exception ex)
+                {
+                    throw ex;
+                }
             }
-            CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
