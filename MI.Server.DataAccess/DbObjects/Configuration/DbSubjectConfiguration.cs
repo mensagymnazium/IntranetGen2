@@ -10,9 +10,9 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
     {
         public void Configure(EntityTypeBuilder<SubjectDb> builder)
         {
+            builder.HasKey(s => s.SubjectId);
             builder.HasOne<TeacherDb>(s => s.Teacher)
                 .WithMany(s => s.Subjects);
-            builder.HasBaseType<DbBase>();
         }
     }
 }

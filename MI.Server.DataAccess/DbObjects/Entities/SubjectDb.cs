@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects
 {
-    public class SubjectDb : DbBase
+    public class SubjectDb
     {
         public string Name { get; set; }
         public string SubjectId { get; set; }
@@ -20,5 +20,6 @@ namespace MI.Server.DataAccess.DbObjects
 
         public virtual GradesEnum ForClass { get; set; }
         public IList<StudentSubjectsDb> StudentSubjects { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

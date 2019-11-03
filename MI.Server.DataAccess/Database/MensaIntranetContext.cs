@@ -20,9 +20,7 @@ namespace MI.Server.DataAccess.Database
         {
             //modelBuilder.Configurations.Add(new SubjectDbConfiguration());
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfiguration(new DbBaseConfiguration());
-            modelBuilder.ApplyConfiguration(new DbUserConfiguration());
+            modelBuilder.ApplyConfiguration(new DbStudentConfiguration());
             modelBuilder.ApplyConfiguration(new DbTeacherConfiguration());
             modelBuilder.ApplyConfiguration(new DbSubjectConfiguration());
             modelBuilder.ApplyConfiguration(new DbStudentSubjectsConfiguration());

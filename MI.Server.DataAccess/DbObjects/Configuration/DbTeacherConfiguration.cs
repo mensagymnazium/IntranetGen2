@@ -10,10 +10,11 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
     { 
         public void Configure(EntityTypeBuilder<TeacherDb> builder)
         {
-            builder.Property(s => s.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.HasKey(s => s.UserId);
+            builder.Property(s => s.UserId).ValueGeneratedOnAdd();
             builder.Property(s => s.UserName).IsRequired();
             builder.Property(s => s.Password).IsRequired();
-            
+
         }
     }
 }

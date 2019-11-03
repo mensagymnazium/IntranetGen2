@@ -3,7 +3,7 @@ using MI.Server.DataAccess.Database;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-
+using Microsoft.Extensions.Logging;
 
 namespace MI
 {
@@ -22,16 +22,17 @@ namespace MI
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                try
-                {
+                /*try
+                {*/
                     var context = services.GetRequiredService<MensaIntranetContext>();
                     //context.Database.EnsureCreated();
                     DbInitializer.Initialize(context);
-                }
+                /*}
                 catch(System.Exception ex)
                 {
-                    throw ex;
-                }
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "Error during Creation");
+                }*/
             }
         }
 

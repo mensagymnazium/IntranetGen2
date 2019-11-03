@@ -12,7 +12,6 @@ namespace MI.Data
         public static void Initialize(MensaIntranetContext context)
         {
             context.Database.EnsureCreated();
-
             if (context.Students.Any())
             {
                 return;

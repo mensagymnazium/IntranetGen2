@@ -4,9 +4,11 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects
 {
-    public abstract class DbBase
+    public class StudentSubjectsDb
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
+        public StudentDb Student { get; set; }
+        public SubjectDb Subject { get; set; }
 
         public bool IsDeleted { get; set; } = false;
     }
