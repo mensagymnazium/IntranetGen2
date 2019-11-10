@@ -11,19 +11,30 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Data\**" />
     <Compile Remove="MI.Server.DataAccess\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Data\**" />
     <Content Remove="MI.Server.DataAccess\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="Data\**" />
     <EmbeddedResource Remove="MI.Server.DataAccess\**" />
+    <None Remove="Data\**" />
     <None Remove="MI.Server.DataAccess\**" />
   </ItemGroup>
 
@@ -34,6 +45,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+	<Folder Include="ClientApp\src\components\" />
   </ItemGroup>
 
   <ItemGroup>

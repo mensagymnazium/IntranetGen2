@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using MI.Server.DataAccess.Database;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace MI
@@ -16,9 +10,29 @@ namespace MI
     {
         public static void Main(string[] args)
         {
-            {/*Commented for frontend development purposes*/}//Database.SetInitializer(new CreateDatabaseIfNotExists<MensaIntranetContext>());
-            //var db = new MensaIntranetContext();
-            CreateWebHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args).Build();
+
+            CreateDbIfNotExists(host);
+
+            host.Run();
+        }
+        private static void CreateDbIfNotExists(IWebHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<MensaIntranetContext>();
+                    context.Database.EnsureCreated();
+                    //DbInitializer.Initialize(context);
+                }
+                catch(System.Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "Error during Creation");
+                }
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
