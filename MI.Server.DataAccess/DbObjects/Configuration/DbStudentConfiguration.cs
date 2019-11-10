@@ -8,6 +8,7 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
     {
         public void Configure(EntityTypeBuilder<StudentDb> builder)
         {
+            builder.ToTable("Students");
         }
     }
 }

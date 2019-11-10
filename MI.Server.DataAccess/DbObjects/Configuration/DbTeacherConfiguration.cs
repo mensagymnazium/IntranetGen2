@@ -7,10 +7,11 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects.Configuration
 {
-    class DbTeacherConfiguration : IEntityTypeConfiguration<TeacherDb>
+    public class DbTeacherConfiguration : IEntityTypeConfiguration<TeacherDb>
     { 
         public void Configure(EntityTypeBuilder<TeacherDb> builder)
         {
+            builder.ToTable("Teachers");
 
         }
     }

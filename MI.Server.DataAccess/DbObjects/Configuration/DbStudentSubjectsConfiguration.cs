@@ -11,15 +11,16 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
     {
         public void Configure(EntityTypeBuilder<StudentSubjectsDb> builder)
         {
-            builder
-                .HasOne<SubjectDb>(sc => sc.Subject)
-                .WithMany(s => s.StudentSubjects)
-                .HasForeignKey(s => s.Id);
+            builder.ToTable("StudentSubjects");
 
             builder
-                .HasOne<StudentDb>(sc => sc.Student)
+                .HasOne(sc => sc.Subject)
                 .WithMany(s => s.StudentSubjects)
-                .HasForeignKey(s => s.Id);
+                .HasForeignKey(s => s.SubjectId);
+            builder
+                .HasOne(sc => sc.Student)
+                .WithMany(s => s.StudentSubjects)
+                .HasForeignKey(s => s.StudentId);
         }
     }
 }
