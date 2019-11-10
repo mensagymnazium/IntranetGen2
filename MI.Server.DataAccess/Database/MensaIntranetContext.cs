@@ -16,6 +16,7 @@ namespace MI.Server.DataAccess.Database
         public DbSet<TeacherDb> Teachers { get; set; }
         public DbSet<StudentSubjectsDb> StudentSubjects { get; set; }
         public DbSet<GradeSubjectsDb> GradeSubjects { get; set; }
+        public DbSet<GradeDb> Grades { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
