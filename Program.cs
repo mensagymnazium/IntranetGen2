@@ -1,5 +1,3 @@
-using MI.Data;
-using MI.Data.DataAccess.Database;
 using MI.Server.DataAccess.Database;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -23,17 +21,17 @@ namespace MI
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                /*try
-                {*/
+                try
+                {
                     var context = services.GetRequiredService<MensaIntranetContext>();
-                    //context.Database.EnsureCreated();
-                    DbInitializer.Initialize(context);
-                /*}
+                    context.Database.EnsureCreated();
+                    //DbInitializer.Initialize(context);
+                }
                 catch(System.Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "Error during Creation");
-                }*/
+                }
             }
         }
 
