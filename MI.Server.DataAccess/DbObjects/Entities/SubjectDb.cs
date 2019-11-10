@@ -10,13 +10,10 @@ namespace MI.Server.DataAccess.DbObjects.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
         public TeacherDb Teacher { get; set; }
-
         public DayEnum DayPeriod { get; set; }
-        public PeriodEnum PeriodPeriod { get; set; }
-        
+        public PeriodEnum TimePeriod { get; set; }        
         public ICollection<StudentSubjectsDb> StudentSubjects { get; set; }
-        public GradeEnum Grades { get; set; }
+        public ICollection<GradeSubjectsDb> GradeSubjects { get; set; }
     }
 }
