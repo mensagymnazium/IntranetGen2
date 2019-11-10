@@ -15,16 +15,17 @@ namespace MI.Server.DataAccess.Database
         public DbSet<SubjectDb> Subjects { get; set; }
         public DbSet<TeacherDb> Teachers { get; set; }
         public DbSet<StudentSubjectsDb> StudentSubjects { get; set; }
+        public DbSet<GradeSubjectsDb> GradeSubjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Configurations.Add(new SubjectDbConfiguration());
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new DbStudentConfiguration());
             modelBuilder.ApplyConfiguration(new DbTeacherConfiguration());
             modelBuilder.ApplyConfiguration(new DbSubjectConfiguration());
             modelBuilder.ApplyConfiguration(new DbStudentSubjectsConfiguration());
+            modelBuilder.ApplyConfiguration(new DbGradeSubjectsConfiguration());
         }
     }
 }
