@@ -11,7 +11,5 @@ namespace MI.Server.DataAccess.DbObjects.Enums
         Wednesday = 30,
         Thursday = 40,
         Friday = 50,
-        Saturday = 60,
-        Sunday = 70
     }
 }
