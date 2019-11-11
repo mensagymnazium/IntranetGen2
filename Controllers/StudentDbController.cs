@@ -14,25 +14,25 @@ namespace MI.Controllers
     [ApiController]
     public class StudentDbController : ControllerBase
     {
-        private readonly MensaIntranetContext _context;
+        private readonly MensaIntranetContext Student_context;
 
         public StudentDbController(MensaIntranetContext context)
         {
-            _context = context;
+            Student_context = context;
         }
 
         // GET: api/StudentDb
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudentDb>>> GetStudents()
         {
-            return await _context.Students.ToListAsync();
+            return await Student_context.Students.ToListAsync();
         }
 
         // GET: api/StudentDb/5
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentDb>> GetStudentDb(int id)
         {
-            var studentDb = await _context.Students.FindAsync(id);
+            var studentDb = await Student_context.Students.FindAsync(id);
 
             if (studentDb == null)
             {
@@ -53,11 +53,11 @@ namespace MI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(studentDb).State = EntityState.Modified;
+            Student_context.Entry(studentDb).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await Student_context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -80,8 +80,8 @@ namespace MI.Controllers
         [HttpPost]
         public async Task<ActionResult<StudentDb>> PostStudentDb(StudentDb studentDb)
         {
-            _context.Students.Add(studentDb);
-            await _context.SaveChangesAsync();
+            Student_context.Students.Add(studentDb);
+            await Student_context.SaveChangesAsync();
 
             return CreatedAtAction("GetStudentDb", new { id = studentDb.Id }, studentDb);
         }
@@ -90,21 +90,21 @@ namespace MI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<StudentDb>> DeleteStudentDb(int id)
         {
-            var studentDb = await _context.Students.FindAsync(id);
+            var studentDb = await Student_context.Students.FindAsync(id);
             if (studentDb == null)
             {
                 return NotFound();
             }
 
-            _context.Students.Remove(studentDb);
-            await _context.SaveChangesAsync();
+            Student_context.Students.Remove(studentDb);
+            await Student_context.SaveChangesAsync();
 
             return studentDb;
         }
 
         private bool StudentDbExists(int id)
         {
-            return _context.Students.Any(e => e.Id == id);
+            return Student_context.Students.Any(e => e.Id == id);
         }
     }
 }

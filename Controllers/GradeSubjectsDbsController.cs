@@ -14,25 +14,25 @@ namespace MI.Controllers
     [ApiController]
     public class GradeSubjectsDbsController : ControllerBase
     {
-        private readonly MensaIntranetContext _context;
+        private readonly MensaIntranetContext GradeSubjects_context;
 
         public GradeSubjectsDbsController(MensaIntranetContext context)
         {
-            _context = context;
+            GradeSubjects_context = context;
         }
 
         // GET: api/GradeSubjectsDbs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GradeSubjectsDb>>> GetGradeSubjects()
         {
-            return await _context.GradeSubjects.ToListAsync();
+            return await GradeSubjects_context.GradeSubjects.ToListAsync();
         }
 
         // GET: api/GradeSubjectsDbs/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GradeSubjectsDb>> GetGradeSubjectsDb(int id)
         {
-            var gradeSubjectsDb = await _context.GradeSubjects.FindAsync(id);
+            var gradeSubjectsDb = await GradeSubjects_context.GradeSubjects.FindAsync(id);
 
             if (gradeSubjectsDb == null)
             {
@@ -53,11 +53,11 @@ namespace MI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(gradeSubjectsDb).State = EntityState.Modified;
+            GradeSubjects_context.Entry(gradeSubjectsDb).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await GradeSubjects_context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -80,8 +80,8 @@ namespace MI.Controllers
         [HttpPost]
         public async Task<ActionResult<GradeSubjectsDb>> PostGradeSubjectsDb(GradeSubjectsDb gradeSubjectsDb)
         {
-            _context.GradeSubjects.Add(gradeSubjectsDb);
-            await _context.SaveChangesAsync();
+            GradeSubjects_context.GradeSubjects.Add(gradeSubjectsDb);
+            await GradeSubjects_context.SaveChangesAsync();
 
             return CreatedAtAction("GetGradeSubjectsDb", new { id = gradeSubjectsDb.Id }, gradeSubjectsDb);
         }
@@ -90,21 +90,21 @@ namespace MI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<GradeSubjectsDb>> DeleteGradeSubjectsDb(int id)
         {
-            var gradeSubjectsDb = await _context.GradeSubjects.FindAsync(id);
+            var gradeSubjectsDb = await GradeSubjects_context.GradeSubjects.FindAsync(id);
             if (gradeSubjectsDb == null)
             {
                 return NotFound();
             }
 
-            _context.GradeSubjects.Remove(gradeSubjectsDb);
-            await _context.SaveChangesAsync();
+            GradeSubjects_context.GradeSubjects.Remove(gradeSubjectsDb);
+            await GradeSubjects_context.SaveChangesAsync();
 
             return gradeSubjectsDb;
         }
 
         private bool GradeSubjectsDbExists(int id)
         {
-            return _context.GradeSubjects.Any(e => e.Id == id);
+            return GradeSubjects_context.GradeSubjects.Any(e => e.Id == id);
         }
     }
 }

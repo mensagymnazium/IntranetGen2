@@ -18,7 +18,7 @@ namespace MI.Controllers
 
         public GradeDbController(MensaIntranetContext context)  //pulls context from Mensainternetcontext
         {
-            Grade_context = context;
+            Grade_context = context; //assigns values of MensaInternetContext to local context
         }
 
         // GET: api/GradeDbs

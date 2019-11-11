@@ -14,25 +14,25 @@ namespace MI.Controllers
     [ApiController]
     public class StudentSubjectsDbController : ControllerBase
     {
-        private readonly MensaIntranetContext _context;
+        private readonly MensaIntranetContext StudentSubject_context;
 
         public StudentSubjectsDbController(MensaIntranetContext context)
         {
-            _context = context;
+            StudentSubject_context = context;
         }
 
         // GET: api/StudentSubjectsDb
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudentSubjectsDb>>> GetStudentSubjects()
         {
-            return await _context.StudentSubjects.ToListAsync();
+            return await StudentSubject_context.StudentSubjects.ToListAsync();
         }
 
         // GET: api/StudentSubjectsDb/5
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentSubjectsDb>> GetStudentSubjectsDb(int id)
         {
-            var studentSubjectsDb = await _context.StudentSubjects.FindAsync(id);
+            var studentSubjectsDb = await StudentSubject_context.StudentSubjects.FindAsync(id);
 
             if (studentSubjectsDb == null)
             {
@@ -53,11 +53,11 @@ namespace MI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(studentSubjectsDb).State = EntityState.Modified;
+            StudentSubject_context.Entry(studentSubjectsDb).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await StudentSubject_context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -80,8 +80,8 @@ namespace MI.Controllers
         [HttpPost]
         public async Task<ActionResult<StudentSubjectsDb>> PostStudentSubjectsDb(StudentSubjectsDb studentSubjectsDb)
         {
-            _context.StudentSubjects.Add(studentSubjectsDb);
-            await _context.SaveChangesAsync();
+            StudentSubject_context.StudentSubjects.Add(studentSubjectsDb);
+            await StudentSubject_context.SaveChangesAsync();
 
             return CreatedAtAction("GetStudentSubjectsDb", new { id = studentSubjectsDb.Id }, studentSubjectsDb);
         }
@@ -90,21 +90,21 @@ namespace MI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<StudentSubjectsDb>> DeleteStudentSubjectsDb(int id)
         {
-            var studentSubjectsDb = await _context.StudentSubjects.FindAsync(id);
+            var studentSubjectsDb = await StudentSubject_context.StudentSubjects.FindAsync(id);
             if (studentSubjectsDb == null)
             {
                 return NotFound();
             }
 
-            _context.StudentSubjects.Remove(studentSubjectsDb);
-            await _context.SaveChangesAsync();
+            StudentSubject_context.StudentSubjects.Remove(studentSubjectsDb);
+            await StudentSubject_context.SaveChangesAsync();
 
             return studentSubjectsDb;
         }
 
         private bool StudentSubjectsDbExists(int id)
         {
-            return _context.StudentSubjects.Any(e => e.Id == id);
+            return StudentSubject_context.StudentSubjects.Any(e => e.Id == id);
         }
     }
 }

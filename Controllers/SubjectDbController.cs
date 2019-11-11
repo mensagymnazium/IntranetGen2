@@ -14,25 +14,25 @@ namespace MI.Controllers
     [ApiController]
     public class SubjectDbController : ControllerBase
     {
-        private readonly MensaIntranetContext _context;
+        private readonly MensaIntranetContext Subject_context;
 
         public SubjectDbController(MensaIntranetContext context)
         {
-            _context = context;
+            Subject_context = context;
         }
 
         // GET: api/SubjectDb
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SubjectDb>>> GetSubjects()
         {
-            return await _context.Subjects.ToListAsync();
+            return await Subject_context.Subjects.ToListAsync();
         }
 
         // GET: api/SubjectDb/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SubjectDb>> GetSubjectDb(int id)
         {
-            var subjectDb = await _context.Subjects.FindAsync(id);
+            var subjectDb = await Subject_context.Subjects.FindAsync(id);
 
             if (subjectDb == null)
             {
@@ -53,11 +53,11 @@ namespace MI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(subjectDb).State = EntityState.Modified;
+            Subject_context.Entry(subjectDb).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await Subject_context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -80,8 +80,8 @@ namespace MI.Controllers
         [HttpPost]
         public async Task<ActionResult<SubjectDb>> PostSubjectDb(SubjectDb subjectDb)
         {
-            _context.Subjects.Add(subjectDb);
-            await _context.SaveChangesAsync();
+            Subject_context.Subjects.Add(subjectDb);
+            await Subject_context.SaveChangesAsync();
 
             return CreatedAtAction("GetSubjectDb", new { id = subjectDb.Id }, subjectDb);
         }
@@ -90,21 +90,21 @@ namespace MI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<SubjectDb>> DeleteSubjectDb(int id)
         {
-            var subjectDb = await _context.Subjects.FindAsync(id);
+            var subjectDb = await Subject_context.Subjects.FindAsync(id);
             if (subjectDb == null)
             {
                 return NotFound();
             }
 
-            _context.Subjects.Remove(subjectDb);
-            await _context.SaveChangesAsync();
+            Subject_context.Subjects.Remove(subjectDb);
+            await Subject_context.SaveChangesAsync();
 
             return subjectDb;
         }
 
         private bool SubjectDbExists(int id)
         {
-            return _context.Subjects.Any(e => e.Id == id);
+            return Subject_context.Subjects.Any(e => e.Id == id);
         }
     }
 }
