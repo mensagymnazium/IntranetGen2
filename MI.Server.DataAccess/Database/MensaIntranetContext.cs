@@ -27,6 +27,7 @@ namespace MI.Server.DataAccess.Database
             modelBuilder.ApplyConfiguration(new DbSubjectConfiguration());
             modelBuilder.ApplyConfiguration(new DbStudentSubjectsConfiguration());
             modelBuilder.ApplyConfiguration(new DbGradeSubjectsConfiguration());
+            modelBuilder.ApplyConfiguration(new DbGradeConfiguration());
         }
     }
 }
