@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using MI.Server.DataAccess.Database;
 using MI.Server.DataAccess.DbObjects.Entities;
 
+
+//https://www.tutorialsteacher.com/webapi/web-api-controller tutorial
 namespace MI.Controllers
 {
     [Route("api/[controller]")]
@@ -21,14 +23,18 @@ namespace MI.Controllers
             Grade_context = context; //assigns values of MensaInternetContext to local context
         }
 
-        // GET: api/GradeDbs
+        // GET: api/Gradedb
+        //gets all elements from table. Format is api/Gradedb
+        //All the methods are asynchronous: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/index
+        //returns a list of grades using IEnumarable, which is used for iterating over elements in a list (?)
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GradeDb>>> GetGrades()
         {
             return await Grade_context.Grades.ToListAsync();
         }
 
-        // GET: api/GradeDbs/5
+        // GET: api/Gradedbs/5
+        //gets a single element by ID.Format: api/Gradedb/*id*
         [HttpGet("{id}")]
         public async Task<ActionResult<GradeDb>> GetGradeDb(int id)
         {
