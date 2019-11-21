@@ -13,6 +13,7 @@ export default class Register extends Component {
             error: "",
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleSave = this.handleSave.bind(this)
     }
 
     handleChange(event) {
@@ -20,6 +21,15 @@ export default class Register extends Component {
             [event.target.name]: event.target.value
         })
     }
+/*
+    handleSave(event) {
+        event.preventDefault();
+        const userinfo = new FormData(event.target);
+        fetch("api/StudentDb", { method: "Post", body: userinfo }
+        }
+*/  
+}
+    
     render() {
         return (<>
             <Helmet>
