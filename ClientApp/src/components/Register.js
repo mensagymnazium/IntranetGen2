@@ -24,10 +24,9 @@ export default class Register extends Component {
     handleSave(event) {
         event.preventDefault();
         const userinfo = new FormData(event.target);
-        fetch("api/StudentDb", { method: "Post", body: userinfo }
+        fetch("api/StudentDb", { method: "Post", body: userinfo });
         }
 
-}
     
     render() {
         return (<>
