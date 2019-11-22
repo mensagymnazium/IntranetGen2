@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
-
 export default class Register extends Component {
     constructor() {
         super();
@@ -27,7 +26,7 @@ export default class Register extends Component {
         fetch("api/StudentDb", { method: "Post", body: userinfo });
         }
 
-    
+
     render() {
         return (<>
             <Helmet>
@@ -41,7 +40,17 @@ export default class Register extends Component {
                 <input type="text" name="firstname" />
                 <label>Přijmení</label>
                 <input type="text" name="lastname" />
-
+                <label>Třída</label>
+                <select>
+                    <option value="Prima">Prima</option>
+                    <option value="Sekunda">Sekunda</option>
+                    <option value="Tercie">Tercie</option>
+                    <option value="Kvarta">Kvarta</option>
+                    <option value="Kvinta">Kvinta</option>
+                    <option value="Sexta">Sexta</option>
+                    <option value="Septima">Septima</option>
+                    <option value="Oktava">Oktáva</option>
+                </select> 
                 <br />
                 <label>Uživatelské jméno</label>
                 <input type="text" name="username" />
