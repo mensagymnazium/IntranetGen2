@@ -28,8 +28,21 @@ export default class Login extends Component {
         else if (this.state.password == "") {
             return this.setState({ error: "Zadejte heslo" });
         }
-        else {this.setState({ error: "" })}
-    }
+        else { this.setState({ error: "" }) }
+
+        /*fetch("api/StudentDb", {
+            method: "Get", body: userinfo,
+        })
+            .then((response) => response.json())
+            .then(this.setState({ error: "success" }))
+
+            .then((responseJson) => {
+
+                this.props.history.push("/register");
+
+            });
+*/    
+}
 
     
   render() {
@@ -60,8 +73,11 @@ export default class Login extends Component {
             <input type="submit" value="Přihlásit" />
             
         </form>
-        <form action="/register">
-            <input type="submit" value="Registrovat" />
+        <form action="/StudentRegister">
+            <input type="submit" value="Registrovat Studenta" />
+        </form>
+        <form action="/TeacherRegister">
+            <input type="submit" value="Registrovat Učitele" />
         </form>
         
     </>);
