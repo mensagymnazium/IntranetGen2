@@ -80,6 +80,7 @@ namespace MI.Controllers
         [HttpPost]
         public async Task<ActionResult<StudentDb>> PostStudentDb(StudentDb studentDb)
         {
+            Console.WriteLine("Notice me senpai");
             Student_context.Students.Add(studentDb);
             await Student_context.SaveChangesAsync();
 

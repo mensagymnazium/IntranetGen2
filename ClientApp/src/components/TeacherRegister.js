@@ -29,7 +29,8 @@ export default class TeacherRegister extends Component {
     handleSave(event) {
         event.preventDefault();
 
-        var userinfo = event.target;
+        var userinfo = new FormData(event.target);
+
         //userinfo.password.value = userinfo.password.GetHashCode().toString();
 
         if (!userinfo.FirstName) {

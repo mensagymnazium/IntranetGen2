@@ -22,7 +22,9 @@ export default class Login extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if (this.state.username == "") {
+        var userinfo = new FormData(event.target);
+
+        if (!userinfo.username) {
             return this.setState({ error: "Zadejte uživatelské jméno" });
         }
         else if (this.state.password == "") {
