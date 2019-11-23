@@ -8,12 +8,14 @@ import NavBar from './components/NavBar';
 import SubjectManagement from './components/SubjectManagement';
 import StudentRegister from './components/StudentRegister';
 import TeacherRegister from './components/TeacherRegister';
-
+import { AuthContext } from "./objects/Auth";
+import PrivateRoute from "./objects/PrivateRoute";
 export default class App extends Component {
   displayName = App.name
 
   render() {
-    return (<>
+      return (<>
+          <AuthContext.Provider value={false}>
       <NavBar />
       <div id="page_root">
         <Switch>
@@ -23,7 +25,7 @@ export default class App extends Component {
 
           <Route path="/subjects/:subject?" component={SubjectSchedule} />
 
-          <Route path="/edit/:subject?" component={SubjectManagement} />  
+          <PrivateRoute Route path="/edit/:subject?" component={SubjectManagement} />  
 
           <Route path="/StudentRegister" component={StudentRegister} />   
 
@@ -31,7 +33,8 @@ export default class App extends Component {
           
           <Route component={NotFound} />
         </Switch>
-      </div>
+              </div>
+          </AuthContext.Provider>
     </>);
   }
 }

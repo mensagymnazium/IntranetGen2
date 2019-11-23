@@ -68,7 +68,7 @@ export default class Login extends Component {
             }
             <input type="text" name="username" placeholder="Uživatelské jméno" onChange = { this.handleChange } /> 
             <br />
-            <input type="text" name="password" placeholder="Heslo" onChange={this.handleChange}/> 
+            <input type="password" name="password" placeholder="Heslo" onChange={this.handleChange}/> 
             <br/>
             <input type="submit" value="Přihlásit" />
             

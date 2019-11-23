@@ -6,7 +6,7 @@ export default class StudentRegister extends Component {
         super();
         this.state = {
             username: "",
-            firstname: "",
+            FirstName: "",
             lastname: "",
             email: "",
             password: "",
@@ -29,36 +29,28 @@ export default class StudentRegister extends Component {
         event.preventDefault();
         var userinfo = new FormData(event.target);
 
-        const bcrypt = require('bcrypt');
-/*
-        bcrypt.hash(userinfo.password.value, 10, function (err, hash) {
-            userinfo.password.value = hash
-        });
-*/
-        //userinfo.password.value = userinfo.password.GetHashCode().toString();
-     
-        if (this.state.firstname == "") {
+
+        if (!userinfo.FirstName) {
             return this.setState({ error: "Zadejte jméno" });
         }
-        else if (this.state.lastname == "") {
+        else if (!userinfo.lastname) {
             return this.setState({ error: "Zadejte příjmení" });
         }
-        else if (this.state.username == "") {
+        else if (!userinfo.username) {
             return this.setState({ error: "Zadejte uživatelské jméno" });
         }
-        else if (this.state.password == "") {
+        else if (!userinfo.password) {
             return this.setState({ error: "Zadejte heslo" });
         }
-        else if (this.state.email == "") {
+        else if (!userinfo.email) {
             return this.setState({ error: "Zadejte email" });
         }
-        else { this.setState({ error: userinfo.password }) }
+        else { this.setState({ error: "" }) }
         
 
 
         fetch("api/StudentDb", {
-            method:"Post", body: userinfo, })
-            .then((response) => response.json())
+            method:"Post", body: userinfo })
             .then(this.setState({ error: "success" }))
 
             .then((responseJson) => {
@@ -87,7 +79,7 @@ export default class StudentRegister extends Component {
                     {this.state.error}
                 </h3>
                 <label>Jméno</label>
-                <input type="text" name="firstname" onChange={this.handleChange} />
+                <input type="text" name="FirstName" onChange={this.handleChange} />
                 <label>Přijmení</label>
                 <input type="text" name="lastname" onChange={this.handleChange}/>
                 <label>Třída</label>
@@ -108,10 +100,10 @@ export default class StudentRegister extends Component {
                 <input type="text" name="username" onChange={this.handleChange} />
                 <br />
                 <label>Heslo</label>
-                <input type="text" name="password" onChange={this.handleChange} />
+                <input type="password" name="password" onChange={this.handleChange} />
                 <br />
                 <label>Mail</label>
-                <input type="text" name="email" onChange={this.handleChange}/>             
+                <input type="email" name="email" onChange={this.handleChange}/>             
                 <br />
                 <br />
                 <input type="submit" value="Registrovat" />
