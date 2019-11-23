@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MI.Server.DataAccess.Database;
 using MI.Server.DataAccess.DbObjects.Entities;
+using System.Security.Cryptography;
 
 namespace MI.Controllers
 {
@@ -80,6 +81,15 @@ namespace MI.Controllers
         [HttpPost]
         public async Task<ActionResult<TeacherDb>> PostTeacherDb(TeacherDb teacherDb)
         {
+            byte[] salt;
+            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+            var secretpassword = new Rfc2898DeriveBytes(teacherDb.Password, salt, 10000);
+            byte[] hash = secretpassword.GetBytes(20);
+            byte[] hashBytes = new byte[36];
+            Array.Copy(salt, 0, hashBytes, 0, 16);
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+            teacherDb.Password = Convert.ToBase64String(hashBytes);
+
             Teacher_context.Teachers.Add(teacherDb);
             await Teacher_context.SaveChangesAsync();
 

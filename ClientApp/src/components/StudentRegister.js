@@ -23,10 +23,11 @@ export default class StudentRegister extends Component {
         })
     }
 
-   
+  
     handleSave(event) {
         event.preventDefault();
-        
+       
+
         const userinfo = new FormData(event.target);
 
 
@@ -91,7 +92,7 @@ export default class StudentRegister extends Component {
                 <input type="text" name="LastName" />
                 <label>Třída</label>
                 
-                <select name="StudentClass" onChange={this.handleChange}>
+                <select name="StudentClass">
                     <option value={10}>Prima</option>
                     <option value={20}>Sekunda</option>
                     <option value={30}>Tercie</option>

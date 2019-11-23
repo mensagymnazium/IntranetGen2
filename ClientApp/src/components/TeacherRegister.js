@@ -83,19 +83,19 @@ export default class TeacherRegister extends Component {
                     {this.state.password}
                 </h3>
                 <label>Jméno</label>
-                <input type="text" name="FirstName" onChange={this.handleChange} />
+                <input type="text" name="FirstName"/>
                 <label>Přijmení</label>
-                <input type="text" name="LastName" onChange={this.handleChange}/>
+                <input type="text" name="LastName"/>
                 
                 <br />
                 <label>Uživatelské jméno</label>
-                <input type="text" name="UserName" onChange={this.handleChange} />
+                <input type="text" name="UserName"/>
                 <br />
                 <label>Heslo</label>
-                <input type="password" name="Password" onChange={this.handleChange} />
+                <input type="password" name="Password"/>
                 <br />
                 <label>Mail</label>
-                <input type="email" name="Mail" onChange={this.handleChange}/>             
+                <input type="email" name="Mail"/>             
                 <br />
                 <input type="submit" value="Registrovat" />
             </form>
