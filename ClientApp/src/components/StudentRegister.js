@@ -10,23 +10,23 @@ export default class StudentRegister extends Component {
             LastName: "",
             Mail: "",
             Password: "",
-           StudentClass: "",
+            StudentClass: "",
             error: "",
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSave = this.handleSave.bind(this)
     }
-   
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         });
     }
 
-  
+
     handleSave(event) {
         event.preventDefault();
-       
+
 
         const userinfo =
         {
@@ -38,24 +38,28 @@ export default class StudentRegister extends Component {
             StudentClass: this.state.StudentClass,
         }
 
-        const jsonusernifo = JSON.parse(userinfo);
-            
+
+
 
         if (!userinfo.FirstName) {
             alert("Zadejte jméno");
             return
         }
-        else if (!userinfo.LastName){
+        else if (!userinfo.LastName) {
             alert("Zadejte příjmení");
-            return 
+            return
         }
         else if (!userinfo.UserName) {
             alert("Zadejte uživatelské jméno");
-            return 
+            return
         }
         else if (!userinfo.Password) {
             alert("Zadejte heslo");
-            return 
+            return
+        }
+        else if (!userinfo.StudentClass || userinfo.StudentClass == "really" ) {
+            alert("Zadejte třídu");
+            return
         }
         else if (!userinfo.Mail) {
             alert("Zadejte mail");
@@ -63,19 +67,17 @@ export default class StudentRegister extends Component {
         }
         else { this.setState({ error: "" }) }
         
-      
+     
      
 
-        fetch("api/StudentDb", {
+        fetch("api/StudentDbController", {
             method: "POST",
             headers: {
                 "Content-Type": 'application/json',
             },
-            body: jsonusernifo,
+            body: userinfo,
         })
-            .then(function (jsonusernifo) {
-                alert(JSON.stringify(jsonusernifo))
-    })
+            .then(alert(JSON.stringify(userinfo)))
         
 
     }  
@@ -103,10 +105,11 @@ export default class StudentRegister extends Component {
                 <label>Jméno</label>
                 <input type="text" name="FirstName" onChange={this.handleChange} value={this.state.FirstName} />
                 <label>Přijmení</label>
-                <input type="text" name="LastName" onChange={this.handleChange} value={this.state.FirstName}/>
+                <input type="text" name="LastName" onChange={this.handleChange} value={this.state.LastName} />
                 <label>Třída</label>
                 
-                <select name="StudentClass" onChange={this.handleChange}>
+                <select name="StudentClass" onChange={this.handleChange} value={this.state.StudentClass}>
+                    <option  value={"really"}>Vyber třídu</option>
                     <option value={10}>Prima</option>
                     <option value={20}>Sekunda</option>
                     <option value={30}>Tercie</option>
