@@ -70,7 +70,7 @@ export default class StudentRegister extends Component {
      
      
 
-        fetch("api/StudentDbController", {
+        fetch("api/StudentDb", {
             method: "POST",
             headers: {
                 "Content-Type": 'application/json',
