@@ -6,8 +6,8 @@ export default class Login extends Component {
     constructor() {
         super();
         this.state = {
-            username: "",
-            password: "",
+            UserName: "",
+            Password: "",
             error: "",
         }
         this.handleChange = this.handleChange.bind(this)
@@ -24,13 +24,14 @@ export default class Login extends Component {
         event.preventDefault();
         var userinfo = new FormData(event.target);
 
-        if (!userinfo.username) {
+        if (!userinfo.UserName) {
             return this.setState({ error: "Zadejte uživatelské jméno" });
         }
-        else if (this.state.password == "") {
+        else if (!userinfo.Password) {
             return this.setState({ error: "Zadejte heslo" });
         }
         else { this.setState({ error: "" }) }
+
 
         /*fetch("api/StudentDb", {
             method: "Get", body: userinfo,
@@ -57,9 +58,6 @@ export default class Login extends Component {
         Přihlašte se
       </h1>
 
-        
-
-            
 
         <form onSubmit={this.handleSubmit}>
             {
@@ -68,9 +66,9 @@ export default class Login extends Component {
                     {this.state.error}
                 </h3>
             }
-            <input type="text" name="username" placeholder="Uživatelské jméno" onChange = { this.handleChange } /> 
+            <input type="text" name="username" placeholder="Uživatelské jméno" /> 
             <br />
-            <input type="password" name="password" placeholder="Heslo" onChange={this.handleChange}/> 
+            <input type="password" name="password" placeholder="Heslo"/> 
             <br/>
             <input type="submit" value="Přihlásit" />
             

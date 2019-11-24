@@ -10,7 +10,7 @@ export default class StudentRegister extends Component {
             LastName: "",
             Mail: "",
             Password: "",
-            StudentClass: "",
+           StudentClass: "",
             error: "",
         }
         this.handleChange = this.handleChange.bind(this)
@@ -20,7 +20,7 @@ export default class StudentRegister extends Component {
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
-        })
+        });
     }
 
   
@@ -28,27 +28,36 @@ export default class StudentRegister extends Component {
         event.preventDefault();
        
 
-        const userinfo = new FormData(event.target);
+        const userinfo =
+        {
+            UserName: this.state.UserName,
+            FirstName: this.state.FirstName,
+            LastName: this.state.LastName,
+            Mail: this.state.Mail,
+            Password: this.state.Password,
+            StudentClass: this.state.StudentClass,
+        }
 
+        const jsonusernifo = JSON.parse(userinfo);
+            
 
-
-        if (!userinfo.get("FirstName")) {
+        if (!userinfo.FirstName) {
             alert("Zadejte jméno");
             return
         }
-        else if (!userinfo.get("LastName")){
+        else if (!userinfo.LastName){
             alert("Zadejte příjmení");
             return 
         }
-        else if (!userinfo.get("UserName")) {
+        else if (!userinfo.UserName) {
             alert("Zadejte uživatelské jméno");
             return 
         }
-        else if (!userinfo.get("Password")) {
+        else if (!userinfo.Password) {
             alert("Zadejte heslo");
             return 
         }
-        else if (!userinfo.get("Mail")) {
+        else if (!userinfo.Mail) {
             alert("Zadejte mail");
             return 
         }
@@ -56,17 +65,18 @@ export default class StudentRegister extends Component {
         
       
      
-/*
+
         fetch("api/StudentDb", {
-            method: "POST", body: userinfo, headers: { 'Content-Type': 'application/json' } })
-            .then(this.setState({ error: "success" }))
-
-            .then((responseJson) => {
-
-                this.props.history.push("/api/studebtdb");
-
-            });
-   */
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json',
+            },
+            body: jsonusernifo,
+        })
+            .then(function (jsonusernifo) {
+                alert(JSON.stringify(jsonusernifo))
+    })
+        
 
     }  
         
@@ -83,16 +93,20 @@ export default class StudentRegister extends Component {
             <h3>
                 {this.state.error}
             </h3>
+            <h3>
+                {this.state.FirstName}
+            </h3>
+            
 
             <form onSubmit={this.handleSave}>
                 
                 <label>Jméno</label>
-                <input type="text" name="FirstName"  />
+                <input type="text" name="FirstName" onChange={this.handleChange} value={this.state.FirstName} />
                 <label>Přijmení</label>
-                <input type="text" name="LastName" />
+                <input type="text" name="LastName" onChange={this.handleChange} value={this.state.FirstName}/>
                 <label>Třída</label>
                 
-                <select name="StudentClass">
+                <select name="StudentClass" onChange={this.handleChange}>
                     <option value={10}>Prima</option>
                     <option value={20}>Sekunda</option>
                     <option value={30}>Tercie</option>
@@ -105,13 +119,13 @@ export default class StudentRegister extends Component {
                 
                 <br />
                 <label>Uživatelské jméno</label>
-                <input type="text" name="UserName"/>
+                <input type="text" name="UserName" onChange={this.handleChange} value={this.state.UserName} />
                 <br />
                 <label>Heslo</label>
-                <input type="password" name="Password"/>
+                <input type="password" name="Password" onChange={this.handleChange} value={this.state.Password} />
                 <br />
                 <label>Mail</label>
-                <input type="email" name="Mail"/>             
+                <input type="email" name="Mail" onChange={this.handleChange} value={this.state.Mail} />             
                 <br />
                 <br />
                 <input type="submit" value="Registrovat" />
