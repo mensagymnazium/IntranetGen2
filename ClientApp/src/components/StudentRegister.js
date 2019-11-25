@@ -75,7 +75,7 @@ export default class StudentRegister extends Component {
             headers: {
                 "Content-Type": 'application/json',
             },
-            body: userinfo,
+            body: JSON.stringify(userinfo),
         })
             .then(alert(JSON.stringify(userinfo)))
         
