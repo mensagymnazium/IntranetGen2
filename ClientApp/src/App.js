@@ -25,7 +25,7 @@ export default class App extends Component {
 
           <Route path="/subjects/:subject?" component={SubjectSchedule} />
 
-          <PrivateRoute Route path="/edit/:subject?" component={SubjectManagement} />  
+          <Route path="/edit/:subject?" component={SubjectManagement} />  
 
           <Route path="/StudentRegister" component={StudentRegister} />   
 
