@@ -29,10 +29,58 @@ namespace MI.Controllers
             return await Student_context.Students.ToListAsync();
         }
 
+        // GET: api/StudentDb/
+        [HttpGet("{UserName}")]
+        public bool HasUniqueUsername(string Username)
+        {
+
+            var TeacherDb = Student_context.Teachers.FirstOrDefault(teacher => teacher.UserName == Username);
+
+            if (TeacherDb == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        // GET: api/StudentDb/Koci/1234
+        [HttpGet("{UserName}/{Password}")]
+        public bool Authenticate(string Username, string password)
+        {
+            bool result = false;
+            var studentDb = Student_context.Students.FirstOrDefault(student => student.UserName == Username);
+
+            if (studentDb == null || studentDb.IsDeleted )
+            {
+                return false;
+            }
+           
+            byte[] bytes = Convert.FromBase64String(studentDb.Password);
+            byte[] salt = new byte[16];
+            Array.Copy(bytes, 0, salt, 0, 16);
+            var secretpass = new Rfc2898DeriveBytes(password, salt, 10000);
+            Byte[] hash = secretpass.GetBytes(20);
+            Byte[] hashbytes = new byte[36];
+            Array.Copy(salt, 0, hashbytes, 0, 16);
+            Array.Copy(hash, 0, hashbytes, 16, 20);
+            var pass = Convert.ToBase64String(hashbytes);
+
+
+            if (studentDb.Password == pass)
+                    return true;
+            return result;
+        }
+
         // GET: api/StudentDb/5
-        [HttpGet("{id}")]
+        [HttpGet("{ID}")]
         public async Task<ActionResult<StudentDb>> GetStudentDb(int id)
         {
+
+
             var studentDb = await Student_context.Students.FindAsync(id);
 
             if (studentDb == null)
@@ -81,7 +129,9 @@ namespace MI.Controllers
         [HttpPost]
         public async Task<ActionResult<StudentDb>> PostStudentDb(StudentDb studentDb)
         {
-            Console.WriteLine("Notice me senpai");
+
+          
+
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
             var secretpassword = new Rfc2898DeriveBytes(studentDb.Password, salt, 10000);
@@ -90,12 +140,16 @@ namespace MI.Controllers
             Array.Copy(salt, 0, hashBytes, 0, 16);
             Array.Copy(hash, 0, hashBytes, 16, 20);
             studentDb.Password = Convert.ToBase64String(hashBytes);
+            Console.WriteLine(salt);
+           
 
             Student_context.Students.Add(studentDb);
             await Student_context.SaveChangesAsync();
 
             return CreatedAtAction("GetStudentDb", new { id = studentDb.Id }, studentDb);
         }
+       
+
 
         // DELETE: api/StudentDb/5
         [HttpDelete("{id}")]

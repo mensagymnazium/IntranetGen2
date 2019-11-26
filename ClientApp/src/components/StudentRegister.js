@@ -11,7 +11,7 @@ export default class StudentRegister extends Component {
             Mail: "",
             Password: "",
             StudentClass: "",
-            error: "",
+           
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSave = this.handleSave.bind(this)
@@ -27,7 +27,7 @@ export default class StudentRegister extends Component {
     handleSave(event) {
         event.preventDefault();
 
-
+      
         const userinfo =
         {
             UserName: this.state.UserName,
@@ -65,7 +65,7 @@ export default class StudentRegister extends Component {
             alert("Zadejte mail");
             return 
         }
-        else { this.setState({ error: "" }) }
+      
         
      
      
@@ -77,7 +77,7 @@ export default class StudentRegister extends Component {
             },
             body: JSON.stringify(userinfo),
         })
-            .then(alert(JSON.stringify(userinfo)))
+            
         
 
     }  
@@ -92,12 +92,7 @@ export default class StudentRegister extends Component {
                 <title>Registrace | Intranet</title>
             </Helmet>
            
-            <h3>
-                {this.state.error}
-            </h3>
-            <h3>
-                {this.state.FirstName}
-            </h3>
+           
             
 
             <form onSubmit={this.handleSave}>

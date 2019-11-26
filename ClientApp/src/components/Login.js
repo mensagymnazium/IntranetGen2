@@ -17,58 +17,63 @@ export default class Login extends Component {
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
-        })
+        });
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        var userinfo = new FormData(event.target);
+              
+        
 
-        if (!userinfo.UserName) {
-            return this.setState({ error: "Zadejte uživatelské jméno" });
+        if (!this.state.UserName) {
+            alert("Zadejte uživatelské jméno");
+            return
         }
-        else if (!userinfo.Password) {
-            return this.setState({ error: "Zadejte heslo" });
+        else if (!this.state.Password) {
+            alert("Zadejte heslo");
+            return
         }
-        else { this.setState({ error: "" }) }
+      
+    
 
-
-        /*fetch("api/StudentDb", {
-            method: "Get", body: userinfo,
-        })
-            .then((response) => response.json())
-            .then(this.setState({ error: "success" }))
-
-            .then((responseJson) => {
-
-                this.props.history.push("/register");
-
+        var studenturl = "api/StudentDb/" + this.state.UserName + "/" + this.state.Password; 
+        var teacherurl = "api/TeacherDb/" + this.state.UserName + "/" + this.state.Password;
+        
+     
+        fetch(studenturl) //calls the Get method with the URL created above. If the password matches an alert pops up. 
+            .then(response => response.json())
+            .then(result => {
+                if (result) { alert("Údaje se rovnají těm v studentské databázi. Bohužel Vás ještě nemůžeme autorizovat"); }
             });
-*/    
+
+        fetch(teacherurl)
+            .then(response => response.json())
+            .then(result => {
+                if (result) { alert("Údaje se rovnají těm v učitelské databázi. Bohužel Vás ještě nemůžeme autorizovat"); }
+            });
+
+  
+                
 }
 
-    
+
+
   render() {
     return (<>
       <Helmet>
         <title>Přihlášení | Intranet</title>
       </Helmet>
 
-      <h1>
-        Přihlašte se
-      </h1>
+      
 
 
         <form onSubmit={this.handleSubmit}>
             {
-                
-                <h3>
-                    {this.state.error}
-                </h3>
+               
             }
-            <input type="text" name="username" placeholder="Uživatelské jméno" /> 
+            <input type="text" name="UserName" placeholder="Uživatelské jméno" onChange={this.handleChange} value={this.state.UserName} /> 
             <br />
-            <input type="password" name="password" placeholder="Heslo"/> 
+            <input type="password" name="Password" placeholder="Heslo" onChange={this.handleChange} value={this.state.Password} /> 
             <br/>
             <input type="submit" value="Přihlásit" />
             

@@ -11,7 +11,7 @@ export default class TeacherRegister extends Component {
             LastName: "",
             Mail: "",
             Password: "",
-            error: "",
+            
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSave = this.handleSave.bind(this)
@@ -29,9 +29,16 @@ export default class TeacherRegister extends Component {
     handleSave(event) {
         event.preventDefault();
 
-        var userinfo = new FormData(event.target);
+        const userinfo =
+        {
+            UserName: this.state.UserName,
+            FirstName: this.state.FirstName,
+            LastName: this.state.LastName,
+            Mail: this.state.Mail,
+            Password: this.state.Password,
+           
+        }
 
-        //userinfo.password.value = userinfo.password.GetHashCode().toString();
 
         if (!userinfo.FirstName) {
             return this.setState({ error: "Zadejte jméno" });
@@ -52,16 +59,12 @@ export default class TeacherRegister extends Component {
         
 
 
-        fetch("api/TeacherDbController", {
-            method:"POST",body: userinfo })
-            .then(this.setState({ error: "success" }))
-
-            .then((responseJson) => {
-
-            this.props.history.push("/TeacherRegister");
-
-            });
-    
+        fetch("api/TeacherDb", {
+            method: "POST",
+            headers: { "Content-Type": 'application/json', },
+            body: JSON.stringify(userinfo)
+        });
+        
 
     }  
         
@@ -76,28 +79,23 @@ export default class TeacherRegister extends Component {
 
 
             <form onSubmit={this.handleSave}>
-                <h3>
-                    {this.state.error}
-                </h3>
-                <h3>
-                    {this.state.password}
-                </h3>
+                
                 <label>Jméno</label>
-                <input type="text" name="FirstName"/>
+                <input type="text" name="FirstName" onChange={this.handleChange} value={this.state.FirstName}/>
                 <label>Přijmení</label>
-                <input type="text" name="LastName"/>
+                <input type="text" name="LastName" onChange={this.handleChange} value={this.state.LastName}/>
                 
                 <br />
                 <label>Uživatelské jméno</label>
-                <input type="text" name="UserName"/>
+                <input type="text" name="UserName" onChange={this.handleChange} value={this.state.UserName} />
                 <br />
                 <label>Heslo</label>
-                <input type="password" name="Password"/>
+                <input type="password" name="Password" onChange={this.handleChange} value={this.state.Password} />
                 <br />
                 <label>Mail</label>
-                <input type="email" name="Mail"/>             
+                <input type="email" name="Mail" onChange={this.handleChange} value={this.state.Mail} />             
                 <br />
-                <input type="submit" value="Registrovat" />
+                <input type="submit" value="Registrovat"/>
             </form>
 
         <form action="/Login">
