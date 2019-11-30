@@ -80,6 +80,10 @@ namespace MI.Controllers
         [HttpPost]
         public async Task<ActionResult<SubjectDb>> PostSubjectDb(SubjectDb subjectDb)
         {
+
+          
+                
+
             Subject_context.Subjects.Add(subjectDb);
             await Subject_context.SaveChangesAsync();
 

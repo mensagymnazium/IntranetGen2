@@ -10,6 +10,7 @@ namespace MI.Server.DataAccess.DbObjects.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public int ClassCapacity { get; set; }
         public TeacherDb Teacher { get; set; }
         public DayEnum DayPeriod { get; set; }
         public PeriodEnum TimePeriod { get; set; }        

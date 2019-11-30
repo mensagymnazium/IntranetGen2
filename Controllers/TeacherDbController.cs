@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MI.Server.DataAccess.Database;
 using MI.Server.DataAccess.DbObjects.Entities;
+using System.Security.Cryptography;
 
 namespace MI.Controllers
 {
@@ -26,6 +27,50 @@ namespace MI.Controllers
         public async Task<ActionResult<IEnumerable<TeacherDb>>> GetTeachers()
         {
             return await Teacher_context.Teachers.ToListAsync();
+        }
+        // GET: api/TeacherDb/Koci/
+        [HttpGet("{UserName}")]
+        public bool HasUniqueUsername(string Username)
+        {
+
+            var TeacherDb = Teacher_context.Teachers.FirstOrDefault(teacher => teacher.UserName == Username);
+
+            if (TeacherDb == null)
+            {
+                return true;
+            }
+            else{
+                return false;
+            }
+     
+        }
+
+
+        // GET: api/TeacherDb/Koci/1234
+        [HttpGet("{UserName}/{Password}")]
+        public bool Authenticate(string Username, string password)
+        {
+            bool result = false;
+            var TeacherDb = Teacher_context.Teachers.FirstOrDefault(teacher => teacher.UserName == Username);
+
+            if (TeacherDb == null || TeacherDb.IsDeleted)
+            {
+                return false;
+            }
+
+            byte[] bytes = Convert.FromBase64String(TeacherDb.Password);
+            byte[] salt = new byte[16];
+            Array.Copy(bytes, 0, salt, 0, 16);
+            var secretpass = new Rfc2898DeriveBytes(password, salt, 10000);
+            Byte[] hash = secretpass.GetBytes(20);
+            Byte[] hashbytes = new byte[36];
+            Array.Copy(salt, 0, hashbytes, 0, 16);
+            Array.Copy(hash, 0, hashbytes, 16, 20);
+            var pass = Convert.ToBase64String(hashbytes);
+
+            if (TeacherDb.Password == pass)
+                result = true;
+            return result;
         }
 
         // GET: api/TeacherDb/5
@@ -80,6 +125,15 @@ namespace MI.Controllers
         [HttpPost]
         public async Task<ActionResult<TeacherDb>> PostTeacherDb(TeacherDb teacherDb)
         {
+            byte[] salt;
+            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+            var secretpassword = new Rfc2898DeriveBytes(teacherDb.Password, salt, 10000);
+            byte[] hash = secretpassword.GetBytes(20);
+            byte[] hashBytes = new byte[36];
+            Array.Copy(salt, 0, hashBytes, 0, 16);
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+            teacherDb.Password = Convert.ToBase64String(hashBytes);
+
             Teacher_context.Teachers.Add(teacherDb);
             await Teacher_context.SaveChangesAsync();
 
