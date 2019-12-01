@@ -6,10 +6,10 @@ namespace MI.Server.DataAccess.DbObjects.Enums
 {
     public enum DayEnum
     {
-        Monday = 10,
-        Tuesday = 20,
-        Wednesday = 30,
-        Thursday = 40,
-        Friday = 50,
+        Monday = 0,
+        Tuesday = 1,
+        Wednesday = 2,
+        Thursday = 3,
+        Friday = 4,
     }
 }
