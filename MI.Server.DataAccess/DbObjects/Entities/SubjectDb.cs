@@ -8,9 +8,16 @@ namespace MI.Server.DataAccess.DbObjects.Entities
 {
     public class SubjectDb : DbBase
     {
+        public SubjectDb()
+        {
+            StudentSubjects = new List<StudentSubjectsDb>();
+            GradeSubjects = new List<GradeSubjectsDb>();
+        }
+
         public string Name { get; set; }
         public string Description { get; set; }
         public TeacherDb Teacher { get; set; }
+        public int Capacity { get; set; }
         public DayEnum DayPeriod { get; set; }
         public PeriodEnum TimePeriod { get; set; }        
         public ICollection<StudentSubjectsDb> StudentSubjects { get; set; }

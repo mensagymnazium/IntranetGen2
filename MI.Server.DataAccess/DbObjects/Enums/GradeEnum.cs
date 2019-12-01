@@ -6,13 +6,13 @@ namespace MI.Server.DataAccess.DbObjects.Enums
 {
     public enum GradeEnum
     {
-        Prima = 10,
-        Sekunda = 20,
-        Tercie = 30,
-        Kvarta = 40,
-        Kvinta = 50,
-        Sexta = 60,
-        Septima = 70,
-        Oktava = 80
+        Prima = 0,
+        Sekunda = 1,
+        Tercie = 2,
+        Kvarta = 3,
+        Kvinta = 4,
+        Sexta = 5,
+        Septima = 6,
+        Oktava = 7
     }
 }

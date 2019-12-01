@@ -16,7 +16,6 @@ namespace MI.Server.DataAccess.Database
         public DbSet<TeacherDb> Teachers { get; set; }
         public DbSet<StudentSubjectsDb> StudentSubjects { get; set; }
         public DbSet<GradeSubjectsDb> GradeSubjects { get; set; }
-        public DbSet<GradeDb> Grades { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,7 +26,6 @@ namespace MI.Server.DataAccess.Database
             modelBuilder.ApplyConfiguration(new DbSubjectConfiguration());
             modelBuilder.ApplyConfiguration(new DbStudentSubjectsConfiguration());
             modelBuilder.ApplyConfiguration(new DbGradeSubjectsConfiguration());
-            modelBuilder.ApplyConfiguration(new DbGradeConfiguration());
         }
     }
 }
