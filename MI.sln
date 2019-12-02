@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MI", "MI.csproj", "{FEB474E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MI.Server.DataAccess", "MI.Server.DataAccess\MI.Server.DataAccess.csproj", "{6039D15E-A269-4C48-946A-663D996A1157}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MI.Server.BusinessLogic", "..\MI.Server.BusinessLogic\MI.Server.BusinessLogic.csproj", "{4291DE3C-A126-4703-B641-CF401B502D42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MI.Server.BusinessLogic", "MI.Server.BusinessLogic\MI.Server.BusinessLogic.csproj", "{7F4BB316-B290-4878-B1C9-5DAC94BE9AAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{6039D15E-A269-4C48-946A-663D996A1157}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6039D15E-A269-4C48-946A-663D996A1157}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6039D15E-A269-4C48-946A-663D996A1157}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4291DE3C-A126-4703-B641-CF401B502D42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4291DE3C-A126-4703-B641-CF401B502D42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4291DE3C-A126-4703-B641-CF401B502D42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4291DE3C-A126-4703-B641-CF401B502D42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F4BB316-B290-4878-B1C9-5DAC94BE9AAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F4BB316-B290-4878-B1C9-5DAC94BE9AAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F4BB316-B290-4878-B1C9-5DAC94BE9AAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F4BB316-B290-4878-B1C9-5DAC94BE9AAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
