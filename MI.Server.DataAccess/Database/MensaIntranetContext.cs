@@ -1,5 +1,6 @@
 ﻿using MI.Server.DataAccess.DbObjects.Configuration;
 using MI.Server.DataAccess.DbObjects.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace MI.Server.DataAccess.Database
@@ -28,6 +29,8 @@ namespace MI.Server.DataAccess.Database
             modelBuilder.ApplyConfiguration(new DbStudentSubjectsConfiguration());
             modelBuilder.ApplyConfiguration(new DbGradeSubjectsConfiguration());
             modelBuilder.ApplyConfiguration(new DbGradeConfiguration());
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "User"});
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Admin"});
         }
     }
 }
