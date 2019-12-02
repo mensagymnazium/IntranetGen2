@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MI.Server.DataAccess.Database;
+using Microsoft.AspNet.Identity;
 
 namespace MI
 {
@@ -25,6 +26,7 @@ namespace MI
         {
             services.AddControllersWithViews();
 
+          
             services.AddControllers().AddNewtonsoftJson();
 
             // In production, the React files will be served from this directory
@@ -35,6 +37,7 @@ namespace MI
 
             services.AddDbContext<MensaIntranetContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MIContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +60,10 @@ namespace MI
 
             app.UseRouting();
 
+                app.UseAuthentication();
+                app.UseAuthorization();
+
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
