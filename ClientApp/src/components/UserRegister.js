@@ -1,8 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 
-
-export default class TeacherRegister extends Component {
+export default class UserRegister extends Component {
     constructor() {
         super();
         this.state = {
@@ -11,24 +10,24 @@ export default class TeacherRegister extends Component {
             LastName: "",
             Mail: "",
             Password: "",
-            
+            StudentClass: "",
+           
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSave = this.handleSave.bind(this)
-        
     }
 
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
-        })
+        });
     }
 
-    
 
     handleSave(event) {
         event.preventDefault();
 
+      
         const userinfo =
         {
             UserName: this.state.UserName,
@@ -36,54 +35,85 @@ export default class TeacherRegister extends Component {
             LastName: this.state.LastName,
             Mail: this.state.Mail,
             Password: this.state.Password,
-           
+            StudentClass: this.state.StudentClass,
         }
+
+
 
 
         if (!userinfo.FirstName) {
-            return this.setState({ error: "Zadejte jméno" });
+            alert("Zadejte jméno");
+            return
         }
         else if (!userinfo.LastName) {
-            return this.setState({ error: "Zadejte příjmení" });
+            alert("Zadejte příjmení");
+            return
         }
         else if (!userinfo.UserName) {
-            return this.setState({ error: "Zadejte uživatelské jméno" });
+            alert("Zadejte uživatelské jméno");
+            return
         }
         else if (!userinfo.Password) {
-            return this.setState({ error: "Zadejte heslo" });
+            alert("Zadejte heslo");
+            return
+        }
+        else if (!userinfo.StudentClass || userinfo.StudentClass == "really" ) {
+            alert("Zadejte třídu");
+            return
         }
         else if (!userinfo.Mail) {
-            return this.setState({ error: "Zadejte email" });
+            alert("Zadejte mail");
+            return 
         }
-        else { this.setState({ error: "" }) }
+      
         
+     
+     
 
-
-        fetch("api/TeacherDb", {
+        fetch("api/UserDb", {
             method: "POST",
-            headers: { "Content-Type": 'application/json', },
-            body: JSON.stringify(userinfo)
-        });
+            headers: {
+                "Content-Type": 'application/json',
+            },
+            body: JSON.stringify(userinfo),
+        })
+            
         
 
     }  
         
-  
-
+    
+ 
     render() {
+
+        
         return (<>
             <Helmet>
                 <title>Registrace | Intranet</title>
             </Helmet>
            
-
+           
+            
 
             <form onSubmit={this.handleSave}>
                 
                 <label>Jméno</label>
-                <input type="text" name="FirstName" onChange={this.handleChange} value={this.state.FirstName}/>
+                <input type="text" name="FirstName" onChange={this.handleChange} value={this.state.FirstName} />
                 <label>Přijmení</label>
-                <input type="text" name="LastName" onChange={this.handleChange} value={this.state.LastName}/>
+                <input type="text" name="LastName" onChange={this.handleChange} value={this.state.LastName} />
+                <label>Třída</label>
+                
+                <select name="StudentClass" onChange={this.handleChange} value={this.state.StudentClass}>
+                    <option  value={"really"}>Vyber třídu</option>
+                    <option value={10}>Prima</option>
+                    <option value={20}>Sekunda</option>
+                    <option value={30}>Tercie</option>
+                    <option value={40}>Kvarta</option>
+                    <option value={50}>Kvinta</option>
+                    <option value={60}>Sexta</option>
+                    <option value={70}>Septima</option>
+                    <option value={80}>Oktáva</option>
+                </select>
                 
                 <br />
                 <label>Uživatelské jméno</label>
@@ -95,7 +125,8 @@ export default class TeacherRegister extends Component {
                 <label>Mail</label>
                 <input type="email" name="Mail" onChange={this.handleChange} value={this.state.Mail} />             
                 <br />
-                <input type="submit" value="Registrovat"/>
+                <br />
+                <input type="submit" value="Registrovat" />
             </form>
 
         <form action="/Login">

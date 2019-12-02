@@ -6,8 +6,7 @@ import SubjectSchedule from './components/SubjectSchedule';
 import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
 import SubjectManagement from './components/SubjectManagement';
-import StudentRegister from './components/StudentRegister';
-import TeacherRegister from './components/TeacherRegister';
+import UserRegister from './components/UserRegister';
 import { AuthContext } from "./objects/Auth";
 import PrivateRoute from "./objects/PrivateRoute";
 export default class App extends Component {
@@ -27,9 +26,7 @@ export default class App extends Component {
 
           <Route path="/edit/:subject?" component={SubjectManagement} />  
 
-          <Route path="/StudentRegister" component={StudentRegister} />   
-
-          <Route path="/TeacherRegister" component={TeacherRegister} />
+          <Route path="/UserRegister" component={UserRegister} />
           
           <Route component={NotFound} />
         </Switch>

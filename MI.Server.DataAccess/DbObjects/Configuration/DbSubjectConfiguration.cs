@@ -12,9 +12,6 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
         public void Configure(EntityTypeBuilder<SubjectDb> builder)
         {
             builder.ToTable("Subjects");
-
-            builder.HasOne(s => s.Teacher)
-                .WithMany(s => s.Subjects);
         }
     }
 }
