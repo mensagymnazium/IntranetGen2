@@ -27,7 +27,7 @@ namespace MI.Server.BusinessLogic.Business
             return await _context.Subjects.Where(a => !a.IsDeleted).CountAsync();
         }
 
-        public SubjectDTO SubjectDbToSubjectDTO(SubjectDb s)
+        public static SubjectDTO SubjectDbToSubjectDTO(SubjectDb s)
         {
             return new SubjectDTO()
             {
@@ -35,6 +35,7 @@ namespace MI.Server.BusinessLogic.Business
                 Name = s.Name,
                 Description = s.Description,
                 Capacity = s.Capacity,
+                Students = s?.UserSubjects?.Count(),
                 Teacher = s.Teacher == null ? null : new TeacherDTO()
                 {
                     Id = s.Teacher.Id,
@@ -55,6 +56,7 @@ namespace MI.Server.BusinessLogic.Business
                 .Where(s => !s.IsDeleted)
                 .Include(s => s.Teacher)
                 .Include(s => s.GradeSubjects)
+                .Include(s => s.UserSubjects)
                 .ToListAsync();
 
             return subjects.Select(SubjectDbToSubjectDTO);
@@ -66,6 +68,7 @@ namespace MI.Server.BusinessLogic.Business
                 .Where(s => !s.IsDeleted)
                 .Include(s => s.Teacher)
                 .Include(s => s.GradeSubjects)
+                .Include(s => s.UserSubjects)
                 .Where(s => s.GradeSubjects.Any(g => g.Grade == grade))
                 .ToListAsync();
 
@@ -83,17 +86,25 @@ namespace MI.Server.BusinessLogic.Business
             return subject == null ? null : SubjectDbToSubjectDTO(subject);
         }
 
+        private async Task<UserDb> FindTeacher(TeacherDTO teacher)
+        {
+            if (teacher?.Id != null)
+            {
+                UserDb teacherDb = await _context.Users
+                .Where(t => !t.IsDeleted)
+                .Where(t => t.Role == UserType.Teacher)
+                .FirstOrDefaultAsync(t => t.Id == teacher.Id);
+
+                return teacherDb ?? throw new NotFoundException($"Teacher with id {teacher.Id} does not exist in database.");
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task<SubjectDTO> CreateSubject(SubjectDTO subject)
         {
-            TeacherDb teacher = await _context.Teachers
-                .Where(t => !t.IsDeleted)
-                .FirstOrDefaultAsync(t => t.Id == subject.Teacher.Id);
-
-            if (teacher == null)
-            {
-                throw new NotFoundException($"Teacher with id {subject.Teacher.Id} does not exist in database.");
-            }
-
             SubjectDb subjectDb = new SubjectDb()
             {
                 Name = subject.Name,
@@ -101,8 +112,8 @@ namespace MI.Server.BusinessLogic.Business
                 Capacity = subject.Capacity,
                 TimePeriod = subject.Period.Period,
                 DayPeriod = subject.Period.Day,
-                Teacher = teacher,
-                GradeSubjects = subject.Grades.Select(g => new GradeSubjectsDb()
+                Teacher = await FindTeacher(subject.Teacher),
+                GradeSubjects = subject.Grades.Distinct().Select(g => new GradeSubjectsDb()
                 {
                     Grade = g
                 }).ToList()
@@ -126,39 +137,24 @@ namespace MI.Server.BusinessLogic.Business
                 throw new NotFoundException($"Subject with id {subject.Id} does not exist in database.");
             }
 
-            TeacherDb teacher = await _context.Teachers
-                .Where(t => !t.IsDeleted)
-                .FirstOrDefaultAsync(t => t.Id == subject.Teacher.Id);
-
-            if (teacher == null)
-            {
-                throw new NotFoundException($"Teacher with id {subject.Teacher.Id} does not exist in database.");
-            }
-
             subjectDb.Name = subject.Name;
             subjectDb.Description = subject.Description;
             subjectDb.Capacity = subject.Capacity;
             subjectDb.TimePeriod = subject.Period.Period;
             subjectDb.DayPeriod = subject.Period.Day;
-            subjectDb.Teacher = teacher;
+            subjectDb.Teacher = await FindTeacher(subject.Teacher);
 
-            foreach (GradeSubjectsDb oldGrade in subjectDb.GradeSubjects.ToList())
+            List<GradeEnum> oldGrades = subjectDb.GradeSubjects.Select(g => g.Grade).ToList();
+            List<GradeEnum> newGrades = subject.Grades;
+
+            foreach (GradeEnum grade in oldGrades.Except(newGrades))
             {
-                if (!subject.Grades.Any(g => g == oldGrade.Grade))
-                {
-                    subjectDb.GradeSubjects.Remove(oldGrade);
-                }
+                subjectDb.GradeSubjects.Remove(subjectDb.GradeSubjects.First(g => g.Grade == grade));
             }
 
-            foreach (GradeEnum grade in subject.Grades)
+            foreach (GradeEnum grade in newGrades.Except(oldGrades))
             {
-                if (!subjectDb.GradeSubjects.Any(g => g.Grade == grade))
-                {
-                    subjectDb.GradeSubjects.Add(new GradeSubjectsDb()
-                    {
-                        Grade = grade
-                    });
-                }
+                subjectDb.GradeSubjects.Add(new GradeSubjectsDb() { Grade = grade });
             }
 
             _context.Subjects.Update(subjectDb);
@@ -172,6 +168,7 @@ namespace MI.Server.BusinessLogic.Business
             SubjectDb subject = await _context.Subjects
                 .Where(s => !s.IsDeleted)
                 .Include(s => s.GradeSubjects)
+                .Include(s => s.UserSubjects)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
             if (subject == null)
@@ -181,9 +178,14 @@ namespace MI.Server.BusinessLogic.Business
 
             subject.IsDeleted = true;
 
-            foreach (GradeSubjectsDb oldGrade in subject.GradeSubjects.ToList())
+            foreach (GradeSubjectsDb grade in subject.GradeSubjects)
             {
-                oldGrade.IsDeleted = true;
+                grade.IsDeleted = true;
+            }
+
+            foreach (UserSubjectsDb us in subject.UserSubjects)
+            {
+                us.IsDeleted = true;
             }
 
             _context.Subjects.Update(subject);

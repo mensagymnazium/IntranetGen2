@@ -7,7 +7,7 @@ namespace MI.Server.DataAccess.Database
 {
     public class MensaIntranetContext : DbContext
     {
-        public MensaIntranetContext(DbContextOptions<MensaIntranetContext> options) 
+        public MensaIntranetContext(DbContextOptions<MensaIntranetContext> options)
             : base(options)
         {
         }
@@ -25,9 +25,6 @@ namespace MI.Server.DataAccess.Database
             modelBuilder.ApplyConfiguration(new DbSubjectConfiguration());
             modelBuilder.ApplyConfiguration(new DbUserSubjectsConfiguration());
             modelBuilder.ApplyConfiguration(new DbGradeSubjectsConfiguration());
-            modelBuilder.ApplyConfiguration(new DbGradeConfiguration());
-            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "User"});
-            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Admin"});
         }
     }
 }

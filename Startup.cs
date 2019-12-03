@@ -27,7 +27,6 @@ namespace MI
         {
             services.AddControllersWithViews();
 
-          
             services.AddControllers().AddNewtonsoftJson();
 
             // In production, the React files will be served from this directory
@@ -38,6 +37,8 @@ namespace MI
 
             services.AddDbContext<MensaIntranetContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MIContext")));
+
+            services.AddScoped<BusinessManager>();
 
         }
 
@@ -61,10 +62,10 @@ namespace MI
 
             app.UseRouting();
 
-                app.UseAuthentication();
-                app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-           
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

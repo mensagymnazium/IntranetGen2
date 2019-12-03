@@ -8,6 +8,7 @@ namespace MI.Server.BusinessLogic
         private readonly MensaIntranetContext _context;
 
         public SubjectBusiness SubjectBusiness => new SubjectBusiness(_context);
+        public SignupBusiness SignupBusiness => new SignupBusiness(_context);
 
         public BusinessManager(MensaIntranetContext context)
         {

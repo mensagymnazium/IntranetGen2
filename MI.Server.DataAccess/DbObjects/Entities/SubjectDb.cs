@@ -10,15 +10,16 @@ namespace MI.Server.DataAccess.DbObjects.Entities
     {
         public SubjectDb()
         {
-            StudentSubjects = new List<StudentSubjectsDb>();
+            UserSubjects = new List<UserSubjectsDb>();
             GradeSubjects = new List<GradeSubjectsDb>();
         }
 
         public string Name { get; set; }
         public string Description { get; set; }
-        public int ClassCapacity { get; set; }
+        public int Capacity { get; set; }
         public DayEnum DayPeriod { get; set; }
         public PeriodEnum TimePeriod { get; set; }
+        public UserDb Teacher { get; set; }
         public ICollection<UserSubjectsDb> UserSubjects { get; set; }
         public ICollection<GradeSubjectsDb> GradeSubjects { get; set; }
     }

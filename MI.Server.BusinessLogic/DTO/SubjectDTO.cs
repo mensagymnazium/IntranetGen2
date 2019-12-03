@@ -11,8 +11,9 @@ namespace MI.Server.BusinessLogic.DTO
         public string Name { get; set; }
         public string Description { get; set; }
         public int Capacity { get; set; }
+        public int? Students { get; set; }
         public TeacherDTO Teacher { get; set; }
         public PeriodDTO Period { get; set; }
-        public List<GradeEnum> Grades { get; set; }
+        public List<GradeEnum> Grades { get; set; } = new List<GradeEnum>();
     }
 }

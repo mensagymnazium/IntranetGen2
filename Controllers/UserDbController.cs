@@ -129,9 +129,6 @@ namespace MI.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDb>> PostUserDb(UserDb userDb)
         {
-
-          
-
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
             var secretpassword = new Rfc2898DeriveBytes(userDb.Password, salt, 10000);
