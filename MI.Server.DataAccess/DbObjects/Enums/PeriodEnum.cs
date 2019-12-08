@@ -6,10 +6,10 @@ namespace MI.Server.DataAccess.DbObjects.Enums
 {
     public enum PeriodEnum
     {
-        Period1_2 = 10,
-        Period3_4 = 20,
-        Period5_6 = 30,
-        Period7_8 = 40,
-        Period9_10 = 50
+        Period1_2 = 0,
+        Period3_4 = 1,
+        Period5_6 = 2,
+        Period7_8 = 3,
+        Period9_10 = 4
     }
 }

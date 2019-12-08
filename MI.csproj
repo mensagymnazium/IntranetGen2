@@ -21,23 +21,28 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Compile Remove="Data\**" />
     <Compile Remove="MI.Server.DataAccess\**" />
+    <Compile Remove="MI.Server.BusinessLogic\**" />
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="Data\**" />
     <Content Remove="MI.Server.DataAccess\**" />
+    <Content Remove="MI.Server.BusinessLogic\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="Data\**" />
     <EmbeddedResource Remove="MI.Server.DataAccess\**" />
+    <EmbeddedResource Remove="MI.Server.BusinessLogic\**" />
     <None Remove="Data\**" />
     <None Remove="MI.Server.DataAccess\**" />
+    <None Remove="MI.Server.BusinessLogic\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="MI.Server.BusinessLogic\MI.Server.BusinessLogic.csproj" />
     <ProjectReference Include="MI.Server.DataAccess\MI.Server.DataAccess.csproj" />
   </ItemGroup>
 

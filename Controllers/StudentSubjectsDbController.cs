@@ -12,48 +12,48 @@ namespace MI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentSubjectsDbController : ControllerBase
+    public class UserSubjectsDbController : ControllerBase
     {
         private readonly MensaIntranetContext StudentSubject_context;
 
-        public StudentSubjectsDbController(MensaIntranetContext context)
+        public UserSubjectsDbController(MensaIntranetContext context)
         {
             StudentSubject_context = context;
         }
 
-        // GET: api/StudentSubjectsDb
+        // GET: api/UserSubjectsDb
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<StudentSubjectsDb>>> GetStudentSubjects()
+        public async Task<ActionResult<IEnumerable<UserSubjectsDb>>> GetUserSubjects()
         {
-            return await StudentSubject_context.StudentSubjects.ToListAsync();
+            return await StudentSubject_context.UserSubjects.ToListAsync();
         }
 
-        // GET: api/StudentSubjectsDb/5
+        // GET: api/UserSubjectsDb/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<StudentSubjectsDb>> GetStudentSubjectsDb(int id)
+        public async Task<ActionResult<UserSubjectsDb>> GetUserSubjectsDb(int id)
         {
-            var studentSubjectsDb = await StudentSubject_context.StudentSubjects.FindAsync(id);
+            var UserSubjectsDb = await StudentSubject_context.UserSubjects.FindAsync(id);
 
-            if (studentSubjectsDb == null)
+            if (UserSubjectsDb == null)
             {
                 return NotFound();
             }
 
-            return studentSubjectsDb;
+            return UserSubjectsDb;
         }
 
-        // PUT: api/StudentSubjectsDb/5
+        // PUT: api/UserSubjectsDb/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStudentSubjectsDb(int id, StudentSubjectsDb studentSubjectsDb)
+        public async Task<IActionResult> PutUserSubjectsDb(int id, UserSubjectsDb UserSubjectsDb)
         {
-            if (id != studentSubjectsDb.Id)
+            if (id != UserSubjectsDb.Id)
             {
                 return BadRequest();
             }
 
-            StudentSubject_context.Entry(studentSubjectsDb).State = EntityState.Modified;
+            StudentSubject_context.Entry(UserSubjectsDb).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace MI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentSubjectsDbExists(id))
+                if (!UserSubjectsDbExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +74,37 @@ namespace MI.Controllers
             return NoContent();
         }
 
-        // POST: api/StudentSubjectsDb
+        // POST: api/UserSubjectsDb
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<StudentSubjectsDb>> PostStudentSubjectsDb(StudentSubjectsDb studentSubjectsDb)
+        public async Task<ActionResult<UserSubjectsDb>> PostUserSubjectsDb(UserSubjectsDb UserSubjectsDb)
         {
-            StudentSubject_context.StudentSubjects.Add(studentSubjectsDb);
+            StudentSubject_context.UserSubjects.Add(UserSubjectsDb);
             await StudentSubject_context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStudentSubjectsDb", new { id = studentSubjectsDb.Id }, studentSubjectsDb);
+            return CreatedAtAction("GetUserSubjectsDb", new { id = UserSubjectsDb.Id }, UserSubjectsDb);
         }
 
-        // DELETE: api/StudentSubjectsDb/5
+        // DELETE: api/UserSubjectsDb/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<StudentSubjectsDb>> DeleteStudentSubjectsDb(int id)
+        public async Task<ActionResult<UserSubjectsDb>> DeleteUserSubjectsDb(int id)
         {
-            var studentSubjectsDb = await StudentSubject_context.StudentSubjects.FindAsync(id);
-            if (studentSubjectsDb == null)
+            var UserSubjectsDb = await StudentSubject_context.UserSubjects.FindAsync(id);
+            if (UserSubjectsDb == null)
             {
                 return NotFound();
             }
 
-            StudentSubject_context.StudentSubjects.Remove(studentSubjectsDb);
+            StudentSubject_context.UserSubjects.Remove(UserSubjectsDb);
             await StudentSubject_context.SaveChangesAsync();
 
-            return studentSubjectsDb;
+            return UserSubjectsDb;
         }
 
-        private bool StudentSubjectsDbExists(int id)
+        private bool UserSubjectsDbExists(int id)
         {
-            return StudentSubject_context.StudentSubjects.Any(e => e.Id == id);
+            return StudentSubject_context.UserSubjects.Any(e => e.Id == id);
         }
     }
 }

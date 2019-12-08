@@ -16,10 +16,6 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
             builder.HasOne(s => s.Subject)
                 .WithMany(gs => gs.GradeSubjects)
                 .HasForeignKey(s => s.SubjectId);
-
-            builder.HasOne(g => g.Grade)
-                .WithMany(gs => gs.GradeSubjects)
-                .HasForeignKey(g => g.GradeId);
         }
     }
 }

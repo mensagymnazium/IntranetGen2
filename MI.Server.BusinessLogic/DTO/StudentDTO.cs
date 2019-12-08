@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MI.Server.DataAccess.DbObjects.Entities
+namespace MI.Server.BusinessLogic.DTO
 {
-    public class GradeDb : DbBase
+    public class StudentDTO
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
         public GradeEnum Grade { get; set; }
-        public ICollection<GradeSubjectsDb> GradeSubjects { get; set; }
     }
 }

@@ -7,20 +7,20 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects.Configuration
 {
-    class DbStudentSubjectsConfiguration : IEntityTypeConfiguration<StudentSubjectsDb>
+    class DbUserSubjectsConfiguration : IEntityTypeConfiguration<UserSubjectsDb>
     {
-        public void Configure(EntityTypeBuilder<StudentSubjectsDb> builder)
+        public void Configure(EntityTypeBuilder<UserSubjectsDb> builder)
         {
-            builder.ToTable("StudentSubjects");
+            builder.ToTable("UserSubjects");
 
             builder
                 .HasOne(sc => sc.Subject)
-                .WithMany(s => s.StudentSubjects)
+                .WithMany(s => s.UserSubjects)
                 .HasForeignKey(s => s.SubjectId);
             builder
-                .HasOne(sc => sc.Student)
-                .WithMany(s => s.StudentSubjects)
-                .HasForeignKey(s => s.StudentId);
+                .HasOne(sc => sc.User)
+                .WithMany(s => s.UserSubjects)
+                .HasForeignKey(s => s.UserId);
         }
     }
 }

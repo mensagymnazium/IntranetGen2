@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MI.Server.DataAccess.Database;
+using MI.Server.BusinessLogic;
+using Microsoft.AspNet.Identity;
 
 namespace MI
 {
@@ -35,6 +37,9 @@ namespace MI
 
             services.AddDbContext<MensaIntranetContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MIContext")));
+
+            services.AddScoped<BusinessManager>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +61,10 @@ namespace MI
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

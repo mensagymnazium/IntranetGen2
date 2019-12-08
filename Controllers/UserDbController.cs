@@ -13,52 +13,53 @@ namespace MI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeacherDbController : ControllerBase
+    public class UserDbController : ControllerBase
     {
-        private readonly MensaIntranetContext Teacher_context;
+        private readonly MensaIntranetContext User_context;
 
-        public TeacherDbController(MensaIntranetContext context)
+        public UserDbController(MensaIntranetContext context)
         {
-            Teacher_context = context;
+            User_context = context;
         }
 
-        // GET: api/TeacherDb
+        // GET: api/StudentDb
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TeacherDb>>> GetTeachers()
+        public async Task<ActionResult<IEnumerable<UserDb>>> GetStudents()
         {
-            return await Teacher_context.Teachers.ToListAsync();
+            return await User_context.Users.ToListAsync();
         }
-        // GET: api/TeacherDb/Koci/
+
+        // GET: api/StudentDb/
         [HttpGet("{UserName}")]
         public bool HasUniqueUsername(string Username)
         {
 
-            var TeacherDb = Teacher_context.Teachers.FirstOrDefault(teacher => teacher.UserName == Username);
+            var TeacherDb = User_context.Users.FirstOrDefault(teacher => teacher.UserName == Username);
 
             if (TeacherDb == null)
             {
                 return true;
             }
-            else{
-                return false;
-            }
-     
-        }
-
-
-        // GET: api/TeacherDb/Koci/1234
-        [HttpGet("{UserName}/{Password}")]
-        public bool Authenticate(string Username, string password)
-        {
-            bool result = false;
-            var TeacherDb = Teacher_context.Teachers.FirstOrDefault(teacher => teacher.UserName == Username);
-
-            if (TeacherDb == null || TeacherDb.IsDeleted)
+            else
             {
                 return false;
             }
 
-            byte[] bytes = Convert.FromBase64String(TeacherDb.Password);
+        }
+
+        // GET: api/StudentDb/Koci/1234
+        [HttpGet("{UserName}/{Password}")]
+        public bool Authenticate(string Username, string password)
+        {
+            bool result = false;
+            var userDb = User_context.Users.FirstOrDefault(User => User.UserName == Username);
+
+            if (userDb == null || userDb.IsDeleted )
+            {
+                return false;
+            }
+           
+            byte[] bytes = Convert.FromBase64String(userDb.Password);
             byte[] salt = new byte[16];
             Array.Copy(bytes, 0, salt, 0, 16);
             var secretpass = new Rfc2898DeriveBytes(password, salt, 10000);
@@ -68,45 +69,48 @@ namespace MI.Controllers
             Array.Copy(hash, 0, hashbytes, 16, 20);
             var pass = Convert.ToBase64String(hashbytes);
 
-            if (TeacherDb.Password == pass)
-                result = true;
+
+            if (userDb.Password == pass)
+                    return true;
             return result;
         }
 
-        // GET: api/TeacherDb/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TeacherDb>> GetTeacherDb(int id)
+        // GET: api/StudentDb/5
+        [HttpGet("{ID}")]
+        public async Task<ActionResult<UserDb>> GetStudentDb(int id)
         {
-            var teacherDb = await Teacher_context.Teachers.FindAsync(id);
 
-            if (teacherDb == null)
+
+            var studentDb = await User_context.Users.FindAsync(id);
+
+            if (studentDb == null)
             {
                 return NotFound();
             }
 
-            return teacherDb;
+            return studentDb;
         }
 
-        // PUT: api/TeacherDb/5
+        // PUT: api/StudentDb/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTeacherDb(int id, TeacherDb teacherDb)
+        public async Task<IActionResult> PutStudentDb(int id, UserDb userDb)
         {
-            if (id != teacherDb.Id)
+            if (id != userDb.Id)
             {
                 return BadRequest();
             }
 
-            Teacher_context.Entry(teacherDb).State = EntityState.Modified;
+            User_context.Entry(userDb).State = EntityState.Modified;
 
             try
             {
-                await Teacher_context.SaveChangesAsync();
+                await User_context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TeacherDbExists(id))
+                if (!StudentDbExists(id))
                 {
                     return NotFound();
                 }
@@ -119,46 +123,50 @@ namespace MI.Controllers
             return NoContent();
         }
 
-        // POST: api/TeacherDb
+        // POST: api/StudentDb
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<TeacherDb>> PostTeacherDb(TeacherDb teacherDb)
+        public async Task<ActionResult<UserDb>> PostUserDb(UserDb userDb)
         {
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
-            var secretpassword = new Rfc2898DeriveBytes(teacherDb.Password, salt, 10000);
+            var secretpassword = new Rfc2898DeriveBytes(userDb.Password, salt, 10000);
             byte[] hash = secretpassword.GetBytes(20);
             byte[] hashBytes = new byte[36];
             Array.Copy(salt, 0, hashBytes, 0, 16);
             Array.Copy(hash, 0, hashBytes, 16, 20);
-            teacherDb.Password = Convert.ToBase64String(hashBytes);
+            userDb.Password = Convert.ToBase64String(hashBytes);
+            Console.WriteLine(salt);
+           
 
-            Teacher_context.Teachers.Add(teacherDb);
-            await Teacher_context.SaveChangesAsync();
+            User_context.Users.Add(userDb);
+            await User_context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTeacherDb", new { id = teacherDb.Id }, teacherDb);
+            return CreatedAtAction("GetUserDb", new { id = userDb.Id }, userDb);
         }
+       
 
-        // DELETE: api/TeacherDb/5
+
+        // DELETE: api/StudentDb/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TeacherDb>> DeleteTeacherDb(int id)
+        public async Task<ActionResult<UserDb>> DeleteUserDb(int id)
         {
-            var teacherDb = await Teacher_context.Teachers.FindAsync(id);
-            if (teacherDb == null)
+            var studentDb = await User_context.Users.FindAsync(id);
+            if (studentDb == null)
             {
                 return NotFound();
             }
 
-            Teacher_context.Teachers.Remove(teacherDb);
-            await Teacher_context.SaveChangesAsync();
+            User_context.Users.Remove(studentDb);
+            await User_context.SaveChangesAsync();
 
-            return teacherDb;
+            return studentDb;
         }
 
-        private bool TeacherDbExists(int id)
+        private bool StudentDbExists(int id)
         {
-            return Teacher_context.Teachers.Any(e => e.Id == id);
+            return User_context.Users.Any(e => e.Id == id);
         }
     }
 }

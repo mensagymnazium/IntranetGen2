@@ -1,18 +1,19 @@
 ﻿import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 
-export default class StudentRegister extends Component {
+export default class UserRegister extends Component {
     constructor() {
         super();
+
         this.state = {
             UserName: "",
-            FirstName: "",
-            LastName: "",
+            FullName: "",
             Mail: "",
             Password: "",
             StudentClass: "",
-           
+
         }
+
         this.handleChange = this.handleChange.bind(this)
         this.handleSave = this.handleSave.bind(this)
     }
@@ -23,30 +24,20 @@ export default class StudentRegister extends Component {
         });
     }
 
-
     handleSave(event) {
         event.preventDefault();
 
-      
-        const userinfo =
-        {
+        const userinfo = {
             UserName: this.state.UserName,
-            FirstName: this.state.FirstName,
-            LastName: this.state.LastName,
+            FullName: this.state.FullName,
             Mail: this.state.Mail,
             Password: this.state.Password,
             StudentClass: this.state.StudentClass,
+            Role: "Student"
         }
 
-
-
-
-        if (!userinfo.FirstName) {
+        if (!userinfo.FullName) {
             alert("Zadejte jméno");
-            return
-        }
-        else if (!userinfo.LastName) {
-            alert("Zadejte příjmení");
             return
         }
         else if (!userinfo.UserName) {
@@ -57,64 +48,49 @@ export default class StudentRegister extends Component {
             alert("Zadejte heslo");
             return
         }
-        else if (!userinfo.StudentClass || userinfo.StudentClass == "really" ) {
+        else if (!userinfo.StudentClass || userinfo.StudentClass == "really") {
             alert("Zadejte třídu");
             return
         }
         else if (!userinfo.Mail) {
             alert("Zadejte mail");
-            return 
+            return
         }
-      
-        
-     
-     
 
-        fetch("api/StudentDb", {
+        fetch("api/UserDb", {
             method: "POST",
             headers: {
                 "Content-Type": 'application/json',
             },
             body: JSON.stringify(userinfo),
         })
-            
-        
+    }
 
-    }  
-        
-    
- 
     render() {
 
-        
+
         return (<>
             <Helmet>
                 <title>Registrace | Intranet</title>
             </Helmet>
-           
-           
-            
 
             <form onSubmit={this.handleSave}>
-                
+
                 <label>Jméno</label>
-                <input type="text" name="FirstName" onChange={this.handleChange} value={this.state.FirstName} />
-                <label>Přijmení</label>
-                <input type="text" name="LastName" onChange={this.handleChange} value={this.state.LastName} />
-                <label>Třída</label>
-                
+                <input type="text" name="FullName" onChange={this.handleChange} value={this.state.FullName} />
+
                 <select name="StudentClass" onChange={this.handleChange} value={this.state.StudentClass}>
-                    <option  value={"really"}>Vyber třídu</option>
-                    <option value={10}>Prima</option>
-                    <option value={20}>Sekunda</option>
-                    <option value={30}>Tercie</option>
-                    <option value={40}>Kvarta</option>
-                    <option value={50}>Kvinta</option>
-                    <option value={60}>Sexta</option>
-                    <option value={70}>Septima</option>
-                    <option value={80}>Oktáva</option>
+                    <option value={"really"}>Vyber třídu</option>
+                    <option value={0}>Prima</option>
+                    <option value={1}>Sekunda</option>
+                    <option value={2}>Tercie</option>
+                    <option value={3}>Kvarta</option>
+                    <option value={4}>Kvinta</option>
+                    <option value={5}>Sexta</option>
+                    <option value={6}>Septima</option>
+                    <option value={7}>Oktáva</option>
                 </select>
-                
+
                 <br />
                 <label>Uživatelské jméno</label>
                 <input type="text" name="UserName" onChange={this.handleChange} value={this.state.UserName} />
@@ -123,15 +99,15 @@ export default class StudentRegister extends Component {
                 <input type="password" name="Password" onChange={this.handleChange} value={this.state.Password} />
                 <br />
                 <label>Mail</label>
-                <input type="email" name="Mail" onChange={this.handleChange} value={this.state.Mail} />             
+                <input type="email" name="Mail" onChange={this.handleChange} value={this.state.Mail} />
                 <br />
                 <br />
                 <input type="submit" value="Registrovat" />
             </form>
 
-        <form action="/Login">
-        <input type="submit" value="Zpátky na login" />
-        </form>
+            <form action="/Login">
+                <input type="submit" value="Zpátky na login" />
+            </form>
         </>);
 
     }

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MI.Server.DataAccess.DbObjects.Configuration
 {
-    class DbStudentConfiguration : IEntityTypeConfiguration<StudentDb>
+    class DbUserConfiguration : IEntityTypeConfiguration<UserDb>
     {
-        public void Configure(EntityTypeBuilder<StudentDb> builder)
+        public void Configure(EntityTypeBuilder<UserDb> builder)
         {
-            builder.ToTable("Students");
+            builder.ToTable("Users");
         }
     }
 }

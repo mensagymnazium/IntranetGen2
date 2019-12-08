@@ -36,20 +36,13 @@ export default class Login extends Component {
       
     
 
-        var studenturl = "api/StudentDb/" + this.state.UserName + "/" + this.state.Password; 
-        var teacherurl = "api/TeacherDb/" + this.state.UserName + "/" + this.state.Password;
+        var userurl = "api/UserDb/" + this.state.UserName + "/" + this.state.Password;
         
      
-        fetch(studenturl) //calls the Get method with the URL created above. If the password matches an alert pops up. 
+        fetch(userurl) //calls the Get method with the URL created above. If the password matches an alert pops up. 
             .then(response => response.json())
             .then(result => {
-                if (result) { alert("Údaje se rovnají těm v studentské databázi. Bohužel Vás ještě nemůžeme autorizovat"); }
-            });
-
-        fetch(teacherurl)
-            .then(response => response.json())
-            .then(result => {
-                if (result) { alert("Údaje se rovnají těm v učitelské databázi. Bohužel Vás ještě nemůžeme autorizovat"); }
+                if (result) { alert("Údaje se rovnají těm v uživatelskéské databázi. Bohužel Vás ještě nemůžeme autorizovat"); }
             });
 
   
@@ -78,11 +71,8 @@ export default class Login extends Component {
             <input type="submit" value="Přihlásit" />
             
         </form>
-        <form action="/StudentRegister">
-            <input type="submit" value="Registrovat Studenta" />
-        </form>
-        <form action="/TeacherRegister">
-            <input type="submit" value="Registrovat Učitele" />
+        <form action="/UserRegister">
+            <input type="submit" value="Registrovat Uživatele" />
         </form>
         
     </>);

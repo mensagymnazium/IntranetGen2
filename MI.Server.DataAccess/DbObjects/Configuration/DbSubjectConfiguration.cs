@@ -13,8 +13,9 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
         {
             builder.ToTable("Subjects");
 
-            builder.HasOne(s => s.Teacher)
-                .WithMany(s => s.Subjects);
+            builder
+                .HasOne(sc => sc.Teacher)
+                .WithMany(s => s.TaughtSubjects);
         }
     }
 }
