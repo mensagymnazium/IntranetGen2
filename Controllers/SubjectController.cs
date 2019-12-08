@@ -23,20 +23,21 @@ namespace MI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<SubjectDTO>> Get([FromQuery] GradeEnum? grade)
+        public async Task<IEnumerable<SubjectDTO>> Get()
         {
-            if (grade != null)
-            {
-                return await _manager.SubjectBusiness.ListSubjectsByGrade((GradeEnum)grade);
-            }
+            return await _manager.SubjectBusiness.GetSubjects();
+        }
 
-            return await _manager.SubjectBusiness.ListSubjects();
+        [HttpGet("grade/{grade}")]
+        public async Task<IEnumerable<SubjectDTO>> GetByGrade(GradeEnum grade)
+        {
+            return await _manager.SubjectBusiness.GetSubjectsByGrade(grade);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SubjectDTO>> Get(int id)
+        public async Task<ActionResult<SubjectDTO>> GetById(int id)
         {
-            SubjectDTO subject = await _manager.SubjectBusiness.GetSubject(id);
+            SubjectDTO subject = await _manager.SubjectBusiness.GetSubjectById(id);
 
             if (subject == null)
             {
@@ -61,7 +62,7 @@ namespace MI.Controllers
         }
 
         [HttpPut("{id?}")]
-        public async Task<ActionResult<SubjectDTO>> Put(int? id, [FromBody] SubjectDTO subject)
+        public async Task<ActionResult<SubjectDTO>> PutById(int? id, [FromBody] SubjectDTO subject)
         {
             subject.Id = id ?? subject.Id;
 
@@ -76,7 +77,7 @@ namespace MI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<SubjectDTO>> Delete(int id)
+        public async Task<ActionResult<SubjectDTO>> DeleteById(int id)
         {
             try
             {

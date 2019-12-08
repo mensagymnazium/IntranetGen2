@@ -50,7 +50,7 @@ namespace MI.Server.BusinessLogic.Business
             };
         }
 
-        public async Task<IEnumerable<SubjectDTO>> ListSubjects()
+        public async Task<IEnumerable<SubjectDTO>> GetSubjects()
         {
             List<SubjectDb> subjects = await _context.Subjects
                 .Where(s => !s.IsDeleted)
@@ -62,7 +62,7 @@ namespace MI.Server.BusinessLogic.Business
             return subjects.Select(SubjectDbToSubjectDTO);
         }
 
-        public async Task<IEnumerable<SubjectDTO>> ListSubjectsByGrade(GradeEnum grade)
+        public async Task<IEnumerable<SubjectDTO>> GetSubjectsByGrade(GradeEnum grade)
         {
             List<SubjectDb> subjects = await _context.Subjects
                 .Where(s => !s.IsDeleted)
@@ -75,7 +75,7 @@ namespace MI.Server.BusinessLogic.Business
             return subjects.Select(SubjectDbToSubjectDTO);
         }
 
-        public async Task<SubjectDTO> GetSubject(int id)
+        public async Task<SubjectDTO> GetSubjectById(int id)
         {
             SubjectDb subject = await _context.Subjects
                 .Where(s => !s.IsDeleted)

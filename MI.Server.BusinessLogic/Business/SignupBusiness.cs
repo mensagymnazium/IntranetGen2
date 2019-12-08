@@ -68,6 +68,15 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task CreateSignup(int studentId, int subjectId)
         {
+            UserSubjectsDb existingSignup = await _context.UserSubjects
+                .Where(us => !us.IsDeleted)
+                .FirstOrDefaultAsync(us => us.SubjectId == subjectId && us.UserId == studentId);
+
+            if (existingSignup != null)
+            {
+                throw new NotFoundException($"Student with id {studentId} has already signed up for the subject with id {subjectId}.");
+            }
+
             UserDb student = await _context.Users
                 .Where(s => !s.IsDeleted)
                 .Where(s => s.Role == UserType.Student)

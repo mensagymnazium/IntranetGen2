@@ -21,7 +21,7 @@ namespace MI.Controllers
         }
 
         [HttpGet("subject/{id}")]
-        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetBySubject(int id)
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetBySubjectId(int id)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace MI.Controllers
         }
 
         [HttpGet("student/{id}")]
-        public async Task<ActionResult<IEnumerable<SubjectDTO>>> GetByStudent(int id)
+        public async Task<ActionResult<IEnumerable<SubjectDTO>>> GetByStudentId(int id)
         {
             try
             {
