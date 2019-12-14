@@ -48,7 +48,7 @@ export default class UserRegister extends Component {
             alert("Zadejte heslo");
             return
         }
-        else if (!userinfo.StudentClass || userinfo.StudentClass == "really") {
+        else if (!userinfo.StudentClass || userinfo.StudentClass === "really") {
             alert("Zadejte třídu");
             return
         }
