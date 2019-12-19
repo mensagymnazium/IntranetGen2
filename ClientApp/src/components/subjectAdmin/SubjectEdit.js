@@ -6,7 +6,7 @@ import Period, { dayNames, periodNames } from "../../objects/Period";
 import Teacher from "../../objects/Teacher";
 import '../../style/SubjectManagement.css';
 
-export default class SubjectManagement extends Component {
+export default class SubjectEdit extends Component {
   constructor() {
     super();
 
@@ -32,7 +32,7 @@ export default class SubjectManagement extends Component {
     if (isNaN(id)) {
       return this.setState({
         loading: "new",
-        subject: new Subject(-1, "", null, "", new Period(0, 0), -1, 30, []),
+        subject: new Subject(null, "", null, "", new Period(0, 0), -1, 30, []),
         teachers: await this.fetchTeachers()
       });
     }
@@ -142,7 +142,7 @@ export default class SubjectManagement extends Component {
 
   async save() {
     var result = await fetch("/api/subject", {
-      method: this.state.subject.id == -1 ? "POST" : "PUT",
+      method: this.state.subject.id == null ? "POST" : "PUT",
       headers: {
         'Content-Type': 'application/json'
       },
@@ -265,7 +265,7 @@ export default class SubjectManagement extends Component {
           }
 
           <button type="button" onClick={this.goBack}>Zahodit</button>
-          <button type="button" onClick={this.save}>{subject.id >= 0 ? "Uložit" : "Vytvořit"}</button>
+          <button type="button" onClick={this.save}>{subject.id != null ? "Uložit" : "Vytvořit"}</button>
         </form>
       </div></>);
   }
