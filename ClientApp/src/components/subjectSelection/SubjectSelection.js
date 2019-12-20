@@ -32,9 +32,9 @@ export default class SubjectSelection extends Component {
   }
 
 
-  render() {
-    if (!this.state.subjects) {
-      return <>Načítám data...</>;
+    render() {
+      if (!this.state.subjects) {
+          return <div className="container text-center"><div className="badge badge-info"><div className="spinner-grow spinner-grow-sm text-light" /> Načítám data...</div></div>;
     }
 
     var selectedSubjectId = parseInt(this.props.match.params.subject);
@@ -49,7 +49,9 @@ export default class SubjectSelection extends Component {
         <title>Editace předmětů | Intranet</title>
       </Helmet>
 
-      <SubjectSchedule
+        <div className="container-fluid">
+            <div className="row">
+                <SubjectSchedule className={selectedSubject?"col-9":"col"}
         subjects={this.state.subjects}
         selectedSubject={selectedSubject ? selectedSubject.id : null}
       />
@@ -60,9 +62,11 @@ export default class SubjectSelection extends Component {
             <title>{selectedSubject.name} | Rozvrh | Intranet</title>
           </Helmet>
 
-          <SubjectDetails subject={selectedSubject} select={(id) => this.selectSubject(id)} />
+            <SubjectDetails className="col" subject={selectedSubject} select={(id) => this.selectSubject(id)} />
         </>
-      }
+            }
+            </div>
+        </div>
     </>);
   }
 }

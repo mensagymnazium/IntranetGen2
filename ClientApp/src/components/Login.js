@@ -1,6 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 
+import Icons from '../style/IconsBase64.json';
+
 export default class Login extends Component {
     constructor() {
         super();
@@ -56,24 +58,33 @@ export default class Login extends Component {
         <title>Přihlášení | Intranet</title>
       </Helmet>
 
-      
 
-
-        <form onSubmit={this.handleSubmit}>
-            {
-               
-            }
-            <input type="text" name="UserName" placeholder="Uživatelské jméno" onChange={this.handleChange} value={this.state.UserName} /> 
-            <br />
-            <input type="password" name="Password" placeholder="Heslo" onChange={this.handleChange} value={this.state.Password} /> 
-            <br/>
-            <input type="submit" value="Přihlásit" />
-            
-        </form>
-        <form action="/UserRegister">
-            <input type="submit" value="Registrovat Uživatele" />
-        </form>
-        
+        <div className="container">
+            <div className="card form-card bg-dark">
+                <div className="card-body">
+                    <form onSubmit={this.handleSubmit} className="form-horizontal">
+                        <div className="input-group row">
+                            <div className="input-group-prepend">
+                                <div className="input-group-text"><img alt="Login-Icon" src={Icons.user} height="24vh" /></div>
+                            </div>
+                            <input className="form-control" type="text" name="UserName" placeholder="Uživatelské jméno" onChange={this.handleChange} value={this.state.UserName} />
+                        </div>
+                        <br />
+                        <div className="input-group row">
+                            <div className="input-group-prepend">
+                                <div className="input-group-text"><img alt="Password-Icon" src={Icons.pass} height="24vh" /></div>
+                            </div>
+                            <input className="form-control" type="password" name="Password" placeholder="Heslo" onChange={this.handleChange} value={this.state.Password} />
+                        </div>
+                        <br /><br />
+                        <div className="btn-group">
+                            <input className="btn btn-success" type="submit" value="Přihlásit" />
+                            <button className="btn btn-info" type="button" onClick={() => { window.location = "/UserRegister" }}>Registrovat Uživatele</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </>);
   }
 }

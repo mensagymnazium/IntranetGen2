@@ -54,8 +54,8 @@ export default class SubjectAdmin extends Component {
 
 
   render() {
-    if (!this.state.subjects) {
-      return <>Načítám data...</>;
+      if (!this.state.subjects) {
+          return <div className="container text-center"><div className="badge badge-info"><div className="spinner-grow spinner-grow-sm text-light" /> Načítám data...</div></div>;
     }
 
     var selectedSubjectId = parseInt(this.props.match.params.subject);

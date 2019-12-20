@@ -16,15 +16,17 @@ export default class SubjectSchedule extends Component {
 
   renderPeriod(period, periodName, subjects) {
     return (
-      <div key={period} className="subjectsRow scheduleRow">
-        <div className="periodName">
-          {periodName}
-        </div>
+        <div key={period} className="subjectsRow scheduleRow">
+            <div className="row">
+                <div className="periodName col-2">
+                  {periodName}
+                </div>
 
-        <div className="subjectsSubRow">
-          {
-            subjects.map(subject => this.renderSubject(subject))
-          }
+                <div className="subjectsSubRow card-columns col-10">
+                  {
+                    subjects.map(subject => this.renderSubject(subject))
+                  }
+            </div>
         </div>
       </div>
     );
@@ -33,8 +35,8 @@ export default class SubjectSchedule extends Component {
   renderDay(day, dayName, subjects) {
     return (
       <React.Fragment key={day}>
-        <div className="dayName scheduleRow">
-          {dayName}
+            <div className="dayName scheduleRow">
+                <h4>{dayName}</h4>
         </div>
 
         {
@@ -56,12 +58,12 @@ export default class SubjectSchedule extends Component {
         {
           dayNames.map((dayName, day) => {
             var daySubjects = this.props.subjects.filter(subject => subject.period.day === day);
-            if (daySubjects.length) {
-              return this.renderDay(day, dayName, daySubjects);
+              if (daySubjects.length) {
+                  return <div className="card text-center">{this.renderDay(day, dayName, daySubjects)}</div>;
+                }
+                return null;
+              })
             }
-            return null;
-          })
-        }
       </div>
     </>);
   }
