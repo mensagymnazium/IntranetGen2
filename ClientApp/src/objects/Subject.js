@@ -1,24 +1,36 @@
 ﻿import Period from "./Period";
+import Teacher from "./Teacher";
+
+export const gradeNames = [
+  "Prima",
+  "Sekunda",
+  "Tercie",
+  "Kvarta",
+  "Kvinta",
+  "Sexta",
+  "Septima",
+  "Oktáva"
+]
 
 export default class Subject {
   id;
   name;
-  category;
   teacher;
   description;
   period;
   students;
   capacity;
+  grades;
 
-  constructor(id, name, category, teacher, description, period, students, capacity) {
+  constructor(id, name, teacher, description, period, students, capacity, grades) {
     this.id = id;
     this.name = name;
-    this.category = category;
     this.teacher = teacher;
     this.description = description;
     this.period = period;
     this.students = students;
     this.capacity = capacity;
+    this.grades = grades;
   }
 
   toString() {
@@ -29,12 +41,12 @@ export default class Subject {
     return new Subject(
       data.id,
       data.name,
-      data.category,
-      data.teacher,
+      data.teacher && new Teacher(data.teacher.id, data.teacher.name),
       data.description,
       new Period(data.period.day, data.period.period),
       data.students,
-      data.capacity
+      data.capacity,
+      data.grades
     );
   }
 }

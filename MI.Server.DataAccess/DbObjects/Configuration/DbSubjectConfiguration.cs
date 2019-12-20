@@ -15,7 +15,8 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
 
             builder
                 .HasOne(sc => sc.Teacher)
-                .WithMany(s => s.TaughtSubjects);
+                .WithMany(s => s.TaughtSubjects)
+                .HasForeignKey(s => s.TeacherId);
         }
     }
 }

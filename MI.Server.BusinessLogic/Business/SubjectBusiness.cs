@@ -142,7 +142,7 @@ namespace MI.Server.BusinessLogic.Business
             subjectDb.Capacity = subject.Capacity;
             subjectDb.TimePeriod = subject.Period.Period;
             subjectDb.DayPeriod = subject.Period.Day;
-            subjectDb.Teacher = await FindTeacher(subject.Teacher);
+            subjectDb.TeacherId = (await FindTeacher(subject.Teacher))?.Id; // Necessary for removal 
 
             List<GradeEnum> oldGrades = subjectDb.GradeSubjects.Select(g => g.Grade).ToList();
             List<GradeEnum> newGrades = subject.Grades;

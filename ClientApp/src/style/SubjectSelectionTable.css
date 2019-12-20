@@ -19,13 +19,11 @@
 .periodName {
     display: inline-flex;
     width: 1.5cm;
-
     text-align: center;
 }
 
 .dayName, .periodName {
     font-weight: bold;
-
     align-items: center;
     justify-content: center;
 }
@@ -47,12 +45,12 @@
     display: inline-block;
     width: 5cm;
     height: 2cm;
-
     text-align: center;
     vertical-align: middle;
     position: relative;
 }
-.scheduleLink:hover .subjectCellCRUD{
+
+.subjectCell:hover .subjectCellCRUD {
     opacity: 1;
     transition: opacity 0.5s;
 }
@@ -66,11 +64,13 @@
     opacity: 0;
     transition: opacity 0.5s;
 }
-.subjectCellEdit{
+
+.subjectCellEdit {
     left: 0;
     border-top-right-radius: 7px;
     border-width: 2px 2px 1px 1px;
 }
+
 .subjectCellRemove {
     right: 0;
     border-top-left-radius: 7px;
@@ -97,9 +97,7 @@
 }
 
 .subjectTable, .scheduleRow, .subjectCell, .periodName {
-    box-shadow:
-        0 0 0 1px black,
-        0 0 0 1px black inset;
+    box-shadow: 0 0 0 1px black, 0 0 0 1px black inset;
 }
 
 .dayName:first-child, .subjectTable {

@@ -1,37 +1,43 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Home from './components/Home';
-import Login from './components/Login';
-import SubjectSchedule from './components/SubjectSchedule';
-import NotFound from './components/NotFound';
-import NavBar from './components/NavBar';
-import SubjectManagement from './components/SubjectManagement';
-import UserRegister from './components/UserRegister';
 import { AuthContext } from "./objects/Auth";
-import PrivateRoute from "./objects/PrivateRoute";
+
+import Home from './components/Home';
+import NavBar from './components/NavBar';
+import NotFound from './components/NotFound';
+
+import SubjectSelection from './components/subjectSelection/SubjectSelection';
+import SubjectAdmin from './components/subjectAdmin/SubjectAdmin';
+import SubjectEdit from './components/subjectAdmin/SubjectEdit';
+
+import Login from './components/Login';
+import UserRegister from './components/UserRegister';
+
 export default class App extends Component {
   displayName = App.name
 
   render() {
-      return (<>
-          <AuthContext.Provider value={false}>
-      <NavBar />
-      <div id="page_root">
-        <Switch>
-          <Route exact path="/" component={Home} />
+    return (<>
+      <AuthContext.Provider value={false}>
+        <NavBar />
+        <div id="page_root">
+          <Switch>
+            <Route exact path="/" component={Home} />
 
-          <Route path="/login" component={Login} />
+            <Route path="/login" component={Login} />
 
-          <Route path="/subjects/:subject?" component={SubjectSchedule} />
+            <Route path="/subjects/:subject([0-9]+)?" component={SubjectSelection} />
 
-          <Route path="/edit/:subject?" component={SubjectManagement} />  
+            <Route path="/admin/edit/:subject([0-9]+)?" component={SubjectEdit} />
 
-          <Route path="/UserRegister" component={UserRegister} />
-          
-          <Route component={NotFound} />
-        </Switch>
-              </div>
-          </AuthContext.Provider>
+            <Route path="/admin/:subject([0-9]+)?" component={SubjectAdmin} />
+
+            <Route path="/UserRegister" component={UserRegister} />
+
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+      </AuthContext.Provider>
     </>);
   }
 }
