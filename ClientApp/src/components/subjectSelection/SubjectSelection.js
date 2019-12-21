@@ -49,21 +49,22 @@ export default class SubjectSelection extends Component {
         <title>Editace předmětů | Intranet</title>
       </Helmet>
 
-        <div className="container-fluid">
+        <div className="container-fluid text-center">
             <div className="row">
-                <SubjectSchedule className={selectedSubject?"col-9":"col"}
-        subjects={this.state.subjects}
-        selectedSubject={selectedSubject ? selectedSubject.id : null}
-      />
+                <div className={selectedSubject ? "col-9" : "col"}>
+                <SubjectSchedule 
+                        subjects={this.state.subjects}
+                        selectedSubject={selectedSubject ? selectedSubject.id : null} /></div>
 
       {selectedSubject &&
         <>
           <Helmet>
             <title>{selectedSubject.name} | Rozvrh | Intranet</title>
-          </Helmet>
-
-            <SubjectDetails className="col" subject={selectedSubject} select={(id) => this.selectSubject(id)} />
-        </>
+                    </Helmet>
+                    <div className="col">     
+            <SubjectDetails subject={selectedSubject} select={(id) => this.selectSubject(id)} />
+                        {/*<hr /><div className="card"><div className="card-header">Zapsané Předměty</div><div className="card-body">WIP</div></div>*/}
+                    </div> </>
             }
             </div>
         </div>

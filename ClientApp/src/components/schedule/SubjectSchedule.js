@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
 
 import SubjectCell from './SubjectCell';
-import "../../style/SubjectSelectionTable.css";
 
 import { dayNames, periodNames } from "../../objects/Period";
 
@@ -19,7 +18,7 @@ export default class SubjectSchedule extends Component {
         <div key={period} className="subjectsRow scheduleRow">
             <div className="row">
                 <div className="periodName col-2">
-                  {periodName}
+                  <h5>{periodName}</h5>
                 </div>
 
                 <div className="subjectsSubRow card-columns col-10">
@@ -54,16 +53,19 @@ export default class SubjectSchedule extends Component {
 
   render() {
     return (<>
-      <div className="subjectTable">
+        <div className="subjectTable card text-center border-secondary">
+            <div className="card-body">
+            <ul className="list-group list-group-flush">
         {
           dayNames.map((dayName, day) => {
             var daySubjects = this.props.subjects.filter(subject => subject.period.day === day);
               if (daySubjects.length) {
-                  return <div className="card text-center">{this.renderDay(day, dayName, daySubjects)}</div>;
+                  return <li className="list-group-item">{this.renderDay(day, dayName, daySubjects)}</li>;
                 }
                 return null;
               })
-            }
+                    }
+                </ul>
       </div>
     </>);
   }
