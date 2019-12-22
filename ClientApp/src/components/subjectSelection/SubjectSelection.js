@@ -51,7 +51,7 @@ export default class SubjectSelection extends Component {
 
         <div className="container-fluid text-center">
             <div className="row">
-                <div className={selectedSubject ? "col-9" : "col"}>
+                <div className={selectedSubject ? "col-sm-9" : "col"}>
                 <SubjectSchedule 
                         subjects={this.state.subjects}
                         selectedSubject={selectedSubject ? selectedSubject.id : null} /></div>
@@ -61,7 +61,7 @@ export default class SubjectSelection extends Component {
           <Helmet>
             <title>{selectedSubject.name} | Rozvrh | Intranet</title>
                     </Helmet>
-                    <div className="col">     
+                    <div className="col-sm">     
             <SubjectDetails subject={selectedSubject} select={(id) => this.selectSubject(id)} />
                         {/*<hr /><div className="card"><div className="card-header">Zapsané Předměty</div><div className="card-body">WIP</div></div>*/}
                     </div> </>

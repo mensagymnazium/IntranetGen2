@@ -72,7 +72,7 @@ export default class SubjectAdmin extends Component {
 
         <div className="container-fluid text-center">
             <div className="row">
-                <div className={selectedSubject ? "col-9" : "col"}>
+                <div className={selectedSubject ? "col-sm-9" : "col"}>
                 <SubjectSchedule 
         subjects={this.state.subjects}
         selectedSubject={selectedSubject ? selectedSubject.id : null}
@@ -83,24 +83,26 @@ export default class SubjectAdmin extends Component {
                         }}
                     /></div>
 
-                <div className="col">
+                
       {selectedSubject &&
         <>
           <Helmet>
             <title>{selectedSubject.name} | Správa předmětů | Intranet</title>
           </Helmet>
 
-                    <SubjectDetailsAdmin
+                    <div className="col-sm">
+                        <SubjectDetailsAdmin
           subject={selectedSubject}
           edit={this.editSubject}
           delete={this.deleteSubject}
-        />
+                        /></div>
                         </>
-                    }</div>
+                    }
 
                 
             </div>
             <hr />
+            
             <button className="btn btn-primary" onClick={() => this.props.history.push("/admin/edit/")}>Nový Předmět</button>
         </div>
     </>);

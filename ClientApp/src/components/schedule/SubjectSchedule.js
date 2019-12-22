@@ -35,7 +35,7 @@ export default class SubjectSchedule extends Component {
     return (
       <React.Fragment key={day}>
             <div className="dayName scheduleRow">
-                <h4>{dayName}</h4>
+                <h4>{dayName}</h4><hr/>
         </div>
 
         {
@@ -66,6 +66,7 @@ export default class SubjectSchedule extends Component {
               })
                     }
                 </ul>
+            </div>
       </div>
     </>);
   }
