@@ -31,7 +31,7 @@ export default class SubjectEdit extends Component {
     if (isNaN(id)) {
       return this.setState({
         loading: "new",
-        subject: new Subject(null, "", null, "", new Period(0, 0), -1, 30, []),
+        subject: new Subject(null, "", null, "", new Period(0, 3), -1, 30, []),
         teachers: await this.fetchTeachers()
       });
     }
@@ -156,8 +156,8 @@ export default class SubjectEdit extends Component {
   }
 
   render() {
-      if (this.state.loading === "loading") {
-          return <div className="container text-center"><div className="badge badge-info"><div className="spinner-grow spinner-grow-sm text-light" /> Načítám data...</div></div>;
+    if (this.state.loading === "loading") {
+      return <div className="container text-center"><div className="badge badge-info"><div className="spinner-grow spinner-grow-sm text-light" /> Načítám data...</div></div>;
     }
 
     if (this.state.loading === "not_found") {
@@ -171,142 +171,146 @@ export default class SubjectEdit extends Component {
         <title>{subject.name && subject.name + ' | '}Úprava předmětu | Intranet</title>
       </Helmet>
 
-        <div className="container">
-            <div className="card bg-dark form-card">
-                <div className="card-body">
-                    <form className="form-horizontal" id="SubjectEditForm">
+      <div className="container">
+        <div className="card bg-dark form-card">
+          <div className="card-body">
+            <form className="form-horizontal" id="SubjectEditForm">
 
-                        <div className="input-group row">
-                            <div className="input-group-prepend">
-                                <div className="input-group-text">Jméno:</div>
-                            </div>        
-                            <input
-                                className="form-control"
-                              type="text"
-                              name="name"
-                              required
-                              value={subject.name}
-                              onChange={this.handleTextChange}
-                                    />
-                        </div><hr/>
-
-                        <div className="input-group row">
-                            <div className="input-group-prepend">
-                                <div className="input-group-text">Popis:</div>
-                            </div>  
-                            <textarea
-                                className="form-control"
-                              name="description"
-                              value={subject.description}
-                              onChange={this.handleTextChange}
-                            />
-                        </div><br />
-                        <div className="row">
-                            <div className="col">
-                        <div className="input-group row">
-                            <div className="input-group-prepend">
-                                <div className="input-group-text">Vyučující:</div>
-                            </div>  
-                            <select className="form-control" name="teacher" value={subject.teacher ? subject.teacher.id : "none"} onChange={this.handleTeacherChange}>
-                              <option value="none">
-                                Žádný
-                              </option>
-                              {
-                                this.state.teachers.map(({id, name}) => (
-                                  <option value={id} key={id}> 
-                                    {name}
-                                  </option>
-                                ))
-                              }
-                            </select>
-                                </div>
-                            </div>
-                            <div className="col">
-                        <div className="input-group row">
-                            <div className="input-group-prepend">
-                                <div className="input-group-text">Kapacita:</div>
-                            </div>
-                            
-                            <input
-                                className="form-control"
-                                type="number"
-                                name="capacity"
-                                required
-                                value={subject.capacity}
-                                onChange={this.handleTextChange}
-                                    />
-                                    <div className="input-group-append">
-                                        <div className="input-group-text">Přihlášeno: {"0"}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br/>
-                        <div className="row">
-                            <div className="col">
-                        <div className="input-group row">
-                            <div className="input-group-prepend">
-                                <div className="input-group-text">Den:</div>
-                            </div>
-                            <select className="form-control" name="day" value={subject.period.day} onChange={this.handlePeriodChange}>
-                          {
-                            dayNames.map((name, index) => (
-                              <option value={index} key={index}>
-                                {name}
-                              </option>
-                            ))
-                          }
-                                    </select>
-                                </div></div>
-                            <div className="col">
-                                <div className="input-group row">
-                                    <div className="input-group-prepend">
-                                        <div className="input-group-text">Hodina:</div>
-                                    </div>
-                                    <select className="form-control" name="period" value={subject.period.period} onChange={this.handlePeriodChange}>
-                          {
-                            periodNames.map((name, index) => (
-                              <option value={index} key={index}>
-                                {name}
-                              </option>
-                            ))
-                          }
-                        </select>
-                                </div>
-                            </div>
-                        </div><hr/>
-
-                        <div className="input-group row">
-                            <span className="input-group-text">Zobrazit třídě:</span></div><br />
-                        <div className="input-group row">
-                        
-                        <div className="card-columns">
-                            {
-                                gradeNames.map((name, index) => (
-                                    <div className="card" style={{ padding: '3px', paddingLeft: '8px' }}><div key={index} className="custom-control custom-checkbox">
-                                <input
-                                    className="custom-control-input"
-                              type="checkbox"
-                                    name={`class${index}`}
-                                    id={`class${index}`}
-                              value={index}
-                              checked={subject.grades.indexOf(index) >= 0}
-                              onChange={this.handleGradeChange}
-                                />
-                                <label className="custom-control-label" for={`class${index}`}>
-                                            {name}
-                                        </label></div></div>
-                        ))
-                                }</div>
-                        </div>
-                        <hr/>
-                        <div className="btn-group">
-                            <button className="btn btn-primary" type="button" onClick={this.save}>{subject.id != null ? "Uložit" : "Vytvořit"}</button>
-                            <button className="btn btn-danger" type="button" onClick={this.goBack}>Zahodit</button>
-                        </div>
-                            </form>
+              <div className="input-group row">
+                <div className="input-group-prepend">
+                  <div className="input-group-text">Jméno:</div>
                 </div>
-            </div>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="name"
+                  required
+                  value={subject.name}
+                  onChange={this.handleTextChange}
+                />
+              </div><hr />
+
+              <div className="input-group row">
+                <div className="input-group-prepend">
+                  <div className="input-group-text">Popis:</div>
+                </div>
+                <textarea
+                  className="form-control"
+                  name="description"
+                  rows={5}
+                  value={subject.description}
+                  onChange={this.handleTextChange}
+                />
+              </div><br />
+              <div className="row">
+                <div className="col">
+                  <div className="input-group row">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">Vyučující:</div>
+                    </div>
+                    <select className="form-control" name="teacher" value={subject.teacher ? subject.teacher.id : "none"} onChange={this.handleTeacherChange}>
+                      <option value="none">
+                        Žádný
+                      </option>
+                      {
+                        this.state.teachers.map(({ id, name }) => (
+                          <option value={id} key={id}>
+                            {name}
+                          </option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="input-group row">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">Kapacita:</div>
+                    </div>
+
+                    <input
+                      className="form-control"
+                      type="number"
+                      name="capacity"
+                      required
+                      value={subject.capacity}
+                      onChange={this.handleTextChange}
+                    />
+                    <div className="input-group-append">
+                      <div className="input-group-text">Přihlášeno: {"0"}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div className="row">
+                <div className="col">
+                  <div className="input-group row">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">Den:</div>
+                    </div>
+                    <select className="form-control" name="day" value={subject.period.day} onChange={this.handlePeriodChange}>
+                      {
+                        dayNames.map((name, index) => (
+                          <option value={index} key={index}>
+                            {name}
+                          </option>
+                        ))
+                      }
+                    </select>
+                  </div></div>
+                <div className="col">
+                  <div className="input-group row">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">Hodina:</div>
+                    </div>
+                    <select className="form-control" name="period" value={subject.period.period} onChange={this.handlePeriodChange}>
+                      {
+                        periodNames.map((name, index) => (
+                          <option value={index} key={index}>
+                            {name}
+                          </option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
+              </div><hr />
+
+              <div className="input-group row">
+                <span className="input-group-text">Zobrazit třídě:</span></div><br />
+              <div className="input-group row">
+
+                <div className="card-columns">
+                  {
+                    gradeNames.map((name, index) => (
+                      <div key={index} className="card" style={{ padding: '3px', paddingLeft: '8px' }}>
+                        <label className="custom-control custom-checkbox mb-0" htmlFor={`class${index}`}>
+                          <input
+                            className="custom-control-input"
+                            type="checkbox"
+                            name={`class${index}`}
+                            id={`class${index}`}
+                            value={index}
+                            checked={subject.grades.indexOf(index) >= 0}
+                            onChange={this.handleGradeChange}
+                          />
+                          <span className="custom-control-label">
+                            {name}
+                          </span>
+                        </label>
+                      </div>
+                    ))
+                  }</div>
+              </div>
+              <hr />
+              <div className="btn-group">
+                <button className="btn btn-primary" type="button" onClick={this.save}>{subject.id != null ? "Uložit" : "Vytvořit"}</button>
+                <button className="btn btn-danger" type="button" onClick={this.goBack}>Zahodit</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div></>);
   }
 }
