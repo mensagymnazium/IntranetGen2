@@ -13,14 +13,17 @@ import SubjectEdit from './components/subjectAdmin/SubjectEdit';
 import Login from './components/Login';
 import UserRegister from './components/UserRegister';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './style/Forms.css';
+
 export default class App extends Component {
   displayName = App.name
 
   render() {
     return (<>
       <AuthContext.Provider value={false}>
-        <NavBar />
-        <div id="page_root">
+            <NavBar />
+            <div id="page_root">
           <Switch>
             <Route exact path="/" component={Home} />
 

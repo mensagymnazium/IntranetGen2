@@ -7,13 +7,16 @@ export default class NotFound extends Component {
       <Helmet>
         <title>Stránka nenalezena | Intranet</title>
       </Helmet>
-
-      <h1>
-        Stránka nenalezena
-      </h1>
-      <p>
-        Taky jich tu zatím moc není.
-      </p>
+        <div className="container">
+            <div className="alert alert-danger">
+                  <h1>
+                    Stránka nenalezena
+                  </h1>
+                  <p>
+                    Taky jich tu zatím moc není.
+                  </p>
+            </div>
+        </div>
     </>);
   }
 }

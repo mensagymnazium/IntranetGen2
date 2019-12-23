@@ -55,7 +55,7 @@ export default class SubjectAdmin extends Component {
 
   render() {
     if (!this.state.subjects) {
-      return <>Načítám data...</>;
+      return <div className="container text-center"><div className="badge badge-info"><div className="spinner-grow spinner-grow-sm text-light" /> Načítám data...</div></div>;
     }
 
     var selectedSubjectId = parseInt(this.props.match.params.subject);
@@ -70,32 +70,41 @@ export default class SubjectAdmin extends Component {
         <title>Správa předmětů | Intranet</title>
       </Helmet>
 
-      <SubjectSchedule
-        subjects={this.state.subjects}
-        selectedSubject={selectedSubject ? selectedSubject.id : null}
-        cellProps={{
-          editMode: true,
-          edit: (id) => this.editSubject(id),
-          delete: (id) => this.deleteSubject(id)
-        }}
-      />
+      <div className="container-fluid text-center">
+        <div className="row">
+          <div className={selectedSubject ? "col-sm-9" : "col"}>
+            <SubjectSchedule
+              subjects={this.state.subjects}
+              selectedSubject={selectedSubject ? selectedSubject.id : null}
+              cellProps={{
+                editMode: true,
+                edit: (id) => this.editSubject(id),
+                delete: (id) => this.deleteSubject(id)
+              }}
+            /></div>
 
 
-      {selectedSubject &&
-        <>
-          <Helmet>
-            <title>{selectedSubject.name} | Správa předmětů | Intranet</title>
-          </Helmet>
+          {selectedSubject &&
+            <>
+              <Helmet>
+                <title>{selectedSubject.name} | Správa předmětů | Intranet</title>
+              </Helmet>
 
-        <SubjectDetailsAdmin
-          subject={selectedSubject}
-          edit={this.editSubject}
-          delete={this.deleteSubject}
-        />
-        </>
-      }
+              <div className="col-sm">
+                <SubjectDetailsAdmin
+                  subject={selectedSubject}
+                  edit={this.editSubject}
+                  delete={this.deleteSubject}
+                /></div>
+            </>
+          }
 
-      <button onClick={() => this.props.history.push("/admin/edit/")}>Nový Předmět</button>
+
+        </div>
+        <hr />
+
+        <button className="btn btn-primary" onClick={() => this.props.history.push("/admin/edit/")}>Nový Předmět</button>
+      </div>
     </>);
   }
 }

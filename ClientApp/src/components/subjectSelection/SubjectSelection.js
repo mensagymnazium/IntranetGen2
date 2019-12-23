@@ -32,9 +32,9 @@ export default class SubjectSelection extends Component {
   }
 
 
-  render() {
-    if (!this.state.subjects) {
-      return <>Načítám data...</>;
+    render() {
+      if (!this.state.subjects) {
+          return <div className="container text-center"><div className="badge badge-info"><div className="spinner-grow spinner-grow-sm text-light" /> Načítám data...</div></div>;
     }
 
     var selectedSubjectId = parseInt(this.props.match.params.subject);
@@ -49,20 +49,25 @@ export default class SubjectSelection extends Component {
         <title>Editace předmětů | Intranet</title>
       </Helmet>
 
-      <SubjectSchedule
-        subjects={this.state.subjects}
-        selectedSubject={selectedSubject ? selectedSubject.id : null}
-      />
+        <div className="container-fluid text-center">
+            <div className="row">
+                <div className={selectedSubject ? "col-sm-9" : "col"}>
+                <SubjectSchedule 
+                        subjects={this.state.subjects}
+                        selectedSubject={selectedSubject ? selectedSubject.id : null} /></div>
 
       {selectedSubject &&
         <>
           <Helmet>
             <title>{selectedSubject.name} | Rozvrh | Intranet</title>
-          </Helmet>
-
-          <SubjectDetails subject={selectedSubject} select={(id) => this.selectSubject(id)} />
-        </>
-      }
+                    </Helmet>
+                    <div className="col-sm">     
+            <SubjectDetails subject={selectedSubject} select={(id) => this.selectSubject(id)} />
+                        {/*<hr /><div className="card"><div className="card-header">Zapsané Předměty</div><div className="card-body">WIP</div></div>*/}
+                    </div> </>
+            }
+            </div>
+        </div>
     </>);
   }
 }
