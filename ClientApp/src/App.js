@@ -14,7 +14,6 @@ import Login from './components/Login';
 import UserRegister from './components/UserRegister';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './style/App.css';
 import './style/Forms.css';
 
 export default class App extends Component {
