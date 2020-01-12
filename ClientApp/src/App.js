@@ -11,36 +11,33 @@ import SubjectAdmin from './components/subjectAdmin/SubjectAdmin';
 import SubjectEdit from './components/subjectAdmin/SubjectEdit';
 
 import Login from './components/Login';
-import UserRegister from './components/UserRegister';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style/Forms.css';
 
 export default class App extends Component {
-  displayName = App.name
+    displayName = App.name
 
-  render() {
-    return (<>
-      <AuthContext.Provider value={false}>
-            <NavBar />
-            <div id="page_root">
-          <Switch>
-            <Route exact path="/" component={Home} />
+    render() {
+        return (<>
+            <AuthContext.Provider value={false}>
+                <NavBar />
+                <div id="page_root">
+                    <Switch>
+                        <Route exact path="/" component={Home} />
 
-            <Route path="/login" component={Login} />
+                        <Route path="/login" component={Login} />
 
-            <Route path="/subjects/:subject([0-9]+)?" component={SubjectSelection} />
+                        <Route path="/subjects/:subject([0-9]+)?" component={SubjectSelection} />
 
-            <Route path="/admin/edit/:subject([0-9]+)?" component={SubjectEdit} />
+                        <Route path="/admin/edit/:subject([0-9]+)?" component={SubjectEdit} />
 
-            <Route path="/admin/:subject([0-9]+)?" component={SubjectAdmin} />
+                        <Route path="/admin/:subject([0-9]+)?" component={SubjectAdmin} />
 
-            <Route path="/UserRegister" component={UserRegister} />
-
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-      </AuthContext.Provider>
-    </>);
-  }
+                        <Route component={NotFound} />
+                    </Switch>
+                </div>
+            </AuthContext.Provider>
+        </>);
+    }
 }
