@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MI.Server.DataAccess.Database;
 using MI.Server.BusinessLogic;
-using Microsoft.AspNet.Identity;
 
 namespace MI
 {
