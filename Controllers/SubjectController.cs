@@ -47,34 +47,34 @@ namespace MI.Controllers
             return subject;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<SubjectDTO>> Post([FromBody] SubjectDTO subject)
-        {
-            try
-            {
-                SubjectDTO createdSubject = await _manager.SubjectBusiness.CreateSubject(subject);
-                return CreatedAtAction("Get", new { id = createdSubject.Id }, createdSubject);
-            }
-            catch (NotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<SubjectDTO>> Post([FromBody] SubjectDTO subject)
+        //{
+        //    try
+        //    {
+        //        SubjectDTO createdSubject = await _manager.SubjectBusiness.CreateSubject(subject);
+        //        return CreatedAtAction("Get", new { id = createdSubject.Id }, createdSubject);
+        //    }
+        //    catch (NotFoundException e)
+        //    {
+        //        return NotFound(e.Message);
+        //    }
+        //}
 
-        [HttpPut("{id?}")]
-        public async Task<ActionResult<SubjectDTO>> PutById(int? id, [FromBody] SubjectDTO subject)
-        {
-            subject.Id = id ?? subject.Id;
+        //[HttpPut("{id?}")]
+        //public async Task<ActionResult<SubjectDTO>> PutById(int? id, [FromBody] SubjectDTO subject)
+        //{
+        //    subject.Id = id ?? subject.Id;
 
-            try
-            {
-                return await _manager.SubjectBusiness.UpdateSubject(subject);
-            }
-            catch (NotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
-        }
+        //    try
+        //    {
+        //        return await _manager.SubjectBusiness.UpdateSubject(subject);
+        //    }
+        //    catch (NotFoundException e)
+        //    {
+        //        return NotFound(e.Message);
+        //    }
+        //}
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<SubjectDTO>> DeleteById(int id)

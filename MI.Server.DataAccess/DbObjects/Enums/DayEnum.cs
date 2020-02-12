@@ -4,12 +4,15 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects.Enums
 {
+    /// <summary>
+    /// Czech names because of convenient casting when api is called
+    /// </summary>
     public enum DayEnum
     {
-        Monday = 0,
-        Tuesday = 1,
-        Wednesday = 2,
-        Thursday = 3,
-        Friday = 4
+        Pondělí = 0,
+        Úterý = 1,
+        Středa = 2,
+        Čtvrtek = 3,
+        Pátek = 4
     }
 }

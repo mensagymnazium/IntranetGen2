@@ -7,7 +7,7 @@ namespace MI.Server.BusinessLogic.DTO
 {
     public struct PeriodDTO
     {
-        public DayEnum Day { get; set; }
-        public PeriodEnum Period { get; set; }
+        public string Day { get; set; }
+        public string Period { get; set; }
     }
 }

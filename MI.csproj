@@ -52,13 +52,15 @@
   <ItemGroup>
     <None Remove=".gitattributes" />
     <None Remove=".gitignore" />
-    <None Remove="ClientApp\src\components\Register - Copy.js" />
-    <None Remove="ClientApp\src\components\Register - Copy.js" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="MI.Server.BusinessLogic\MI.Server.BusinessLogic.csproj" />
     <ProjectReference Include="MI.Server.DataAccess\MI.Server.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
