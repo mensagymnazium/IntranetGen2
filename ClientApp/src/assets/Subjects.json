@@ -5,7 +5,7 @@
     "teacher": "Václav Brdek",
     "category": 0,
     "period": {
-      "day": 0,
+      "day": "Pondělí",
       "period": 3
     },
     "students": 3,
@@ -18,7 +18,7 @@
     "teacher": "josef dobrovský josef dobrovský",
     "category": 0,
     "period": {
-      "day": 0,
+      "day": "Pondělí",
       "period": 3
     },
     "students": 4,
@@ -31,7 +31,7 @@
     "teacher": "Marcela Fatrová",
     "category": 0,
     "period": {
-      "day": 0,
+      "day": "Pondělí",
       "period": 3
     },
     "students": 10,
@@ -44,7 +44,7 @@
     "teacher": "Jára Cimrman",
     "category": 1,
     "period": {
-      "day": 0,
+      "day": "Pondělí",
       "period": 3
     },
     "students": 10,
@@ -57,7 +57,7 @@
     "teacher": "Aleš Presl",
     "category": 1,
     "period": {
-      "day": 0,
+      "day": "Pondělí",
       "period": 3
     },
     "students": 23,
@@ -70,7 +70,7 @@
     "teacher": "undefined",
     "category": 2,
     "period": {
-      "day": 0,
+      "day": "Úterý",
       "period": 3
     },
     "students": 4,
@@ -83,7 +83,7 @@
     "teacher": "Jan Ámos Komenský",
     "category": 0,
     "period": {
-      "day": 0,
+      "day": "Úterý",
       "period": 4
     },
     "students": 19,
@@ -96,7 +96,7 @@
     "teacher": "Matúš Kepič",
     "category": 1,
     "period": {
-      "day": 0,
+      "day": "Úterý",
       "period": 4
     },
     "students": 13,
@@ -109,7 +109,7 @@
     "teacher": "Douglas Adams",
     "category": 1,
     "period": {
-      "day": 0,
+      "day": "Úterý",
       "period": 4
     },
     "students": 3,
@@ -122,7 +122,7 @@
     "teacher": "Šípková Růženka",
     "category": 1,
     "period": {
-      "day": 0,
+      "day": "Úterý",
       "period": 4
     },
     "students": 14,
@@ -135,7 +135,7 @@
     "teacher": "Max Planck",
     "category": 0,
     "period": {
-      "day": 2,
+      "day": "Středa",
       "period": 3
     },
     "students": 18,
@@ -148,7 +148,7 @@
     "teacher": "Max Planck",
     "category": 0,
     "period": {
-      "day": 2,
+      "day": "Středa",
       "period": 3
     },
     "students": 12,
@@ -161,7 +161,7 @@
     "teacher": "Benjamin Swart",
     "category": 0,
     "period": {
-      "day": 2,
+      "day": "Středa",
       "period": 3
     },
     "students": 9,
@@ -174,7 +174,7 @@
     "teacher": "Marcela Fatrová",
     "category": 0,
     "period": {
-      "day": 2,
+      "day": "Středa",
       "period": 3
     },
     "students": 12,
@@ -187,7 +187,7 @@
     "teacher": "Reed Richards",
     "category": 1,
     "period": {
-      "day": 2,
+      "day": "Středa",
       "period": 3
     },
     "students": 1,
@@ -200,7 +200,7 @@
     "teacher": "Benjamin Parker",
     "category": 1,
     "period": {
-      "day": 2,
+      "day": "Čtvrtek",
       "period": 3
     },
     "students": 1,
@@ -213,7 +213,7 @@
     "teacher": "Hana Šromová",
     "category": 1,
     "period": {
-      "day": 2,
+      "day": "Čtvrtek",
       "period": 3
     },
     "students": 9,
@@ -226,7 +226,7 @@
     "teacher": "Randall Munroe",
     "category": 2,
     "period": {
-      "day": 2,
+      "day": "Čtvrtek",
       "period": 3
     },
     "students": 4,
@@ -239,7 +239,7 @@
     "teacher": "Ben Olmstead",
     "category": 2,
     "period": {
-      "day": 2,
+      "day": "Čtvrtek",
       "period": 3
     },
     "students": 8,
@@ -252,7 +252,7 @@
     "teacher": "Václav Brdek",
     "category": 1,
     "period": {
-      "day": 3,
+      "day": "Pátek",
       "period": 3
     },
     "students": 11,
@@ -265,7 +265,7 @@
     "teacher": "Hana Šromová",
     "category": 1,
     "period": {
-      "day": 3,
+      "day": "Pátek",
       "period": 3
     },
     "students": 5,
@@ -278,7 +278,7 @@
     "teacher": "Charita Burbageová",
     "category": 1,
     "period": {
-      "day": 3,
+      "day": "Pátek",
       "period": 4
     },
     "students": 0,
