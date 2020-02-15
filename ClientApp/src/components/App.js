@@ -8,28 +8,17 @@ import { Subjects } from "./Subjects";
 import Api from "../services/Api";
 
 const App = props => {
-  const { user, apiUrl, bearerToken } = props;
-  let api;
-  if (user) {
-    api = new Api(apiUrl, bearerToken);
-  } else {
-    api = null;
-  }
   return (
     <React.Fragment>
       <NavigationBar />
       <Layout>
         <Router>
           <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => <Home user={user} api={api} />}
-            />
+            <Route exact path="/" render={() => <Home {...props} />} />
             <Route
               exact
               path="/subjects"
-              render={() => <Subjects user={user} api={api} />}
+              render={() => <Subjects {...props} />}
             />
             <Route component={NoMatch} />
           </Switch>

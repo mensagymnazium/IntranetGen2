@@ -31,6 +31,7 @@ function startApplication(username, token) {
 }
 
 var user = authContext.getCachedUser();
+console.log(user);
 
 if (user) {
   let clientId = window.adalConfig.clientId;

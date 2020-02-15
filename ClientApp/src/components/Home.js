@@ -2,7 +2,6 @@ import React from "react";
 import { Helmet } from "react-helmet";
 
 export const Home = props => {
-  console.log(props);
   return (
     <React.Fragment>
       <Helmet>
