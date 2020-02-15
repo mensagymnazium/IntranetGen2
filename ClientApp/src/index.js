@@ -21,7 +21,7 @@ if (authContext.isCallback(window.location.hash)) {
 
 function startApplication(username, token) {
   // the url of the backend api
-  let apiUrl = "http://localhost:54190";
+  let apiUrl = "https://localhost:5001";
 
   // render the main application
   ReactDOM.render(
