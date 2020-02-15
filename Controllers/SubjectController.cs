@@ -7,6 +7,7 @@ using MI.Server.BusinessLogic.Business;
 using MI.Server.BusinessLogic.DTO;
 using MI.Server.BusinessLogic.Exceptions;
 using MI.Server.DataAccess.DbObjects.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +24,7 @@ namespace MI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "AdminUser")]
         public async Task<IEnumerable<SubjectDTO>> Get()
         {
             return await _manager.SubjectBusiness.GetSubjects();

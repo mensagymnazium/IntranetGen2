@@ -1,27 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Table } from "react-bootstrap";
 import { SubjectInformation } from "./SubjectInformation";
 import { TableSchedule } from "./TableSchedule.js";
-import SubjectsJSONDummy from "./../assets/Subjects.json";
 
-export const SubjectsInfoTable = () => {
-  const [subjects, setSubjects] = useState([]);
-  const [errors, setErrors] = useState([]);
-
+export const SubjectsInfoTable = props => {
+  let subjects = props.subjects;
   const [subjectInfo, setSubjectInfo] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState({});
   const signedSubjects = new Set();
-
-  useEffect(() => {
-    async function fetchData() {
-      const result = await fetch("api/subject");
-      result
-        .json()
-        .then(result => setSubjects(result))
-        .catch(errors => setErrors(errors));
-    }
-    fetchData();
-  }, []);
 
   const handleInfoClick = e => {
     console.log(subjects);
