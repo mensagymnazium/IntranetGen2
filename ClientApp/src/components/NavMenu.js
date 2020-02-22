@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import { UserLogin } from "./UserLogin";
 import { Link } from "react-router-dom";
-import "./NavMenu.css";
+import "./../styles/NavMenu.css";
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
