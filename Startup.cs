@@ -9,8 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MI.Server.DataAccess.Database;
 using MI.Server.BusinessLogic;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+using Microsoft.AspNetCore.Authentication;
 
 namespace MI
 {
@@ -41,22 +41,8 @@ namespace MI
 
             services.AddScoped<BusinessManager>();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                // note: the tenant id (authority) and client id (audience) 
-                // should normally be pulled from the config file or ENV vars.
-                // this code uses an inline example for brevity.
-
-                options.Authority = "https://login.microsoftonline.com/bc4facfa-6ca4-4771-aa06-3bce0418701c";
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidAudience = "06a61a5d-4a4b-4c7e-b28a-0107c9666506"
-                };
-            });
-
+            services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
+            .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,12 +62,9 @@ namespace MI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
             app.UseRouting();
-            app.UseCors("CorsPolicy");
-            app.UseAuthentication();
-            app.UseAuthorization();
 
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

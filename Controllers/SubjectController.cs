@@ -24,7 +24,6 @@ namespace MI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "AdminUser")]
         public async Task<IEnumerable<SubjectDTO>> Get()
         {
             return await _manager.SubjectBusiness.GetSubjects();

@@ -1,4 +1,14 @@
-import React from "react";
-import { Container } from "react-bootstrap";
+import React, { Component } from "react";
+import { Container } from "reactstrap";
 
-export const Layout = props => <Container>{props.children}</Container>;
+export class Layout extends Component {
+  static displayName = Layout.name;
+
+  render() {
+    return (
+      <div>
+        <Container>{this.props.children}</Container>
+      </div>
+    );
+  }
+}
