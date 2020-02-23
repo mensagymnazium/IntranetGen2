@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import UserApi from "./../services/UserApi";
+import { getTokenByScope } from "../helpers/TokenHelper";
 
 export const Home = props => {
+  const [errors, setErrors] = useState([]);
+  console.log(props);
+  let user = {
+    Email: props.auth.user.userName,
+    StudentClass: "Prima"
+  };
+  useEffect(() => {
+    async function fetchData() {
+      let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/User.Write"];
+      getTokenByScope(scope).then(token => {
+        let api = new UserApi(token.accessToken);
+        const result = api.InsertOrUpdateUser(user);
+        result.catch(errors => setErrors(errors));
+      });
+    }
+    fetchData();
+  }, []);
+
   return (
     <React.Fragment>
       <Helmet>

@@ -20,7 +20,6 @@ export class GraphData extends Component {
       var accessToken = null;
       try {
         accessToken = await msalAuth.acquireTokenSilent(accessTokenRequest);
-        console.log(accessToken);
       } catch (error) {
         console.log("AquireTokenSilent failure");
         accessToken = await msalAuth.acquireTokenPopup(accessTokenRequest);
