@@ -27,9 +27,9 @@ namespace MI.Server.BusinessLogic.Business
             return await _context.Subjects.Where(a => !a.IsDeleted).CountAsync();
         }
 
-        public static SubjectDTO SubjectDbToSubjectDTO(SubjectDb s)
+        public static SubjectDto SubjectDbToSubjectDTO(SubjectDb s)
         {
-            return new SubjectDTO()
+            return new SubjectDto()
             {
                 Id = s.Id,
                 Name = s.Name,
@@ -61,7 +61,7 @@ namespace MI.Server.BusinessLogic.Business
             }
         }
 
-        public async Task<IEnumerable<SubjectDTO>> GetSubjects()
+        public async Task<IEnumerable<SubjectDto>> GetSubjects()
         {
             List<SubjectDb> subjects = await _context.Subjects
                 .Where(s => !s.IsDeleted)
@@ -73,7 +73,7 @@ namespace MI.Server.BusinessLogic.Business
             return subjects.Select(SubjectDbToSubjectDTO);
         }
 
-        public async Task<IEnumerable<SubjectDTO>> GetSubjectsByGrade(GradeEnum grade)
+        public async Task<IEnumerable<SubjectDto>> GetSubjectsByGrade(GradeEnum grade)
         {
             List<SubjectDb> subjects = await _context.Subjects
                 .Where(s => !s.IsDeleted)
@@ -86,7 +86,7 @@ namespace MI.Server.BusinessLogic.Business
             return subjects.Select(SubjectDbToSubjectDTO);
         }
 
-        public async Task<SubjectDTO> GetSubjectById(int id)
+        public async Task<SubjectDto> GetSubjectById(int id)
         {
             SubjectDb subject = await _context.Subjects
                 .Where(s => !s.IsDeleted)
@@ -170,7 +170,7 @@ namespace MI.Server.BusinessLogic.Business
         //    return SubjectDbToSubjectDTO(subjectDb);
         //}
 
-        public async Task<SubjectDTO> DeleteSubject(int id)
+        public async Task<SubjectDto> DeleteSubject(int id)
         {
             SubjectDb subject = await _context.Subjects
                 .Where(s => !s.IsDeleted)

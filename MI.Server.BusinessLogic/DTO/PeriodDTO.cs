@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MI.Server.BusinessLogic.DTO
 {
-    public struct PeriodDTO
+    public struct PeriodDto
     {
         public string Day { get; set; }
         public string Period { get; set; }

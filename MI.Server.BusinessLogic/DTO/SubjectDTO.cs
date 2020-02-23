@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MI.Server.BusinessLogic.DTO
 {
-    public class SubjectDTO
+    public class SubjectDto
     {
         public int? Id { get; set; }
         public string Name { get; set; }

@@ -25,21 +25,21 @@ namespace MI.Controllers
 
         [HttpGet]
         [Authorize(Roles = "AdminUser")]
-        public async Task<IEnumerable<SubjectDTO>> Get()
+        public async Task<IEnumerable<SubjectDto>> Get()
         {
             return await _manager.SubjectBusiness.GetSubjects();
         }
 
         [HttpGet("grade/{grade}")]
-        public async Task<IEnumerable<SubjectDTO>> GetByGrade(GradeEnum grade)
+        public async Task<IEnumerable<SubjectDto>> GetByGrade(GradeEnum grade)
         {
             return await _manager.SubjectBusiness.GetSubjectsByGrade(grade);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SubjectDTO>> GetById(int id)
+        public async Task<ActionResult<SubjectDto>> GetById(int id)
         {
-            SubjectDTO subject = await _manager.SubjectBusiness.GetSubjectById(id);
+            SubjectDto subject = await _manager.SubjectBusiness.GetSubjectById(id);
 
             if (subject == null)
             {
@@ -79,7 +79,7 @@ namespace MI.Controllers
         //}
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<SubjectDTO>> DeleteById(int id)
+        public async Task<ActionResult<SubjectDto>> DeleteById(int id)
         {
             try
             {
