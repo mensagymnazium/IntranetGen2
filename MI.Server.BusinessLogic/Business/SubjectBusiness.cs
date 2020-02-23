@@ -65,7 +65,6 @@ namespace MI.Server.BusinessLogic.Business
         {
             List<SubjectDb> subjects = await _context.Subjects
                 .Where(s => !s.IsDeleted)
-                .Include(s => s.Teacher)
                 .Include(s => s.GradeSubjects)
                 .Include(s => s.UserSubjects)
                 .ToListAsync();
