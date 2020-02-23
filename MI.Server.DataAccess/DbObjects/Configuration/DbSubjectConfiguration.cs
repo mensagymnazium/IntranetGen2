@@ -12,11 +12,6 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
         public void Configure(EntityTypeBuilder<SubjectDb> builder)
         {
             builder.ToTable("Subjects");
-
-            builder
-                .HasOne(sc => sc.Teacher)
-                .WithMany(s => s.TaughtSubjects)
-                .HasForeignKey(s => s.TeacherId);
         }
     }
 }

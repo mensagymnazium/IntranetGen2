@@ -180,7 +180,7 @@ namespace MI.Server.BusinessLogic.Business
 
             if (subject == null)
             {
-                throw new NotFoundException($"Subject with id {subject.Teacher.Id} does not exist in database.");
+                throw new NotFoundException($"Subject with id {subject.Id} does not exist in database.");
             }
 
             subject.IsDeleted = true;

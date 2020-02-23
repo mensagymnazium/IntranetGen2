@@ -9,7 +9,6 @@ namespace MI.Server.BusinessLogic
 
         public SubjectBusiness SubjectBusiness => new SubjectBusiness(_context);
         public SignupBusiness SignupBusiness => new SignupBusiness(_context);
-        public TeacherBusiness TeacherBusiness => new TeacherBusiness(_context);
 
         public BusinessManager(MensaIntranetContext context)
         {

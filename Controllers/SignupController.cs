@@ -21,7 +21,7 @@ namespace MI.Controllers
         }
 
         [HttpGet("subject/{id}")]
-        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetBySubjectId(int id)
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetBySubjectId(int id)
         {
             try
             {

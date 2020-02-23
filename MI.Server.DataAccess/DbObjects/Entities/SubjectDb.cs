@@ -19,8 +19,7 @@ namespace MI.Server.DataAccess.DbObjects.Entities
         public int Capacity { get; set; }
         public DayEnum DayPeriod { get; set; }
         public PeriodEnum TimePeriod { get; set; }
-        public UserDb Teacher { get; set; }
-        public int? TeacherId { get; set; }
+        public string Teacher { get; set; }
         public ICollection<UserSubjectsDb> UserSubjects { get; set; }
         public ICollection<GradeSubjectsDb> GradeSubjects { get; set; }
     }
