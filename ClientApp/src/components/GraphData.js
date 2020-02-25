@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { msalAuth } from "../msal/MsalAuthProvider";
-import { getUserDetails } from "./graph/GraphService";
+import { getUserGroup } from "../services/GraphService";
 
 export class GraphData extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ export class GraphData extends Component {
       }
 
       if (accessToken) {
-        var user = await getUserDetails(accessToken);
+        var user = await getUserGroup(accessToken);
         this.setState({
           user: user,
           isLoading: false,

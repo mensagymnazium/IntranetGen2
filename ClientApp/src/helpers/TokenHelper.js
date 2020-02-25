@@ -1,13 +1,13 @@
 import { msalAuth } from "../msal/MsalAuthProvider";
 
-export function getTokenByScope(scope) {
+export async function getTokenByScope(scope) {
   const accessTokenRequest = {
     scopes: scope
   };
   try {
-    return msalAuth.acquireTokenSilent(accessTokenRequest);
+    return await msalAuth.acquireTokenSilent(accessTokenRequest);
   } catch (error) {
     console.log("AquireTokenSilent failure");
-    return msalAuth.acquireTokenPopup(accessTokenRequest);
+    return await msalAuth.acquireTokenPopup(accessTokenRequest);
   }
 }

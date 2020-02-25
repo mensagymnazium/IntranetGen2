@@ -1,17 +1,5 @@
-import Api from "./Api";
+import { authenticatedApi } from "./ApiBase";
 
-class UserApi extends Api {
-  // an api operation that calls one of the authorized endpoints.
-  InsertOrUpdateUser(user) {
-    return this.AuthenticatedApi.put("/api/user", JSON.stringify(user))
-      .then(function(response) {
-        // handle success
-        return response.data;
-      })
-      .catch(function(error) {
-        throw Error("An error has occurred calling the api: " + error);
-      });
-  }
+export async function insertOrUpdateUser(token, user) {
+  return await authenticatedApi(token).put("/api/user", JSON.stringify(user));
 }
-
-export default UserApi;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SubjectsInfoTable } from "./SubjectsInfoTable.js";
-import SubjectApi from "./../services/SubjectApi";
+import { getAllSubjects } from "./../services/SubjectApi";
 import { getTokenByScope } from "../helpers/TokenHelper";
 
 export const Subjects = () => {
@@ -10,15 +10,14 @@ export const Subjects = () => {
   useEffect(() => {
     async function fetchData() {
       let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/Subjects.Read"];
-      getTokenByScope(scope).then(token => {
-        let api = new SubjectApi(token.accessToken);
-        const result = api.GetAllSubjects();
-        result
-          .then(result => {
-            setSubjects(result);
-          })
-          .catch(errors => setErrors(errors));
-      });
+      try {
+        let token = await getTokenByScope(scope);
+        let result = await getAllSubjects(token.accessToken);
+        setSubjects(result.data);
+      } catch (error) {
+        console.log(error);
+        //TODO Logger
+      }
     }
     fetchData();
   }, []);

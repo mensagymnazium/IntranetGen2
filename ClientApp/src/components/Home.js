@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import UserApi from "./../services/UserApi";
+import { insertOrUpdateUser } from "./../services/UserApi";
 import { getTokenByScope } from "../helpers/TokenHelper";
+import { getUserGroup } from "../services/GraphService";
 
 export const Home = props => {
   const [errors, setErrors] = useState([]);
@@ -11,15 +12,24 @@ export const Home = props => {
     StudentClass: "Prima"
   };
   useEffect(() => {
-    async function fetchData() {
-      let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/User.Write"];
-      getTokenByScope(scope).then(token => {
-        let api = new UserApi(token.accessToken);
-        const result = api.InsertOrUpdateUser(user);
-        result.catch(errors => setErrors(errors));
-      });
+    async function getUserGroups() {
+      let scope = ["user.read"];
+      let token = await getTokenByScope(scope);
+      let user = await getUserGroup(token);
+      console.log(user);
     }
-    fetchData();
+    async function apiInsertOrUpdateUser() {
+      let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/User.Write"];
+      try {
+        let token = await getTokenByScope(scope);
+        insertOrUpdateUser(token.accessToken, user);
+      } catch (error) {
+        console.log(error);
+        //TODO Logger
+      }
+    }
+    apiInsertOrUpdateUser();
+    getUserGroups();
   }, []);
 
   return (
