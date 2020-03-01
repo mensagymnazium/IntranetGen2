@@ -15,6 +15,7 @@ namespace MI.Server.DataAccess.DbObjects.Enums
         Kvinta = 4,
         Sexta = 5,
         Septima = 6,
-        Oktava = 7
+        Oktáva = 7,
+        NotDefined = 10
     }
 }

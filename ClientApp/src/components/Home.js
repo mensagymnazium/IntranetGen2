@@ -9,14 +9,16 @@ export const Home = props => {
   console.log(props);
   let user = {
     Email: props.auth.user.userName,
-    StudentClass: "Prima"
+    StudentClass: ""
   };
+
   useEffect(() => {
     async function getUserGroups() {
       let scope = ["user.read"];
       let token = await getTokenByScope(scope);
-      let user = await getUserGroup(token);
-      console.log(user);
+      let groups = await getUserGroup(token);
+      user.StudentClass = await getStudentClass(groups.value);
+      apiInsertOrUpdateUser();
     }
     async function apiInsertOrUpdateUser() {
       let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/User.Write"];
@@ -28,7 +30,6 @@ export const Home = props => {
         //TODO Logger
       }
     }
-    apiInsertOrUpdateUser();
     getUserGroups();
   }, []);
 
@@ -62,3 +63,20 @@ export const Home = props => {
     </React.Fragment>
   );
 };
+
+async function getStudentClass(groups) {
+  var classes = [
+    "Prima",
+    "Sekunda,",
+    "Tercie",
+    "Kvarta",
+    "Kvinta",
+    "Sexta",
+    "Septima",
+    "Oktáva"
+  ];
+
+  return classes.find(name =>
+    groups.find(group => group.displayName === "Studenti " + name)
+  );
+}
