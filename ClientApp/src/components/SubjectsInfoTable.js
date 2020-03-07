@@ -12,27 +12,22 @@ export const SubjectsInfoTable = () => {
   const [triggerApi, setTriggerApi] = useState();
 
   useEffect(() => {
-    async function fetchData() {
-      let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/Subjects.Read"];
+    async function apiGetAllSubjects() {
       try {
-        let token = await getTokenByScope(scope);
-        let result = await getAllSubjects(token.accessToken);
+        let result = await getAllSubjects();
         setSubjects(result.data);
-        console.log(result.data);
       } catch (error) {
         console.log(error);
         //TODO Logger
       }
     }
     apiGetSignedSubjects();
-    fetchData();
+    apiGetAllSubjects();
   }, [triggerApi]);
 
   async function apiGetSignedSubjects() {
-    let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/User.Write"];
     try {
-      let token = await getTokenByScope(scope);
-      var signedSubjects = await getSignedSubjects(token.accessToken);
+      var signedSubjects = await getSignedSubjects();
       setSignedSubjects(signedSubjects.data);
     } catch (error) {
       console.log(error);

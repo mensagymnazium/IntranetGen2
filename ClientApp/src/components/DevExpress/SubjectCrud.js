@@ -18,7 +18,6 @@ import {
   deleteSubject,
   updateSubject
 } from "./../../services/SubjectApi";
-import { getTokenByScope } from "../../helpers/TokenHelper";
 
 class App extends React.Component {
   constructor(props) {
@@ -38,7 +37,7 @@ class App extends React.Component {
         load: () => this.apiGetAllSubjects(),
         insert: value => this.apiInsertSubject(value),
         remove: value => this.apiDeleteSubject(value.id),
-        update: (key, value) => this.apiUpdateSubject(key, value)
+        update: (oldValue, value) => this.apiUpdateSubject(oldValue, value)
       })
     };
 
@@ -52,10 +51,8 @@ class App extends React.Component {
   }
 
   async apiGetAllSubjects() {
-    let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/Subjects.Read"];
     try {
-      let token = await getTokenByScope(scope);
-      let result = await getAllSubjects(token.accessToken);
+      let result = await getAllSubjects();
       return result.data;
     } catch (error) {
       console.log(error);
@@ -64,10 +61,8 @@ class App extends React.Component {
   }
 
   async apiInsertSubject(subject) {
-    let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/Subjects.Read"];
     try {
-      let token = await getTokenByScope(scope);
-      await insertSubject(token.accessToken, subject);
+      await insertSubject(subject);
     } catch (error) {
       console.log(error);
       //TODO Logger
@@ -75,21 +70,17 @@ class App extends React.Component {
   }
 
   async apiDeleteSubject(id) {
-    let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/Subjects.Read"];
     try {
-      let token = await getTokenByScope(scope);
-      await deleteSubject(token.accessToken, id);
+      await deleteSubject(id);
     } catch (error) {
       console.log(error);
       //TODO Logger
     }
   }
 
-  async apiUpdateSubject(key, subject) {
-    let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/Subjects.Read"];
+  async apiUpdateSubject(oldSubject, subject) {
     try {
-      let token = await getTokenByScope(scope);
-      await updateSubject(token.accessToken, key.id, subject);
+      await updateSubject(oldSubject.id, subject);
     } catch (error) {
       console.log(error);
       //TODO Logger

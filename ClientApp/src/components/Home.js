@@ -21,10 +21,8 @@ export const Home = props => {
       apiInsertOrUpdateUser();
     }
     async function apiInsertOrUpdateUser() {
-      let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/User.Write"];
       try {
-        let token = await getTokenByScope(scope);
-        insertOrUpdateUser(token.accessToken, user);
+        insertOrUpdateUser(user);
       } catch (error) {
         console.log(error);
         //TODO Logger

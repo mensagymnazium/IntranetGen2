@@ -9,7 +9,6 @@ import { SubjectInformation } from "./SubjectInformation";
 
 export const SubjectData = props => {
   const { subject, setTriggerApi, signed } = props;
-  console.log(signed);
   const [subjectInfo, setSubjectInfo] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState({});
 
@@ -19,10 +18,8 @@ export const SubjectData = props => {
   };
 
   async function handleSignUpClick() {
-    let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/User.Write"];
     try {
-      let token = await getTokenByScope(scope);
-      await signUpSubject(token.accessToken, subject.id);
+      await signUpSubject(subject.id);
       setTriggerApi(`Signed ${props.id}`);
     } catch (error) {
       console.log(error);
@@ -31,10 +28,8 @@ export const SubjectData = props => {
   }
 
   async function handleUnSignUpClick() {
-    let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/User.Write"];
     try {
-      let token = await getTokenByScope(scope);
-      await unSignUpSubject(token.accessToken, subject.id);
+      await unSignUpSubject(subject.id);
       setTriggerApi(`Unsigned ${props.id}`);
     } catch (error) {
       console.log(error);

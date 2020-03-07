@@ -1,17 +1,23 @@
 import { authenticatedApi } from "./ApiBase";
 
-export async function insertOrUpdateUser(token, user) {
-  return await authenticatedApi(token).put("/api/user", JSON.stringify(user));
+let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/User.Write"];
+
+export async function insertOrUpdateUser(user) {
+  let api = await authenticatedApi(scope);
+  return await api.put("/api/user", JSON.stringify(user));
 }
 
-export async function signUpSubject(token, id) {
-  return await authenticatedApi(token).post(`/api/user/subject/${id}`);
+export async function signUpSubject(id) {
+  let api = await authenticatedApi(scope);
+  return await api.post(`/api/user/subject/${id}`);
 }
 
-export async function unSignUpSubject(token, id) {
-  return await authenticatedApi(token).delete(`/api/user/subject/${id}`);
+export async function unSignUpSubject(id) {
+  let api = await authenticatedApi(scope);
+  return await api.delete(`/api/user/subject/${id}`);
 }
 
-export async function getSignedSubjects(token) {
-  return await authenticatedApi(token).get("/api/user/subjects/");
+export async function getSignedSubjects() {
+  let api = await authenticatedApi(scope);
+  return await api.get("/api/user/subjects/");
 }
