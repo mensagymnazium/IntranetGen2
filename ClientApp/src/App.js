@@ -7,6 +7,9 @@ import { NoMatch } from "./components/NoMatch";
 import { NavMenu } from "./components/NavMenu";
 import { GraphData } from "./components/GraphData";
 import { SubjectsInfoTable } from "./components/SubjectsInfoTable";
+import { PrivateRoute } from "./components/PrivateRoute";
+import { Role } from "./helpers/Role";
+import SubjectCrud from "./components/DevExpress/SubjectCrud";
 
 class RootApp extends Component {
   render() {
@@ -22,6 +25,11 @@ class RootApp extends Component {
               render={() => <SubjectsInfoTable {...this.props} />}
             />
             <Route exact path="/graph-data" component={GraphData} />
+            <PrivateRoute
+              path="/subject-edit"
+              roles={[Role.Admin]}
+              component={SubjectCrud}
+            />
             <Route component={NoMatch} />
           </Switch>
         </Layout>

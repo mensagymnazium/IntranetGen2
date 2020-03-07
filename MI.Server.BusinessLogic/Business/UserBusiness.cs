@@ -21,7 +21,7 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task<UserDb> GetUserDbByMail(string mail)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Email == mail && !x.IsDeleted);
+            return await _context.Users.FirstOrDefaultAsync(x => x.Email == mail);
         }
 
         public async Task InsertOrUpdateUserDb(UserDto userDto)

@@ -22,12 +22,7 @@ namespace MI.Server.BusinessLogic.Business
             _context = context;
         }
 
-        public async Task<int> CountSubjects()
-        {
-            return await _context.Subjects.Where(a => !a.IsDeleted).CountAsync();
-        }
-
-        public static SubjectDto SubjectDbToSubjectDTO(SubjectDb s)
+        public static SubjectDto SubjectDbToSubjectDto(SubjectDb s)
         {
             return new SubjectDto()
             {
@@ -36,161 +31,76 @@ namespace MI.Server.BusinessLogic.Business
                 Description = s.Description,
                 Capacity = s.Capacity,
                 EnrolledStudents = s.UserSubjects.Count(),
-                Period = DayPeriodEnumToString(s.TimePeriod),
-                Type = SubjectTypeEnumToString(s.Type),
-                Day = s.DayPeriod.ToString(),
-                Teacher = "Strejda" //Todo
+                Period = s.Period,
+                Type = s.Type,
+                Day = s.Day,
+                Teacher = s.Teacher
             };
-        }
-
-        private static string SubjectTypeEnumToString(SubjectTypeEnum type)
-        {
-            switch (type)
-            {
-                case SubjectTypeEnum.Optional:
-                    return "Volitelný";
-                case SubjectTypeEnum.Graduational:
-                    return "Maturitní";
-                case SubjectTypeEnum.Language:
-                    return "Cizí jazyk";
-                case SubjectTypeEnum.Seminars:
-                    return "Nadstavbový seminář";
-                default:
-                    return "----";
-            }
-        }
-
-        private static string DayPeriodEnumToString(PeriodEnum period)
-        {
-            switch (period)
-            {
-                case PeriodEnum.Period1_2:
-                    return "1-2.";
-                case PeriodEnum.Period3_4:
-                    return "3-4.";
-                case PeriodEnum.Period5_6:
-                    return "5-6.";
-                case PeriodEnum.Period7_8:
-                    return "7-8";
-                case PeriodEnum.Period9_10:
-                    return "9-10";
-                default:
-                    return "----";
-            }
         }
 
         public async Task<IEnumerable<SubjectDto>> GetSubjects()
         {
             List<SubjectDb> subjects = await _context.Subjects
-                .Where(s => !s.IsDeleted)
                 .Include(s => s.GradeSubjects)
                 .Include(s => s.UserSubjects)
                 .ToListAsync();
 
-            return subjects.Select(SubjectDbToSubjectDTO);
-        }
-
-        public async Task<IEnumerable<SubjectDto>> GetSubjectsByGrade(GradeEnum grade)
-        {
-            List<SubjectDb> subjects = await _context.Subjects
-                .Where(s => !s.IsDeleted)
-                .Include(s => s.Teacher)
-                .Include(s => s.GradeSubjects)
-                .Include(s => s.UserSubjects)
-                .Where(s => s.GradeSubjects.Any(g => g.Grade == grade))
-                .ToListAsync();
-
-            return subjects.Select(SubjectDbToSubjectDTO);
+            return subjects.Select(SubjectDbToSubjectDto);
         }
 
         public async Task<SubjectDto> GetSubjectById(int id)
         {
             SubjectDb subject = await _context.Subjects
-                .Where(s => !s.IsDeleted)
                 .Include(s => s.Teacher)
                 .Include(s => s.GradeSubjects)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
-            return subject == null ? null : SubjectDbToSubjectDTO(subject);
+            return subject == null ? null : SubjectDbToSubjectDto(subject);
         }
 
-        //private async Task<UserDb> FindTeacher(TeacherDTO teacher)
-        //{
-        //    if (teacher?.Id != null)
-        //    {
-        //        UserDb teacherDb = await _context.Users
-        //        .Where(t => !t.IsDeleted)
-        //        .Where(t => t.Role == UserType.Teacher)
-        //        .FirstOrDefaultAsync(t => t.Id == teacher.Id);
 
-        //        return teacherDb ?? throw new NotFoundException($"Teacher with id {teacher.Id} does not exist in database.");
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        //public async Task<SubjectDTO> CreateSubject(SubjectDTO subject)
-        //{
-        //    SubjectDb subjectDb = new SubjectDb()
-        //    {
-        //        Name = subject.Name,
-        //        Description = subject.Description,
-        //        Capacity = subject.Capacity,
-        //        Teacher = await FindTeacher(subject.Teacher),
-        //        GradeSubjects = subject.Grades.Distinct().Select(g => new GradeSubjectsDb()
-        //        {
-        //            Grade = g
-        //        }).ToList()
-        //    };
-
-        //    _context.Subjects.Add(subjectDb);
-        //    await _context.SaveChangesAsync();
-
-        //    return SubjectDbToSubjectDTO(subjectDb);
-        //}
-
-        //public async Task<SubjectDTO> UpdateSubject(SubjectDTO subject)
-        //{
-        //    SubjectDb subjectDb = await _context.Subjects
-        //        .Where(s => !s.IsDeleted)
-        //        .Include(s => s.GradeSubjects)
-        //        .FirstOrDefaultAsync(s => s.Id == subject.Id);
-
-        //    if (subjectDb == null)
-        //    {
-        //        throw new NotFoundException($"Subject with id {subject.Id} does not exist in database.");
-        //    }
-
-        //    subjectDb.Name = subject.Name;
-        //    subjectDb.Description = subject.Description;
-        //    subjectDb.Capacity = subject.Capacity;
-        //    //subjectDb.TeacherId = (await FindTeacher(subject.Teacher))?.Id; // Necessary for removal 
-
-        //    List<GradeEnum> oldGrades = subjectDb.GradeSubjects.Select(g => g.Grade).ToList();
-        //    //List<GradeEnum> newGrades = subject.Grades;
-
-        //    foreach (GradeEnum grade in oldGrades.Except(newGrades))
-        //    {
-        //        subjectDb.GradeSubjects.Remove(subjectDb.GradeSubjects.First(g => g.Grade == grade));
-        //    }
-
-        //    foreach (GradeEnum grade in newGrades.Except(oldGrades))
-        //    {
-        //        subjectDb.GradeSubjects.Add(new GradeSubjectsDb() { Grade = grade });
-        //    }
-
-        //    _context.Subjects.Update(subjectDb);
-        //    await _context.SaveChangesAsync();
-
-        //    return SubjectDbToSubjectDTO(subjectDb);
-        //}
-
-        public async Task<SubjectDto> DeleteSubject(int id)
+        public async Task CreateSubject(SubjectDto subject)
         {
-            SubjectDb subject = await _context.Subjects
-                .Where(s => !s.IsDeleted)
+            SubjectDb subjectDb = new SubjectDb()
+            {
+                Name = subject.Name,
+                Description = subject.Description,
+                Capacity = subject.Capacity,
+                Teacher = subject.Teacher,
+                Type = subject.Type,
+                Day = subject.Day,
+                Period = subject.Period
+            };
+
+            _context.Subjects.Add(subjectDb);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateSubject(int subjectId, SubjectDto subjectDto)
+        {
+            SubjectDb subjectDb = await _context.Subjects
+                .FirstOrDefaultAsync(s => s.Id == subjectId);
+
+            if (subjectDb == null)
+            {
+                throw new NotFoundException($"Subject with id {subjectId} does not exist in database.");
+            }
+
+            subjectDb.Name = subjectDto.Name ?? subjectDb.Name;
+            subjectDb.Description = subjectDto.Description ?? subjectDb.Description;
+            subjectDb.Capacity = subjectDto.Capacity ?? subjectDb.Capacity;
+            subjectDb.Day = subjectDto.Day == DayEnum.NotDefined ? subjectDb.Day : subjectDto.Day;
+            subjectDb.Period = subjectDto.Period == PeriodEnum.NotDefined ? subjectDb.Period : subjectDto.Period;
+            subjectDb.Teacher = subjectDto.Teacher ?? subjectDb.Teacher;
+            subjectDb.Type = subjectDto.Type == SubjectTypeEnum.NotDefined ? subjectDb.Type : subjectDto.Type;
+
+            _context.Subjects.Update(subjectDb);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteSubject(int id)
+        {
+            var subject = await _context.Subjects
                 .Include(s => s.GradeSubjects)
                 .Include(s => s.UserSubjects)
                 .FirstOrDefaultAsync(s => s.Id == id);
@@ -200,22 +110,8 @@ namespace MI.Server.BusinessLogic.Business
                 throw new NotFoundException($"Subject with id {subject.Id} does not exist in database.");
             }
 
-            subject.IsDeleted = true;
-
-            foreach (GradeSubjectsDb grade in subject.GradeSubjects)
-            {
-                grade.IsDeleted = true;
-            }
-
-            foreach (UserSubjectsDb us in subject.UserSubjects)
-            {
-                us.IsDeleted = true;
-            }
-
-            _context.Subjects.Update(subject);
+            _context.Subjects.Remove(subject);
             await _context.SaveChangesAsync();
-
-            return SubjectDbToSubjectDTO(subject);
         }
     }
 }

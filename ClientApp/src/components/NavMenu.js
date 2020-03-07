@@ -11,6 +11,7 @@ import {
 import { UserLogin } from "./UserLogin";
 import { Link } from "react-router-dom";
 import "./../styles/NavMenu.css";
+import { Role } from "../helpers/Role";
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
@@ -20,6 +21,7 @@ export class NavMenu extends Component {
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
+      role: props.auth.user.idToken.roles[0],
       collapsed: true
     };
   }
@@ -31,6 +33,7 @@ export class NavMenu extends Component {
   }
 
   render() {
+    const roles = [Role.Admin];
     return (
       <header>
         <Navbar
@@ -58,6 +61,17 @@ export class NavMenu extends Component {
                     Předměty
                   </NavLink>
                 </NavItem>
+                {roles && roles.indexOf(this.state.role) === -1 ? null : (
+                  <NavItem>
+                    <NavLink
+                      tag={Link}
+                      className="text-dark"
+                      to="/subject-edit"
+                    >
+                      Správa předmětů
+                    </NavLink>
+                  </NavItem>
+                )}
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/graph-data">
                     Get Graph data

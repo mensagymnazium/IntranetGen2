@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MI.Server.BusinessLogic;
 using MI.Server.BusinessLogic.Business;
@@ -24,66 +25,51 @@ namespace MI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "AdminUser")]
+        [Authorize]
         public async Task<IEnumerable<SubjectDto>> Get()
         {
             return await _manager.SubjectBusiness.GetSubjects();
         }
 
-        [HttpGet("grade/{grade}")]
-        public async Task<IEnumerable<SubjectDto>> GetByGrade(GradeEnum grade)
-        {
-            return await _manager.SubjectBusiness.GetSubjectsByGrade(grade);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<SubjectDto>> GetById(int id)
-        {
-            SubjectDto subject = await _manager.SubjectBusiness.GetSubjectById(id);
-
-            if (subject == null)
-            {
-                return NotFound();
-            }
-
-            return subject;
-        }
-
-        //[HttpPost]
-        //public async Task<ActionResult<SubjectDTO>> Post([FromBody] SubjectDTO subject)
-        //{
-        //    try
-        //    {
-        //        SubjectDTO createdSubject = await _manager.SubjectBusiness.CreateSubject(subject);
-        //        return CreatedAtAction("Get", new { id = createdSubject.Id }, createdSubject);
-        //    }
-        //    catch (NotFoundException e)
-        //    {
-        //        return NotFound(e.Message);
-        //    }
-        //}
-
-        //[HttpPut("{id?}")]
-        //public async Task<ActionResult<SubjectDTO>> PutById(int? id, [FromBody] SubjectDTO subject)
-        //{
-        //    subject.Id = id ?? subject.Id;
-
-        //    try
-        //    {
-        //        return await _manager.SubjectBusiness.UpdateSubject(subject);
-        //    }
-        //    catch (NotFoundException e)
-        //    {
-        //        return NotFound(e.Message);
-        //    }
-        //}
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<SubjectDto>> DeleteById(int id)
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Post(SubjectDto subject)
         {
             try
             {
-                return await _manager.SubjectBusiness.DeleteSubject(id);
+                await _manager.SubjectBusiness.CreateSubject(subject);
+                return Ok();
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpPut("{subjectId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Put([FromRoute]int subjectId, SubjectDto subjectDto)
+        {
+            try
+            {
+                await _manager.SubjectBusiness.UpdateSubject(subjectId, subjectDto);
+                return Ok();
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpDelete("{subjectId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete([FromRoute]int subjectId)
+        {
+            try
+            {
+                await _manager.SubjectBusiness.DeleteSubject(subjectId);
+                return Ok();
             }
             catch (NotFoundException e)
             {

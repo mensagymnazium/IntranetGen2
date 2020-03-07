@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects.Enums
 {
     public enum SubjectTypeEnum
     {
-        Optional = 0,
-        Graduational = 1,
-        Language = 2,
-        Seminars = 3
+        NotDefined,
+        [EnumMember(Value = "Volitelný")]
+        Optional,
+        [EnumMember(Value = "Maturitní")]
+        Graduational,
+        [EnumMember(Value = "Cizí jazyk")]
+        Language,
+        [EnumMember(Value = "Nadstavbový seminář")]
+        Seminars
     }
 }

@@ -24,7 +24,6 @@ export function withAuth(HocComponent) {
       msalAuth.handleRedirectCallback(
         () => {
           let userAccount = msalAuth.getAccount();
-
           this.setState({
             isAuthenticated: true,
             user: userAccount

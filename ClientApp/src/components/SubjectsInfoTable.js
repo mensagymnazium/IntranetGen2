@@ -18,6 +18,7 @@ export const SubjectsInfoTable = () => {
         let token = await getTokenByScope(scope);
         let result = await getAllSubjects(token.accessToken);
         setSubjects(result.data);
+        console.log(result.data);
       } catch (error) {
         console.log(error);
         //TODO Logger
@@ -57,12 +58,10 @@ export const SubjectsInfoTable = () => {
         <tbody>
           {subjects.map(row => {
             let signed = false;
-            console.log("Signed: ", signedSubjects);
-            console.log("Row: ", row);
             if (signedSubjects.some(subject => subject.id === row.id)) {
               signed = true;
             }
-            console.log(signed);
+
             return (
               <SubjectData
                 subject={row}

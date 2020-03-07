@@ -24,7 +24,6 @@ namespace MI.Server.BusinessLogic.Business
         public async Task<List<SubjectDto>> SubjectsByStudent(int id)
         {
             UserDb student = await _context.Users
-                .Where(s => !s.IsDeleted)
                 .Include(s => s.UserSubjects).ThenInclude(us => us.Subject).ThenInclude(s => s.GradeSubjects)
                 .Include(s => s.UserSubjects).ThenInclude(us => us.Subject).ThenInclude(s => s.UserSubjects)
                 .FirstOrDefaultAsync(s => s.Id == id);
@@ -35,16 +34,14 @@ namespace MI.Server.BusinessLogic.Business
             }
 
             return student.UserSubjects
-                .Where(us => !us.IsDeleted)
                 .Select(us => us.Subject)
-                .Select(s => SubjectBusiness.SubjectDbToSubjectDTO(s))
+                .Select(s => SubjectBusiness.SubjectDbToSubjectDto(s))
                 .ToList();
         }
 
         public async Task<List<UserDto>> StudentBySubject(int id)
         {
             SubjectDb subject = await _context.Subjects
-                .Where(s => !s.IsDeleted)
                 .Include(s => s.UserSubjects).ThenInclude(us => us.User)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
@@ -54,7 +51,6 @@ namespace MI.Server.BusinessLogic.Business
             }
 
             return subject.UserSubjects
-                .Where(us => !us.IsDeleted)
                 .Select(us => us.User)
                 .Select(u => new UserDto()
                 {
@@ -79,7 +75,6 @@ namespace MI.Server.BusinessLogic.Business
             }
 
             var subject = await _context.Subjects
-                .Where(s => !s.IsDeleted)
                 .FirstOrDefaultAsync(s => s.Id == subjectId);
 
             _context.UserSubjects.Add(new UserSubjectsDb()
