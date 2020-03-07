@@ -1,34 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { SubjectInformation } from "./SubjectInformation";
 import { TableSchedule } from "./TableSchedule.js";
+import { SubjectData } from "./SubjectData";
+import { getAllSubjects } from "./../services/SubjectApi";
+import { getTokenByScope } from "../helpers/TokenHelper";
+import { getSignedSubjects } from "./../services/UserApi";
 
-export const SubjectsInfoTable = props => {
-  let subjects = props.subjects;
-  const [subjectInfo, setSubjectInfo] = useState(false);
-  const [selectedSubject, setSelectedSubject] = useState({});
-  const signedSubjects = new Set();
+export const SubjectsInfoTable = () => {
+  const [subjects, setSubjects] = useState([]);
+  const [signedSubjects, setSignedSubjects] = useState([]);
+  const [triggerApi, setTriggerApi] = useState();
 
-  const handleInfoClick = e => {
-    console.log(subjects);
-    let item = subjects.find(subject => subject.id === +e.target.id);
-    setSelectedSubject(item);
-    setSubjectInfo(true);
-  };
+  useEffect(() => {
+    async function fetchData() {
+      let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/Subjects.Read"];
+      try {
+        let token = await getTokenByScope(scope);
+        let result = await getAllSubjects(token.accessToken);
+        setSubjects(result.data);
+      } catch (error) {
+        console.log(error);
+        //TODO Logger
+      }
+    }
+    apiGetSignedSubjects();
+    fetchData();
+  }, [triggerApi]);
 
-  const handleSignUpClick = e => {
-    let item = subjects.find(subject => subject.id === e.target.id);
-    signedSubjects.add(item);
-
-    console.log(subjects);
-  };
+  async function apiGetSignedSubjects() {
+    let scope = ["api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf/User.Write"];
+    try {
+      let token = await getTokenByScope(scope);
+      var signedSubjects = await getSignedSubjects(token.accessToken);
+      setSignedSubjects(signedSubjects.data);
+    } catch (error) {
+      console.log(error);
+      //TODO Logger
+    }
+  }
 
   return (
     <React.Fragment>
       <Table responsive>
         <thead>
           <tr>
-            <th>#</th>
             <th>Název</th>
             <th>Den</th>
             <th>Hodina</th>
@@ -41,37 +56,23 @@ export const SubjectsInfoTable = props => {
         </thead>
         <tbody>
           {subjects.map(row => {
+            let signed = false;
+            console.log("Signed: ", signedSubjects);
+            console.log("Row: ", row);
+            if (signedSubjects.some(subject => subject.id === row.id)) {
+              signed = true;
+            }
+            console.log(signed);
             return (
-              <tr>
-                <td>{row.id}</td>
-                <td>{row.name}</td>
-                <td>{row.day}</td>
-                <td>{row.period}</td>
-                <td>{row.category}</td>
-                <td>{row.teacher}</td>
-                <td>
-                  {row.enrolledStudents}/{row.capacity}
-                </td>
-                <td>
-                  <button id={row.id} onClick={e => handleInfoClick(e)}>
-                    Více info
-                  </button>
-                </td>
-                <td>
-                  <button id={row.id} onClick={e => handleSignUpClick(e)}>
-                    Click
-                  </button>
-                </td>
-              </tr>
+              <SubjectData
+                subject={row}
+                signed={signed}
+                setTriggerApi={setTriggerApi}
+              />
             );
           })}
         </tbody>
       </Table>
-      <SubjectInformation
-        selectedSubject={selectedSubject}
-        show={subjectInfo}
-        onHide={() => setSubjectInfo(false)}
-      />
 
       <TableSchedule />
     </React.Fragment>

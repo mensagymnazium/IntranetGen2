@@ -1,6 +1,7 @@
 ﻿using MI.Server.BusinessLogic.DTO;
 using MI.Server.DataAccess.Database;
 using MI.Server.DataAccess.DbObjects.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,11 @@ namespace MI.Server.BusinessLogic.Business
         internal UserBusiness(MensaIntranetContext context)
         {
             _context = context;
+        }
+
+        public async Task<UserDb> GetUserDbByMail(string mail)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Email == mail && !x.IsDeleted);
         }
 
         public async Task InsertOrUpdateUserDb(UserDto userDto)

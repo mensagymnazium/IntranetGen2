@@ -12,10 +12,10 @@ namespace MI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SignupController : ControllerBase
+    public class EnrollmentController : ControllerBase
     {
         private readonly BusinessManager _manager;
-        public SignupController(BusinessManager manager)
+        public EnrollmentController(BusinessManager manager)
         {
             _manager = manager;
         }
@@ -46,32 +46,21 @@ namespace MI.Controllers
             }
         }
 
-        [HttpPut("{studentId}-{subjectId}")]
-        public async Task<ActionResult> Put(int studentId, int subjectId)
-        {
-            try
-            {
-                await _manager.SignupBusiness.CreateSignup(studentId, subjectId);
-                return NoContent();
-            }
-            catch (NotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
-        }
+        
 
-        [HttpDelete("{studentId}-{subjectId}")]
-        public async Task<ActionResult> Delete(int studentId, int subjectId)
-        {
-            try
-            {
-                await _manager.SignupBusiness.DeleteSignup(studentId, subjectId);
-                return NoContent();
-            }
-            catch (NotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
-        }
+        //[HttpDelete({studentId}/{subjectId}")]
+        //public async Task<ActionResult> Delete(int studentId, int subjectId)
+        //{
+        //    try
+        //    {
+        //        var userDb = await _manager.UserBusiness.GetUserDbByMail("s");
+        //        await _manager.SignupBusiness.DeleteSignup(userDb, subjectId);
+        //        return Ok();
+        //    }
+        //    catch (NotFoundException e)
+        //    {
+        //        return NotFound(e.Message);
+        //    }
+        //}
     }
 }

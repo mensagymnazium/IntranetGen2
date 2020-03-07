@@ -37,9 +37,27 @@ namespace MI.Server.BusinessLogic.Business
                 Capacity = s.Capacity,
                 EnrolledStudents = s.UserSubjects.Count(),
                 Period = DayPeriodEnumToString(s.TimePeriod),
+                Type = SubjectTypeEnumToString(s.Type),
                 Day = s.DayPeriod.ToString(),
                 Teacher = "Strejda" //Todo
             };
+        }
+
+        private static string SubjectTypeEnumToString(SubjectTypeEnum type)
+        {
+            switch (type)
+            {
+                case SubjectTypeEnum.Optional:
+                    return "Volitelný";
+                case SubjectTypeEnum.Graduational:
+                    return "Maturitní";
+                case SubjectTypeEnum.Language:
+                    return "Cizí jazyk";
+                case SubjectTypeEnum.Seminars:
+                    return "Nadstavbový seminář";
+                default:
+                    return "----";
+            }
         }
 
         private static string DayPeriodEnumToString(PeriodEnum period)

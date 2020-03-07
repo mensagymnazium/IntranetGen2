@@ -14,7 +14,7 @@ namespace MI.Server.BusinessLogic.DTO
         public int EnrolledStudents { get; set; }
         public string Day { get; set; }
         public string Period { get; set; }
+        public string Type { get; set; }
         public string Teacher { get; set; }
-
     }
 }

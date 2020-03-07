@@ -5,6 +5,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using MI.Server.BusinessLogic;
 using MI.Server.BusinessLogic.DTO;
+using MI.Server.BusinessLogic.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ namespace MI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly BusinessManager _manager;
@@ -22,12 +24,8 @@ namespace MI.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-        public async Task<IActionResult> PutUser(UserDto userDto)
+        public async Task<IActionResult> InsertOrUpdateUser(UserDto userDto)
         {
             try
             {
@@ -37,6 +35,50 @@ namespace MI.Controllers
             catch (Exception)
             {
                 return BadRequest();
+            }
+        }
+
+        [HttpPost("subject/{subjectId}")]
+        public async Task<IActionResult> SignUpToSubject([FromRoute]int subjectId)
+        {
+            try
+            {
+                var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
+                await _manager.SignupBusiness.CreateSignup(userDb, subjectId);
+                return Ok();
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpDelete("subject/{subjectId}")]
+        public async Task<IActionResult> UnSignUpSubject([FromRoute]int subjectId)
+        {
+            try
+            {
+                var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
+                await _manager.SignupBusiness.DeleteSignup(userDb, subjectId);
+                return Ok();
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpGet("subjects")]
+        public async Task<ActionResult<IEnumerable<SubjectDto>>> GetByStudentId()
+        {
+            try
+            {
+                var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
+                return await _manager.SignupBusiness.SubjectsByStudent(userDb.Id);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
             }
         }
     }
