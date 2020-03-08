@@ -99,6 +99,7 @@ class App extends React.Component {
             allowUpdating={true}
             allowAdding={true}
             allowDeleting={true}
+            useIcons={true}
           >
             <Popup
               title="Detail předmětu"
@@ -161,6 +162,7 @@ class App extends React.Component {
               />
             </Form>
           </Editing>
+
           <Column dataField="name" caption="Název" />
           <Column dataField="type" caption="Typ předmětu" />
           <Column dataField="teacher" caption="Vyučující" />

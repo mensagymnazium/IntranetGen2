@@ -5,8 +5,6 @@ import { getTokenByScope } from "../helpers/TokenHelper";
 import { getUserGroup } from "../services/GraphService";
 
 export const Home = props => {
-  const [errors, setErrors] = useState([]);
-  console.log(props);
   let user = {
     Email: props.auth.user.userName,
     StudentClass: ""
@@ -29,7 +27,7 @@ export const Home = props => {
       }
     }
     getUserGroups();
-  }, []);
+  }, [user]);
 
   return (
     <React.Fragment>
