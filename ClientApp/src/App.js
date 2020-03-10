@@ -10,6 +10,7 @@ import { SubjectsInfoTable } from "./components/SubjectsInfoTable";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { Role } from "./helpers/Role";
 import SubjectCrud from "./components/DevExpress/SubjectCrud";
+import SubjectSigning from "./components/DevExpress/SubjectSigning";
 
 class RootApp extends Component {
   render() {
@@ -23,6 +24,11 @@ class RootApp extends Component {
               exact
               path="/subjects"
               render={() => <SubjectsInfoTable {...this.props} />}
+            />
+            <Route
+              exact
+              path="/subjects-sign"
+              render={() => <SubjectSigning {...this.props} />}
             />
             <Route exact path="/graph-data" component={GraphData} />
             <PrivateRoute

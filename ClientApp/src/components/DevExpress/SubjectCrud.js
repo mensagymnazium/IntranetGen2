@@ -19,7 +19,7 @@ import {
   updateSubject
 } from "./../../services/SubjectApi";
 
-class App extends React.Component {
+class SubjectCrud extends React.Component {
   constructor(props) {
     super(props);
     this.type = ["Volitelný", "Maturitní", "Cizí jazyk", "Nadstavbový seminář"];
@@ -89,7 +89,6 @@ class App extends React.Component {
 
   render() {
     const { subjects } = this.state;
-    console.log(subjects);
     return (
       <div id="data-grid-demo">
         <DataGrid dataSource={subjects} keyExpr="ID" showBorders={true}>
@@ -176,4 +175,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default SubjectCrud;
