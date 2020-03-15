@@ -77,6 +77,11 @@ export class NavMenu extends Component {
                     Get Graph data
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/subjects-sign">
+                    Předměty vol 2
+                  </NavLink>
+                </NavItem>
                 <UserLogin {...this.props} />
               </ul>
             </Collapse>

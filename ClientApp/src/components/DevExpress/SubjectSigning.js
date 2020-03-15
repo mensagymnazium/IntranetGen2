@@ -2,15 +2,12 @@ import React from "react";
 
 import DataGrid, {
   Column,
-  Editing,
-  Popup,
   Paging,
-  Lookup,
-  Position,
-  Form
+  Selection,
+  MasterDetail
 } from "devextreme-react/data-grid";
 import "devextreme-react/text-area";
-import { Item } from "devextreme-react/form";
+import { Button } from "devextreme-react";
 import CustomStore from "devextreme/data/custom_store";
 import {
   getAllSubjects,
@@ -18,7 +15,7 @@ import {
   deleteSubject,
   updateSubject
 } from "./../../services/SubjectApi";
-import { Tooltip } from "devextreme-react/tooltip";
+import "./../../styles/SubjectSign.css";
 
 class SubjectSigning extends React.Component {
   constructor(props) {
@@ -33,8 +30,8 @@ class SubjectSigning extends React.Component {
       }),
       defaultVisible: false
     };
-
-    this.toggleDefault = this.toggleDefault.bind(this);
+    this.contentReady = this.contentReady.bind(this);
+    this.selectionChanged = this.selectionChanged.bind(this);
   }
 
   toggleDefault(e) {
@@ -81,38 +78,54 @@ class SubjectSigning extends React.Component {
     }
   }
 
+  contentReady(e) {
+    if (!e.component.getSelectedRowKeys().length) {
+      e.component.selectRowsByIndexes(0);
+    }
+  }
+  selectionChanged(e) {
+    e.component.collapseAll(-1);
+    e.component.expandRow(e.currentSelectedRowKeys[0]);
+  }
+
   render() {
     const { subjects } = this.state;
     return (
-      <div id="data-grid-demo">
+      <div className="demo-container">
         <DataGrid
+          id="grid-container"
           dataSource={subjects}
           keyExpr="ID"
           showBorders={true}
-          onCellHoverChanged={sender => this.toggleDefault(sender)}
+          onSelectionChanged={this.selectionChanged}
+          onContentReady={this.contentReady}
         >
           <Paging enabled={false} />
-          <Editing useIcons={true} />
-
+          <Selection mode="single" />
           <Column dataField="name" caption="Název"></Column>
           <Column dataField="type" caption="Typ předmětu" />
           <Column dataField="teacher" caption="Vyučující" />
-          <Column id="product1" dataField="description" caption="Popis" />
+          <Column dataField="description" caption="Popis" />
           <Column dataField="day" caption="Den" width={80} />
           <Column dataField="period" caption="Čas" />
           <Column dataField="capacity" caption="Kapacita" width={80} />
-          <Column type="adaptive" width={50} />
+
+          <MasterDetail enabled={false} render={renderDetail} />
         </DataGrid>
-        <Tooltip
-          target="#product1"
-          visible={this.state.defaultVisible}
-          closeOnOutsideClick={false}
-        >
-          <div>ExcelRemote IR</div>
-        </Tooltip>
       </div>
     );
   }
+}
+
+function renderDetail(props) {
+  let { teacher, description } = props.data;
+  return (
+    <div className="subject-info">
+      <h5 className="subject-photo">Popis:</h5>
+      <p className="subject-notes">{description}</p>
+      <Button icon="check" type="success" text="Done" />
+    </div>
+  );
 }
 
 export default SubjectSigning;
