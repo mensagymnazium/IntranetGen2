@@ -25,9 +25,7 @@ class SubjectSigning extends React.Component {
     super(props);
 
     this.state = {
-      subjects: new CustomStore({
-        load: () => this.apiGetAllSubjects()
-      }),
+      subjects: [],
       signedSubjects: []
     };
     this.contentReady = this.contentReady.bind(this);
@@ -39,6 +37,7 @@ class SubjectSigning extends React.Component {
   }
 
   async componentDidMount() {
+    await this.apiGetAllSubjects();
     await this.apiGetSignedSubjects();
   }
 
@@ -57,7 +56,9 @@ class SubjectSigning extends React.Component {
   async apiGetAllSubjects() {
     try {
       let result = await getAllSubjects();
-      return result.data;
+      this.setState({
+        subjects: result.data
+      });
     } catch (error) {
       console.log(error);
       //TODO Logger
@@ -98,12 +99,14 @@ class SubjectSigning extends React.Component {
     e.event.preventDefault();
     await this.apiSignUpSubjects(e.row.data.id, priority);
     await this.apiGetSignedSubjects();
+    await this.apiGetAllSubjects();
   }
 
   async unSignUpClick(e) {
     e.event.preventDefault();
     await this.apiUnSignUpSubjects(e.row.data.id);
     await this.apiGetSignedSubjects();
+    await this.apiGetAllSubjects();
   }
 
   isSignUpVisible(e) {
@@ -121,12 +124,11 @@ class SubjectSigning extends React.Component {
         <DataGrid
           id="grid-container"
           dataSource={subjects}
-          keyExpr="ID"
+          keyExpr="id"
           showBorders={true}
           onSelectionChanged={this.selectionChanged}
           onContentReady={this.contentReady}
         >
-          <Editing mode="row" />
           <Paging enabled={false} />
           <Selection mode="single" />
           <Column dataField="name" caption="Název"></Column>
@@ -165,16 +167,21 @@ class SubjectSigning extends React.Component {
 }
 
 function renderDetail(props) {
-  let { teacher, description } = props.data;
+  let { enrolledStudents, capacity, description } = props.data;
   return (
     <div className="subject-info">
-      <h5 className="subject-photo">Popis:</h5>
-      <p className="subject-notes">{description}</p>
+      <div className="subject-headline">
+        <p>Popis:</p>
+        <p>Zapsáno:</p>
+      </div>
+      <div className="subject-notes">
+        <p>{description}</p>
+        <p>
+          {enrolledStudents} / {capacity}
+        </p>
+      </div>
     </div>
   );
-}
-function signUpClick(e) {
-  console.log(e);
 }
 
 export default SubjectSigning;
