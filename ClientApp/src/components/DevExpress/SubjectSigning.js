@@ -4,18 +4,21 @@ import DataGrid, {
   Column,
   Paging,
   Selection,
-  MasterDetail
+  MasterDetail,
+  Editing
 } from "devextreme-react/data-grid";
 import "devextreme-react/text-area";
 import { Button } from "devextreme-react";
 import CustomStore from "devextreme/data/custom_store";
+import { getAllSubjects } from "./../../services/SubjectApi";
 import {
-  getAllSubjects,
-  insertSubject,
-  deleteSubject,
-  updateSubject
-} from "./../../services/SubjectApi";
+  signUpSubject,
+  getSignedSubjects,
+  unSignUpSubject
+} from "./../../services/UserApi";
+
 import "./../../styles/SubjectSign.css";
+import { Priority } from "../../helpers/Priority";
 
 class SubjectSigning extends React.Component {
   constructor(props) {
@@ -23,22 +26,32 @@ class SubjectSigning extends React.Component {
 
     this.state = {
       subjects: new CustomStore({
-        load: () => this.apiGetAllSubjects(),
-        insert: value => this.apiInsertSubject(value),
-        remove: value => this.apiDeleteSubject(value.id),
-        update: (oldValue, value) => this.apiUpdateSubject(oldValue, value)
+        load: () => this.apiGetAllSubjects()
       }),
-      defaultVisible: false
+      signedSubjects: []
     };
     this.contentReady = this.contentReady.bind(this);
     this.selectionChanged = this.selectionChanged.bind(this);
+    this.signUpClick = this.signUpClick.bind(this);
+    this.unSignUpClick = this.unSignUpClick.bind(this);
+    this.isSignUpVisible = this.isSignUpVisible.bind(this);
+    this.isUnSignVisible = this.isUnSignVisible.bind(this);
   }
 
-  toggleDefault(e) {
-    console.log(e.text);
-    this.setState({
-      defaultVisible: !this.state.defaultVisible
-    });
+  async componentDidMount() {
+    await this.apiGetSignedSubjects();
+  }
+
+  async apiGetSignedSubjects() {
+    try {
+      let result = await getSignedSubjects();
+      this.setState({
+        signedSubjects: result.data
+      });
+    } catch (error) {
+      console.log(error);
+      //TODO Logger
+    }
   }
 
   async apiGetAllSubjects() {
@@ -51,27 +64,20 @@ class SubjectSigning extends React.Component {
     }
   }
 
-  async apiInsertSubject(subject) {
+  async apiSignUpSubjects(id, priority) {
     try {
-      await insertSubject(subject);
+      let result = await signUpSubject(id, priority);
+      return result.data;
     } catch (error) {
       console.log(error);
       //TODO Logger
     }
   }
 
-  async apiDeleteSubject(id) {
+  async apiUnSignUpSubjects(id) {
     try {
-      await deleteSubject(id);
-    } catch (error) {
-      console.log(error);
-      //TODO Logger
-    }
-  }
-
-  async apiUpdateSubject(oldSubject, subject) {
-    try {
-      await updateSubject(oldSubject.id, subject);
+      let result = await unSignUpSubject(id);
+      return result.data;
     } catch (error) {
       console.log(error);
       //TODO Logger
@@ -88,6 +94,26 @@ class SubjectSigning extends React.Component {
     e.component.expandRow(e.currentSelectedRowKeys[0]);
   }
 
+  async signUpClick(e, priority) {
+    e.event.preventDefault();
+    await this.apiSignUpSubjects(e.row.data.id, priority);
+    await this.apiGetSignedSubjects();
+  }
+
+  async unSignUpClick(e) {
+    e.event.preventDefault();
+    await this.apiUnSignUpSubjects(e.row.data.id);
+    await this.apiGetSignedSubjects();
+  }
+
+  isSignUpVisible(e) {
+    return !this.state.signedSubjects.some(s => s.id === e.row.data.id);
+  }
+
+  isUnSignVisible(e) {
+    return this.state.signedSubjects.some(s => s.id === e.row.data.id);
+  }
+
   render() {
     const { subjects } = this.state;
     return (
@@ -100,6 +126,7 @@ class SubjectSigning extends React.Component {
           onSelectionChanged={this.selectionChanged}
           onContentReady={this.contentReady}
         >
+          <Editing mode="row" />
           <Paging enabled={false} />
           <Selection mode="single" />
           <Column dataField="name" caption="Název"></Column>
@@ -109,7 +136,27 @@ class SubjectSigning extends React.Component {
           <Column dataField="day" caption="Den" width={80} />
           <Column dataField="period" caption="Čas" />
           <Column dataField="capacity" caption="Kapacita" width={80} />
-
+          <Column
+            caption="Zapsat"
+            type="buttons"
+            buttons={[
+              {
+                text: "Primárně",
+                visible: this.isSignUpVisible,
+                onClick: e => this.signUpClick(e, Priority.Primary)
+              },
+              {
+                text: "Sekundárně",
+                visible: this.isSignUpVisible,
+                onClick: e => this.signUpClick(e, Priority.Secondary)
+              },
+              {
+                text: "Odhlásit",
+                visible: this.isUnSignVisible,
+                onClick: this.unSignUpClick
+              }
+            ]}
+          />
           <MasterDetail enabled={false} render={renderDetail} />
         </DataGrid>
       </div>
@@ -123,9 +170,11 @@ function renderDetail(props) {
     <div className="subject-info">
       <h5 className="subject-photo">Popis:</h5>
       <p className="subject-notes">{description}</p>
-      <Button icon="check" type="success" text="Done" />
     </div>
   );
+}
+function signUpClick(e) {
+  console.log(e);
 }
 
 export default SubjectSigning;

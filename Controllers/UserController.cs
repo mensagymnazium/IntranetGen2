@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MI.Server.BusinessLogic;
 using MI.Server.BusinessLogic.DTO;
 using MI.Server.BusinessLogic.Exceptions;
+using MI.Server.DataAccess.DbObjects.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,12 +40,12 @@ namespace MI.Controllers
         }
 
         [HttpPost("subject/{subjectId}")]
-        public async Task<IActionResult> SignUpToSubject([FromRoute]int subjectId)
+        public async Task<IActionResult> SignUpToSubject([FromRoute]int subjectId,[FromBody] Priority priority )
         {
             try
             {
                 var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
-                await _manager.SignupBusiness.CreateSignup(userDb, subjectId);
+                await _manager.SignupBusiness.CreateSignup(userDb, subjectId, priority);
                 return Ok();
             }
             catch (NotFoundException e)

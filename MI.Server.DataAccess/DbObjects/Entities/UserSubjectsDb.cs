@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MI.Server.DataAccess.DbObjects.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,5 +11,7 @@ namespace MI.Server.DataAccess.DbObjects.Entities
         public UserDb User { get; set; }
         public int SubjectId { get; set; }
         public SubjectDb Subject { get; set; }
+
+        public Priority Priority { get; set; }
     }
 }

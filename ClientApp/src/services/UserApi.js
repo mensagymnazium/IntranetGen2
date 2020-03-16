@@ -7,9 +7,9 @@ export async function insertOrUpdateUser(user) {
   return await api.put("/api/user", JSON.stringify(user));
 }
 
-export async function signUpSubject(id) {
+export async function signUpSubject(id, priority) {
   let api = await authenticatedApi(scope);
-  return await api.post(`/api/user/subject/${id}`);
+  return await api.post(`/api/user/subject/${id}`, JSON.stringify(priority));
 }
 
 export async function unSignUpSubject(id) {

@@ -61,7 +61,7 @@ namespace MI.Server.BusinessLogic.Business
                 .ToList();
         }
 
-        public async Task CreateSignup(UserDb student, int subjectId)
+        public async Task CreateSignup(UserDb student, int subjectId, Priority priority)
         {
             if (student == null)
                 throw new ArgumentNullException();
@@ -79,8 +79,9 @@ namespace MI.Server.BusinessLogic.Business
 
             _context.UserSubjects.Add(new UserSubjectsDb()
             {
-                User = student ?? throw new NotFoundException($"Student with id {student.Id} does not exist in database."),
-                Subject = subject ?? throw new NotFoundException($"Subject with id {subjectId} does not exist in database.")
+                User = student,
+                Subject = subject ?? throw new NotFoundException($"Subject with id {subjectId} does not exist in database."),
+                Priority = priority
             });
 
             await _context.SaveChangesAsync();
