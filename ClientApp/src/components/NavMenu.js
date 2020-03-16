@@ -11,7 +11,7 @@ import {
 import { UserLogin } from "./UserLogin";
 import { Link } from "react-router-dom";
 import "./../styles/NavMenu.css";
-import { Role } from "../helpers/Role";
+import { Role } from "../helpers/RoleEnum";
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;

@@ -4,8 +4,7 @@ import DataGrid, {
   Column,
   Paging,
   Selection,
-  MasterDetail,
-  Editing
+  MasterDetail
 } from "devextreme-react/data-grid";
 import "devextreme-react/text-area";
 import { Button } from "devextreme-react";
@@ -18,7 +17,7 @@ import {
 } from "./../../services/UserApi";
 
 import "./../../styles/SubjectSign.css";
-import { Priority } from "../../helpers/Priority";
+import { Priority } from "../../helpers/PriorityEnum";
 
 class SubjectSigning extends React.Component {
   constructor(props) {
@@ -119,7 +118,9 @@ class SubjectSigning extends React.Component {
 
   render() {
     const { subjects } = this.state;
-    return (
+    return !subjects.length ? (
+      <p>Loading...</p>
+    ) : (
       <div className="demo-container">
         <DataGrid
           id="grid-container"
