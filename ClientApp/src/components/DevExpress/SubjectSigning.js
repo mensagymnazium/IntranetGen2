@@ -4,11 +4,11 @@ import DataGrid, {
   Column,
   Paging,
   Selection,
-  MasterDetail
+  MasterDetail,
+  FilterRow,
+  SearchPanel
 } from "devextreme-react/data-grid";
 import "devextreme-react/text-area";
-import { Button } from "devextreme-react";
-import CustomStore from "devextreme/data/custom_store";
 import { getAllSubjects } from "./../../services/SubjectApi";
 import {
   signUpSubject,
@@ -131,8 +131,9 @@ class SubjectSigning extends React.Component {
           onContentReady={this.contentReady}
         >
           <Paging enabled={false} />
+          <SearchPanel visible={true} width={240} placeholder="Najít..." />
           <Selection mode="single" />
-          <Column dataField="name" caption="Název"></Column>
+          <Column dataField="name" caption="Název" />
           <Column dataField="type" caption="Typ předmětu" />
           <Column dataField="teacher" caption="Vyučující" />
           <Column dataField="description" caption="Popis" />
