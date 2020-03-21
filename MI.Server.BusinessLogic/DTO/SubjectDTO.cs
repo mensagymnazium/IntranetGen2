@@ -24,5 +24,7 @@ namespace MI.Server.BusinessLogic.DTO
         [JsonConverter(typeof(StringEnumConverter))]
         public SubjectTypeEnum Type { get; set; }
         public string Teacher { get; set; }
+
+        public List<GradeEnum> Grades { get; set; } = new List<GradeEnum>();
     }
 }

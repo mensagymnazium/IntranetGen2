@@ -5,12 +5,12 @@ import DataGrid, {
   Editing,
   Popup,
   Paging,
-  Lookup,
   Position,
   Form
 } from "devextreme-react/data-grid";
 import "devextreme-react/text-area";
 import { Item } from "devextreme-react/form";
+import TagBox from "devextreme-react/tag-box";
 import CustomStore from "devextreme/data/custom_store";
 import {
   getAllSubjects,
@@ -18,6 +18,7 @@ import {
   deleteSubject,
   updateSubject
 } from "./../../services/SubjectApi";
+import { Grade } from "./../../helpers/ClassesEnum";
 
 class SubjectCrud extends React.Component {
   constructor(props) {
@@ -31,13 +32,25 @@ class SubjectCrud extends React.Component {
       "7-8. (14:30 - 16:05)",
       "9-10. (16:15 - 17:50)"
     ];
+    this.gradesList = [
+      Grade.Prima,
+      Grade.Sekunda,
+      Grade.Tercie,
+      Grade.Kvarta,
+      Grade.Kvinta,
+      Grade.Sexta,
+      Grade.Septima,
+      Grade.Oktava
+    ];
 
     this.state = {
       subjects: new CustomStore({
         load: () => this.apiGetAllSubjects(),
         insert: value => this.apiInsertSubject(value),
         remove: value => this.apiDeleteSubject(value.id),
-        update: (oldValue, value) => this.apiUpdateSubject(oldValue, value)
+        update: (oldValue, value) => {
+          this.apiUpdateSubject(oldValue, value);
+        }
       })
     };
 
@@ -53,6 +66,7 @@ class SubjectCrud extends React.Component {
   async apiGetAllSubjects() {
     try {
       let result = await getAllSubjects();
+      console.log(result.data);
       return result.data;
     } catch (error) {
       console.log(error);
@@ -91,9 +105,16 @@ class SubjectCrud extends React.Component {
     const { subjects } = this.state;
     return (
       <div id="data-grid-demo">
-        <DataGrid dataSource={subjects} keyExpr="ID" showBorders={true}>
+        <DataGrid
+          dataSource={subjects}
+          keyExpr="ID"
+          showBorders={true}
+          repaintChangesOnly={true}
+          cellHintEnabled={true}
+        >
           <Paging enabled={false} />
           <Editing
+            refreshMode="reshape"
             mode="popup"
             allowUpdating={true}
             allowAdding={true}
@@ -103,7 +124,7 @@ class SubjectCrud extends React.Component {
             <Popup
               title="Detail předmětu"
               showTitle={true}
-              width={700}
+              width={900}
               height={525}
             >
               <Position my="top" at="top" of={window} />
@@ -153,8 +174,18 @@ class SubjectCrud extends React.Component {
                 validationRules={this.validationRules.requiredField}
               />
               <Item
+                dataField="grades"
+                editorType="dxTagBox"
+                editorOptions={{
+                  items: this.gradesList,
+                  showSelectionControls: true,
+                  applyValueMode: "useButtons"
+                }}
+                validationRules={this.validationRules.requiredField}
+              />
+
+              <Item
                 dataField="description"
-                colSpan={2}
                 editorType="dxTextArea"
                 editorOptions={{ height: 90 }}
                 validationRules={this.validationRules.requiredField}
@@ -169,6 +200,7 @@ class SubjectCrud extends React.Component {
           <Column dataField="day" caption="Den" width={80} />
           <Column dataField="period" caption="Čas" />
           <Column dataField="capacity" caption="Kapacita" width={80} />
+          <Column dataField="grades" caption="Pro třídu" />
         </DataGrid>
       </div>
     );

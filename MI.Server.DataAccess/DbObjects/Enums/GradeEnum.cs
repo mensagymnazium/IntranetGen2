@@ -6,6 +6,7 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects.Enums
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum GradeEnum
     {
         Prima,

@@ -34,7 +34,8 @@ namespace MI.Server.BusinessLogic.Business
                 Period = s.Period,
                 Type = s.Type,
                 Day = s.Day,
-                Teacher = s.Teacher
+                Teacher = s.Teacher,
+                Grades = s.GradeSubjects.Select(g => g.Grade).OrderBy(g => g).ToList()
             };
         }
 
@@ -69,7 +70,11 @@ namespace MI.Server.BusinessLogic.Business
                 Teacher = subject.Teacher,
                 Type = subject.Type,
                 Day = subject.Day,
-                Period = subject.Period
+                Period = subject.Period,
+                GradeSubjects = subject.Grades.Distinct().Select(g => new GradeSubjectsDb()
+                {
+                    Grade = g
+                }).ToList()
             };
 
             _context.Subjects.Add(subjectDb);
@@ -79,6 +84,7 @@ namespace MI.Server.BusinessLogic.Business
         public async Task UpdateSubject(int subjectId, SubjectDto subjectDto)
         {
             SubjectDb subjectDb = await _context.Subjects
+                .Include(g => g.GradeSubjects)
                 .FirstOrDefaultAsync(s => s.Id == subjectId);
 
             if (subjectDb == null)
@@ -93,6 +99,22 @@ namespace MI.Server.BusinessLogic.Business
             subjectDb.Period = subjectDto.Period == PeriodEnum.NotDefined ? subjectDb.Period : subjectDto.Period;
             subjectDb.Teacher = subjectDto.Teacher ?? subjectDb.Teacher;
             subjectDb.Type = subjectDto.Type == SubjectTypeEnum.NotDefined ? subjectDb.Type : subjectDto.Type;
+
+            if(subjectDto.Grades.Count != 0)
+            {
+                var oldGrades = subjectDb.GradeSubjects.Select(g => g.Grade).ToList();
+                var newGrades = subjectDto.Grades;
+
+                foreach (var grade in oldGrades.Except(newGrades))
+                {
+                    subjectDb.GradeSubjects.Remove(subjectDb.GradeSubjects.First(g => g.Grade == grade));
+                }
+
+                foreach (var grade in newGrades.Except(oldGrades))
+                {
+                    subjectDb.GradeSubjects.Add(new GradeSubjectsDb() { Grade = grade });
+                }
+            }
 
             _context.Subjects.Update(subjectDb);
             await _context.SaveChangesAsync();
