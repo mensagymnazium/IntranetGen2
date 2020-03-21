@@ -69,13 +69,27 @@ namespace MI.Controllers
             }
         }
 
-        [HttpGet("subjects")]
+        [HttpGet("my/subjects")]
         public async Task<ActionResult<IEnumerable<SubjectDto>>> GetByStudentId()
         {
             try
             {
                 var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
                 return await _manager.SignupBusiness.SubjectsByStudent(userDb.Id);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpGet("subjects")]
+        public async Task<ActionResult<IEnumerable<SubjectDto>>> GetAllAvailableSubjects()
+        {
+            try
+            {
+                var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
+                return await _manager.SubjectBusiness.GetSubjectByUser(userDb);
             }
             catch (NotFoundException e)
             {

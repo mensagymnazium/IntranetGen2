@@ -49,14 +49,15 @@ namespace MI.Server.BusinessLogic.Business
             return subjects.Select(SubjectDbToSubjectDto);
         }
 
-        public async Task<SubjectDto> GetSubjectById(int id)
+        public async Task<List<SubjectDto>> GetSubjectByUser(UserDb userDb)
         {
-            SubjectDb subject = await _context.Subjects
-                .Include(s => s.Teacher)
+            List<SubjectDb> subjects = await _context.Subjects
                 .Include(s => s.GradeSubjects)
-                .FirstOrDefaultAsync(s => s.Id == id);
+                .Include(s => s.UserSubjects)
+                .Where(s => s.GradeSubjects.Any(g => g.Grade == userDb.StudentClass))
+                .ToListAsync();
 
-            return subject == null ? null : SubjectDbToSubjectDto(subject);
+            return subjects.Select(SubjectDbToSubjectDto).ToList();
         }
 
 

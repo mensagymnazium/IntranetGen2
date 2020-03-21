@@ -19,5 +19,10 @@ export async function unSignUpSubject(id) {
 
 export async function getSignedSubjects() {
   let api = await authenticatedApi(scope);
+  return await api.get("/api/user/my/subjects/");
+}
+
+export async function getAvailableSubjects() {
+  let api = await authenticatedApi(scope);
   return await api.get("/api/user/subjects/");
 }

@@ -9,11 +9,11 @@ import DataGrid, {
   SearchPanel
 } from "devextreme-react/data-grid";
 import "devextreme-react/text-area";
-import { getAllSubjects } from "./../../services/SubjectApi";
 import {
   signUpSubject,
   getSignedSubjects,
-  unSignUpSubject
+  unSignUpSubject,
+  getAvailableSubjects
 } from "./../../services/UserApi";
 
 import "./../../styles/SubjectSign.css";
@@ -25,7 +25,8 @@ class SubjectSigning extends React.Component {
 
     this.state = {
       subjects: [],
-      signedSubjects: []
+      signedSubjects: [],
+      loading: true
     };
     this.contentReady = this.contentReady.bind(this);
     this.selectionChanged = this.selectionChanged.bind(this);
@@ -38,6 +39,9 @@ class SubjectSigning extends React.Component {
   async componentDidMount() {
     await this.apiGetAllSubjects();
     await this.apiGetSignedSubjects();
+    this.setState({
+      loading: false
+    });
   }
 
   async apiGetSignedSubjects() {
@@ -54,10 +58,11 @@ class SubjectSigning extends React.Component {
 
   async apiGetAllSubjects() {
     try {
-      let result = await getAllSubjects();
+      let result = await getAvailableSubjects();
       this.setState({
         subjects: result.data
       });
+      console.log(this.state.subjects);
     } catch (error) {
       console.log(error);
       //TODO Logger
@@ -118,7 +123,7 @@ class SubjectSigning extends React.Component {
 
   render() {
     const { subjects } = this.state;
-    return !subjects.length ? (
+    return this.state.loading ? (
       <p>Loading...</p>
     ) : (
       <div className="demo-container">
