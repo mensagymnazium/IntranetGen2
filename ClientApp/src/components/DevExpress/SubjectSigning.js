@@ -5,7 +5,6 @@ import DataGrid, {
   Paging,
   Selection,
   MasterDetail,
-  FilterRow,
   SearchPanel
 } from "devextreme-react/data-grid";
 import "devextreme-react/text-area";

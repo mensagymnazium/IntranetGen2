@@ -14,14 +14,10 @@ namespace MI.Server.BusinessLogic.DTO
         public string Description { get; set; }
         public int? Capacity { get; set; }
         public int EnrolledStudents { get; set; }
-
-        [JsonConverter(typeof(StringEnumConverter))]
         public DayEnum Day { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
         public PeriodEnum Period { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
         public SubjectTypeEnum Type { get; set; }
         public string Teacher { get; set; }
 

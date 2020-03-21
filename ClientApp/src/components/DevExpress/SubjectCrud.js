@@ -6,7 +6,8 @@ import DataGrid, {
   Popup,
   Paging,
   Position,
-  Form
+  Form,
+  SearchPanel
 } from "devextreme-react/data-grid";
 import "devextreme-react/text-area";
 import { Item } from "devextreme-react/form";
@@ -109,12 +110,11 @@ class SubjectCrud extends React.Component {
           dataSource={subjects}
           keyExpr="ID"
           showBorders={true}
-          repaintChangesOnly={true}
           cellHintEnabled={true}
         >
           <Paging enabled={false} />
           <Editing
-            refreshMode="reshape"
+            refreshMode="full"
             mode="popup"
             allowUpdating={true}
             allowAdding={true}
@@ -193,6 +193,7 @@ class SubjectCrud extends React.Component {
             </Form>
           </Editing>
 
+          <SearchPanel visible={true} width={240} placeholder="Najít..." />
           <Column dataField="name" caption="Název" />
           <Column dataField="type" caption="Typ předmětu" />
           <Column dataField="teacher" caption="Vyučující" />

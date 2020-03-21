@@ -11,6 +11,7 @@ import { PrivateRoute } from "./components/PrivateRoute";
 import { Role } from "./helpers/RoleEnum";
 import SubjectCrud from "./components/DevExpress/SubjectCrud";
 import SubjectSigning from "./components/DevExpress/SubjectSigning";
+import Administration from "./components/Administration";
 
 class RootApp extends Component {
   render() {
@@ -34,7 +35,7 @@ class RootApp extends Component {
             <PrivateRoute
               path="/subject-edit"
               roles={[Role.Admin]}
-              component={SubjectCrud}
+              component={Administration}
             />
             <Route component={NoMatch} />
           </Switch>

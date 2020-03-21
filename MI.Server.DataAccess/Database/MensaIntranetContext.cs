@@ -15,6 +15,7 @@ namespace MI.Server.DataAccess.Database
         public DbSet<SubjectDb> Subjects { get; set; }
         public DbSet<UserSubjectsDb> UserSubjects { get; set; }
         public DbSet<GradeSubjectsDb> GradeSubjects { get; set; }
+        public DbSet<SigningRulesDb> SigningRules { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -11,6 +11,8 @@ namespace MI.Server.BusinessLogic
         public SignupBusiness SignupBusiness => new SignupBusiness(_context);
         public UserBusiness UserBusiness => new UserBusiness(_context);
 
+        public SigningRulesBusiness SigningRulesBusiness => new SigningRulesBusiness(_context);
+
         public BusinessManager(MensaIntranetContext context)
         {
             _context = context;
