@@ -29,7 +29,7 @@ namespace MI.Server.BusinessLogic.Business
             var userDb = new UserDb()
             {
                 Email = userDto.Email,
-                StudentClass = userDto.StudentClass
+                StudentGrade = userDto.StudentClass
             };
 
             var userInDb = _context.Users.SingleOrDefault(x => x.Email == userDb.Email);
@@ -39,7 +39,7 @@ namespace MI.Server.BusinessLogic.Business
             }
             else
             {
-                userInDb.StudentClass = userDb.StudentClass;
+                userInDb.StudentGrade = userDb.StudentGrade;
                 _context.Users.Update(userInDb);
             }
             await _context.SaveChangesAsync();

@@ -24,8 +24,7 @@ namespace MI.Server.BusinessLogic.Business
         public async Task<List<SubjectDto>> SubjectsByStudent(int id)
         {
             UserDb student = await _context.Users
-                .Include(s => s.UserSubjects).ThenInclude(us => us.Subject).ThenInclude(s => s.GradeSubjects)
-                .Include(s => s.UserSubjects).ThenInclude(us => us.Subject).ThenInclude(s => s.UserSubjects)
+                .Include(s => s.UserSubjects).ThenInclude(us => us.Subject)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
             if (student == null)
@@ -56,7 +55,7 @@ namespace MI.Server.BusinessLogic.Business
                 {
                     Email = u.Email,
                     Id = u.Id,
-                    StudentClass = u.StudentClass
+                    StudentClass = u.StudentGrade
                 })
                 .ToList();
         }
@@ -89,7 +88,7 @@ namespace MI.Server.BusinessLogic.Business
 
         private async Task<bool> CanSign(UserDb user)
         {
-            var signingRules = await _context.SigningRules.Where(r => r.GradeEnum == user.StudentClass).ToListAsync();
+            var signingRules = await _context.SigningRules.Where(r => r.GradeEnum == user.StudentGrade).ToListAsync();
 
             var allSignedSubject = await _context.UserSubjects.Where(u => u.UserId == user.Id).ToListAsync();
 

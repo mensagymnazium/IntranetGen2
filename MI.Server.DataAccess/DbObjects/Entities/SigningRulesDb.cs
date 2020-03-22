@@ -9,7 +9,6 @@ namespace MI.Server.DataAccess.DbObjects.Entities
     {
         public GradeEnum GradeEnum { get; set; }
         public SubjectTypeEnum Type { get; set; }
-
         public int? Quantity { get; set; }
     }
 }

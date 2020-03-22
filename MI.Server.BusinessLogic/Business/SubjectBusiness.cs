@@ -33,17 +33,16 @@ namespace MI.Server.BusinessLogic.Business
                 Capacity = s.Capacity,
                 EnrolledStudents = s.UserSubjects.Count(),
                 Period = s.Period,
-                Type = s.Type.ToList(),
+                Type = s.Types.ToList(),
                 Day = s.Day,
                 Teacher = s.Teacher,
-                Grades = s.GradeSubjects.Select(g => g.Grade).OrderBy(g => g).ToList()
+                Grades = s.Grades.ToList()
             };
         }
 
         public async Task<IEnumerable<SubjectDto>> GetSubjects()
         {
             List<SubjectDb> subjects = await _context.Subjects
-                .Include(s => s.GradeSubjects)
                 .Include(s => s.UserSubjects)
                 .ToListAsync();
 
@@ -53,11 +52,9 @@ namespace MI.Server.BusinessLogic.Business
         public async Task<List<SubjectDto>> GetSubjectByUserClass(UserDb userDb)
         {
             List<SubjectDb> subjects = await _context.Subjects
-                .Include(s => s.GradeSubjects)
                 .Include(s => s.UserSubjects)
-                .Where(s => s.GradeSubjects.Any(g => g.Grade == userDb.StudentClass))
                 .ToListAsync();
-
+            //TODO
             return subjects.Select(SubjectDbToSubjectDto).ToList();
         }
 
@@ -65,19 +62,18 @@ namespace MI.Server.BusinessLogic.Business
         public async Task CreateSubject(SubjectDto subject)
         {
             var subjectType = GetSubjectTypeEnum(subject.Type);
+            var grades = GetGradeEnum(subject.Grades);
+
             SubjectDb subjectDb = new SubjectDb()
             {
                 Name = subject.Name,
                 Description = subject.Description,
                 Capacity = subject.Capacity,
                 Teacher = subject.Teacher,
-                Type = subjectType,
+                Types = subjectType,
                 Day = subject.Day,
                 Period = subject.Period,
-                GradeSubjects = subject.Grades.Distinct().Select(g => new GradeSubjectsDb()
-                {
-                    Grade = g
-                }).ToList()
+                Grades = grades
             };
 
             _context.Subjects.Add(subjectDb);
@@ -87,7 +83,6 @@ namespace MI.Server.BusinessLogic.Business
         public async Task UpdateSubject(int subjectId, SubjectDto subjectDto)
         {
             SubjectDb subjectDb = await _context.Subjects
-                .Include(g => g.GradeSubjects)
                 .FirstOrDefaultAsync(s => s.Id == subjectId);
 
             if (subjectDb == null)
@@ -105,23 +100,13 @@ namespace MI.Server.BusinessLogic.Business
             if (subjectDto.Type.Count != 0)
             {
                 var subjectType = GetSubjectTypeEnum(subjectDto.Type);
-                subjectDb.Type = subjectType;
+                subjectDb.Types = subjectType;
             }
 
             if (subjectDto.Grades.Count != 0)
             {
-                var oldGrades = subjectDb.GradeSubjects.Select(g => g.Grade).ToList();
-                var newGrades = subjectDto.Grades;
-
-                foreach (var grade in oldGrades.Except(newGrades))
-                {
-                    subjectDb.GradeSubjects.Remove(subjectDb.GradeSubjects.First(g => g.Grade == grade));
-                }
-
-                foreach (var grade in newGrades.Except(oldGrades))
-                {
-                    subjectDb.GradeSubjects.Add(new GradeSubjectsDb() { Grade = grade });
-                }
+                var grades = GetGradeEnum(subjectDto.Grades);
+                subjectDb.Grades = grades;
             }
 
             _context.Subjects.Update(subjectDb);
@@ -131,7 +116,6 @@ namespace MI.Server.BusinessLogic.Business
         public async Task DeleteSubject(int id)
         {
             var subject = await _context.Subjects
-                .Include(s => s.GradeSubjects)
                 .Include(s => s.UserSubjects)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
@@ -148,6 +132,13 @@ namespace MI.Server.BusinessLogic.Business
         {
             if (list.Count == 0)
                 return SubjectTypeEnum.NotDefined;
+            return list.Aggregate((prev, next) => prev | next);
+        }
+
+        private GradeEnum GetGradeEnum(List<GradeEnum> list)
+        {
+            if (list.Count == 0)
+                return GradeEnum.NotDefined;
             return list.Aggregate((prev, next) => prev | next);
         }
     }
