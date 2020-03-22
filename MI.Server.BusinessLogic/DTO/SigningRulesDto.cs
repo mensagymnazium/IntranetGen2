@@ -9,7 +9,7 @@ namespace MI.Server.BusinessLogic.DTO
     {
         public int? Id { get; set; }
         public GradeEnum Grade { get; set; }
-        public SubjectTypeEnum Type { get; set; }
+        public List<SubjectTypeEnum> Type { get; set; } = new List<SubjectTypeEnum>();
 
         public int? Quantity { get; set; }
     }

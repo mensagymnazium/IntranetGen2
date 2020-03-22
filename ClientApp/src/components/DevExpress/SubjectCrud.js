@@ -19,12 +19,27 @@ import {
   deleteSubject,
   updateSubject
 } from "./../../services/SubjectApi";
-import { Grade } from "./../../helpers/ClassesEnum";
+import { Grade, SubjectType } from "../../helpers/Enums";
+import { triggerHandler } from "devextreme/events";
 
 class SubjectCrud extends React.Component {
   constructor(props) {
     super(props);
-    this.type = ["Volitelný", "Maturitní", "Cizí jazyk", "Nadstavbový seminář"];
+    this.type = [
+      SubjectType.Optional,
+      SubjectType.Graduational,
+      SubjectType.ForeignLanguage,
+      SubjectType.Seminars,
+      SubjectType.SpecialSeminars,
+      SubjectType.LanguageCommunication,
+      SubjectType.MathApplication,
+      SubjectType.Informatics,
+      SubjectType.HumanSociety,
+      SubjectType.HumanNature,
+      SubjectType.ArtCulture,
+      SubjectType.HumanHealth,
+      SubjectType.HumanWork
+    ];
     this.day = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"];
     this.timePeriod = [
       "1-2. (8:30 - 10:05)",
@@ -101,6 +116,9 @@ class SubjectCrud extends React.Component {
       //TODO Logger
     }
   }
+  refreshDataGrid() {
+    this.dataGrid.instance.refresh();
+  }
 
   render() {
     const { subjects } = this.state;
@@ -111,6 +129,7 @@ class SubjectCrud extends React.Component {
           keyExpr="ID"
           showBorders={true}
           cellHintEnabled={true}
+          ref={ref => (this.dataGrid = ref)}
         >
           <Paging enabled={false} />
           <Editing
@@ -136,11 +155,11 @@ class SubjectCrud extends React.Component {
               />
               <Item
                 dataField="type"
-                editorType="dxSelectBox"
+                editorType="dxTagBox"
                 editorOptions={{
                   items: this.type,
-                  searchEnabled: true,
-                  value: ""
+                  showSelectionControls: true,
+                  applyValueMode: "useButtons"
                 }}
                 validationRules={this.validationRules.requiredField}
               />

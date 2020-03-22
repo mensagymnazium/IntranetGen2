@@ -9,6 +9,7 @@ using MI.Server.DataAccess.DbObjects.Entities;
 using MI.Server.DataAccess.DbObjects.Enums;
 using MI.Server.BusinessLogic.DTO;
 using MI.Server.BusinessLogic.Exceptions;
+using Newtonsoft.Json;
 
 namespace MI.Server.BusinessLogic.Business
 {
@@ -32,7 +33,7 @@ namespace MI.Server.BusinessLogic.Business
                 Capacity = s.Capacity,
                 EnrolledStudents = s.UserSubjects.Count(),
                 Period = s.Period,
-                Type = s.Type,
+                Type = s.Type.ToList(),
                 Day = s.Day,
                 Teacher = s.Teacher,
                 Grades = s.GradeSubjects.Select(g => g.Grade).OrderBy(g => g).ToList()
@@ -49,7 +50,7 @@ namespace MI.Server.BusinessLogic.Business
             return subjects.Select(SubjectDbToSubjectDto);
         }
 
-        public async Task<List<SubjectDto>> GetSubjectByUser(UserDb userDb)
+        public async Task<List<SubjectDto>> GetSubjectByUserClass(UserDb userDb)
         {
             List<SubjectDb> subjects = await _context.Subjects
                 .Include(s => s.GradeSubjects)
@@ -63,13 +64,14 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task CreateSubject(SubjectDto subject)
         {
+            var subjectType = GetSubjectTypeEnum(subject.Type);
             SubjectDb subjectDb = new SubjectDb()
             {
                 Name = subject.Name,
                 Description = subject.Description,
                 Capacity = subject.Capacity,
                 Teacher = subject.Teacher,
-                Type = subject.Type,
+                Type = subjectType,
                 Day = subject.Day,
                 Period = subject.Period,
                 GradeSubjects = subject.Grades.Distinct().Select(g => new GradeSubjectsDb()
@@ -99,9 +101,14 @@ namespace MI.Server.BusinessLogic.Business
             subjectDb.Day = subjectDto.Day == DayEnum.NotDefined ? subjectDb.Day : subjectDto.Day;
             subjectDb.Period = subjectDto.Period == PeriodEnum.NotDefined ? subjectDb.Period : subjectDto.Period;
             subjectDb.Teacher = subjectDto.Teacher ?? subjectDb.Teacher;
-            subjectDb.Type = subjectDto.Type == SubjectTypeEnum.NotDefined ? subjectDb.Type : subjectDto.Type;
 
-            if(subjectDto.Grades.Count != 0)
+            if (subjectDto.Type.Count != 0)
+            {
+                var subjectType = GetSubjectTypeEnum(subjectDto.Type);
+                subjectDb.Type = subjectType;
+            }
+
+            if (subjectDto.Grades.Count != 0)
             {
                 var oldGrades = subjectDb.GradeSubjects.Select(g => g.Grade).ToList();
                 var newGrades = subjectDto.Grades;
@@ -135,6 +142,13 @@ namespace MI.Server.BusinessLogic.Business
 
             _context.Subjects.Remove(subject);
             await _context.SaveChangesAsync();
+        }
+
+        private SubjectTypeEnum GetSubjectTypeEnum(List<SubjectTypeEnum> list)
+        {
+            if (list.Count == 0)
+                return SubjectTypeEnum.NotDefined;
+            return list.Aggregate((prev, next) => prev | next);
         }
     }
 }

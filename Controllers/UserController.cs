@@ -89,7 +89,7 @@ namespace MI.Controllers
             try
             {
                 var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
-                return await _manager.SubjectBusiness.GetSubjectByUser(userDb);
+                return await _manager.SubjectBusiness.GetSubjectByUserClass(userDb);
             }
             catch (NotFoundException e)
             {

@@ -18,7 +18,7 @@ namespace MI.Server.BusinessLogic.DTO
 
         public PeriodEnum Period { get; set; }
 
-        public SubjectTypeEnum Type { get; set; }
+        public List<SubjectTypeEnum> Type { get; set; } = new List<SubjectTypeEnum>();
         public string Teacher { get; set; }
 
         public List<GradeEnum> Grades { get; set; } = new List<GradeEnum>();

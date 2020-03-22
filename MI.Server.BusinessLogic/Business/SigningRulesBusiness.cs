@@ -27,7 +27,7 @@ namespace MI.Server.BusinessLogic.Business
             {
                 Id = signingRulesDb.Id,
                 Grade = signingRulesDb.GradeEnum,
-                Type = signingRulesDb.Type,
+                Type = signingRulesDb.Type.ToList(),
                 Quantity = signingRulesDb.Quantity
             };
         }
@@ -41,11 +41,12 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task CreateSigningRule(SigningRulesDto signingRules)
         {
+            var subjectType = GetSubjectTypeEnum(signingRules.Type);
             SigningRulesDb signingRuleDb = new SigningRulesDb()
             {
                 GradeEnum = signingRules.Grade,
                 Quantity = signingRules.Quantity,
-                Type = signingRules.Type
+                Type = subjectType
             };
 
             _context.SigningRules.Add(signingRuleDb);
@@ -65,7 +66,12 @@ namespace MI.Server.BusinessLogic.Business
 
             signingRulesDb.Quantity = signingRulesDto.Quantity ?? signingRulesDb.Quantity;
             signingRulesDb.GradeEnum = signingRulesDto.Grade == GradeEnum.NotDefined ? signingRulesDb.GradeEnum : signingRulesDto.Grade;
-            signingRulesDb.Type = signingRulesDto.Type == SubjectTypeEnum.NotDefined ? signingRulesDb.Type : signingRulesDto.Type;
+
+            if (signingRulesDto.Type.Count != 0)
+            {
+                var subjectType = GetSubjectTypeEnum(signingRulesDto.Type);
+                signingRulesDb.Type = subjectType;
+            }
 
             _context.SigningRules.Update(signingRulesDb);
             await _context.SaveChangesAsync();
@@ -84,6 +90,13 @@ namespace MI.Server.BusinessLogic.Business
 
             _context.SigningRules.Remove(signingRule);
             await _context.SaveChangesAsync();
+        }
+
+        private SubjectTypeEnum GetSubjectTypeEnum(List<SubjectTypeEnum> list)
+        {
+            if (list.Count == 0)
+                return SubjectTypeEnum.NotDefined;
+            return list.Aggregate((prev, next) => prev | next);
         }
     }
 }

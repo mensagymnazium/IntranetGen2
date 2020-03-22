@@ -16,7 +16,7 @@ import {
 } from "./../../services/UserApi";
 
 import "./../../styles/SubjectSign.css";
-import { Priority } from "../../helpers/PriorityEnum";
+import { Priority } from "../../helpers/Enums";
 
 class SubjectSigning extends React.Component {
   constructor(props) {

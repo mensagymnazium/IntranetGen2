@@ -8,7 +8,7 @@ import { NavMenu } from "./components/NavMenu";
 import { GraphData } from "./components/GraphData";
 import { SubjectsInfoTable } from "./components/SubjectsInfoTable";
 import { PrivateRoute } from "./components/PrivateRoute";
-import { Role } from "./helpers/RoleEnum";
+import { Role } from "./helpers/Enums";
 import SubjectCrud from "./components/DevExpress/SubjectCrud";
 import SubjectSigning from "./components/DevExpress/SubjectSigning";
 import Administration from "./components/Administration";
