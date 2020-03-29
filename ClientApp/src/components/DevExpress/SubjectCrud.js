@@ -20,7 +20,6 @@ import {
   updateSubject
 } from "./../../services/SubjectApi";
 import { Grade, SubjectType } from "../../helpers/Enums";
-import { triggerHandler } from "devextreme/events";
 
 class SubjectCrud extends React.Component {
   constructor(props) {
@@ -66,6 +65,7 @@ class SubjectCrud extends React.Component {
         remove: value => this.apiDeleteSubject(value.id),
         update: (oldValue, value) => {
           this.apiUpdateSubject(oldValue, value);
+          this.refreshDataGrid();
         }
       })
     };

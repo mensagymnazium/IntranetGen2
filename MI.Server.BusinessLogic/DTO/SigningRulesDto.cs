@@ -12,5 +12,7 @@ namespace MI.Server.BusinessLogic.DTO
         public List<SubjectTypeEnum> Type { get; set; } = new List<SubjectTypeEnum>();
 
         public int? Quantity { get; set; }
+
+        public bool? Required { get; set; }
     }
 }

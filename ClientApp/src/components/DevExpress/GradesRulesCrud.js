@@ -10,7 +10,7 @@ import DataGrid, {
   SearchPanel
 } from "devextreme-react/data-grid";
 import "devextreme-react/text-area";
-import { Item } from "devextreme-react/form";
+import { Item, CheckBox } from "devextreme-react/form";
 import CustomStore from "devextreme/data/custom_store";
 import {
   getAllSigningRules,
@@ -56,6 +56,7 @@ class GradesRulesCrud extends React.Component {
         remove: value => this.apiDeleteRule(value.id),
         update: (oldValue, value) => {
           this.apiUpdateRule(oldValue, value);
+          this.refreshDataGrid();
         }
       })
     };
@@ -72,7 +73,6 @@ class GradesRulesCrud extends React.Component {
   async apiGetAllRules() {
     try {
       let result = await getAllSigningRules();
-      console.log(result.data);
       return result.data;
     } catch (error) {
       console.log(error);
@@ -107,6 +107,10 @@ class GradesRulesCrud extends React.Component {
     }
   }
 
+  refreshDataGrid() {
+    this.dataGrid.instance.refresh();
+  }
+
   render() {
     const { rules } = this.state;
     return (
@@ -116,6 +120,7 @@ class GradesRulesCrud extends React.Component {
           keyExpr="ID"
           showBorders={true}
           cellHintEnabled={true}
+          ref={ref => (this.dataGrid = ref)}
         >
           <Paging enabled={false} />
           <Editing
@@ -159,6 +164,13 @@ class GradesRulesCrud extends React.Component {
                 dataField="quantity"
                 validationRules={this.validationRules.requiredField}
               />
+              <Item
+                editorType="dxCheckBox"
+                dataField="required"
+                editorOptions={{
+                  defaultValue: false
+                }}
+              />
             </Form>
           </Editing>
 
@@ -166,6 +178,7 @@ class GradesRulesCrud extends React.Component {
           <Column dataField="grade" caption="Pro třídu" />
           <Column dataField="type" caption="Typ předmětu" />
           <Column dataField="quantity" caption="Počet možných zápisů" />
+          <Column dataField="required" caption="Musí být zapsáno" />
         </DataGrid>
       </div>
     );
