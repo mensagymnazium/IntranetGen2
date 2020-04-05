@@ -1,6 +1,7 @@
 ﻿using MI.Server.DataAccess.DbObjects.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MI.Server.BusinessLogic.DTO
@@ -14,5 +15,14 @@ namespace MI.Server.BusinessLogic.DTO
         public int? Quantity { get; set; }
 
         public bool? Required { get; set; }
+    }
+
+
+    public static class SigningRulesExtension
+    {
+        public static IEnumerable<SubjectTypeEnum> GetSubjectTypes(this IEnumerable<SigningRulesDto> list)
+        {
+            return list.SelectMany(x => x.Type);
+        }
     }
 }

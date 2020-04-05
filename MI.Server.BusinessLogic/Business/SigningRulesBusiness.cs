@@ -40,6 +40,67 @@ namespace MI.Server.BusinessLogic.Business
             return signingRules.Select(SubjectDbToSubjectDto);
         }
 
+        public async Task<IEnumerable<SigningRulesDto>> GetSigningRulesByGrade(GradeEnum grade)
+        {
+            List<SigningRulesDb> signingRules = await _context.SigningRules.Where(g => g.GradeEnum == grade).ToListAsync();
+
+            return signingRules.Select(SubjectDbToSubjectDto);
+        }
+
+        public async Task<bool> CanSign(UserDb user, SubjectDto subjectDto, Priority priority)
+        {
+            var allSignedSubject = await _context.UserSubjects
+                .Include(s => s.Subject)
+                .Include(u => u.User)
+                .Where(u => u.UserId == user.Id && u.Priority == priority).ToListAsync();
+            var signingRules = await _context.SigningRules.Where(r => r.GradeEnum == user.StudentGrade).ToListAsync();
+
+            var n = NumberOfPossibleSigns(signingRules);
+
+            if (allSignedSubject.Count >= n)
+                return false;
+            if (allSignedSubject.Any(s => s.SubjectId == subjectDto.Id))
+                return false;
+
+            foreach (var rule in signingRules)
+            {
+                var ruleTypes = rule.Type.ToList();
+                //var signedSubjectWithDesiredType = allSignedSubject.Where(s => s.Subject.Types.ToList().Any(x => ruleType.Any(y => y == x))).Select(x => x.Subject).ToList();
+                foreach (var ruleType in ruleTypes)
+                {
+                    var signedSubjectWithDesiredType = allSignedSubject.Where(s => s.Subject.Types.ToList().Any(x => ruleType == x)).Select(x => x.Subject).ToList();
+                    if (signedSubjectWithDesiredType.Count() >= NumberOfRule(signingRules, ruleType))
+                        continue;
+                    if (subjectDto.Type.Contains(ruleType))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        private int? NumberOfRule(List<SigningRulesDb> signRules, SubjectTypeEnum subjectTypeEnum)
+        {
+            int? number = 0;
+            foreach(var rule in signRules)
+            {
+                if (rule.Type.ToList().Contains(subjectTypeEnum))
+                    number += rule.Quantity;
+            }
+            return number;
+        }
+
+
+
+        private int? NumberOfPossibleSigns(List<SigningRulesDb> signRules)
+        {
+            int? number = 0;
+            foreach (var rule in signRules)
+            {
+                number += rule.Quantity;
+            }
+            return number;
+        }
+
         public async Task CreateSigningRule(SigningRulesDto signingRules)
         {
             var subjectType = GetSubjectTypeEnum(signingRules.Type);
@@ -48,7 +109,7 @@ namespace MI.Server.BusinessLogic.Business
                 GradeEnum = signingRules.Grade,
                 Quantity = signingRules.Quantity,
                 Type = subjectType,
-                Required = signingRules.Required
+                Required = signingRules.Required ?? false
             };
 
             _context.SigningRules.Add(signingRuleDb);

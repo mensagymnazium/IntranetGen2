@@ -10,8 +10,9 @@ import DataGrid, {
   SearchPanel
 } from "devextreme-react/data-grid";
 import "devextreme-react/text-area";
-import { Item, CheckBox } from "devextreme-react/form";
+import { Item } from "devextreme-react/form";
 import CustomStore from "devextreme/data/custom_store";
+import CheckBox from "devextreme-react/check-box";
 import {
   getAllSigningRules,
   insertSigningRule,
@@ -62,7 +63,11 @@ class GradesRulesCrud extends React.Component {
     };
 
     this.validationRules = {
-      requiredField: [{ type: "required", message: "Povinné pole" }]
+      requiredField: [{ type: "required", message: "Povinné pole" }],
+      numberField: [
+        { type: "required", message: "Povinné pole" },
+        { type: "numeric", message: "Pouze čísla" }
+      ]
     };
 
     this.validateForm = e => {
@@ -162,13 +167,15 @@ class GradesRulesCrud extends React.Component {
               />
               <Item
                 dataField="quantity"
-                validationRules={this.validationRules.requiredField}
+                validationRules={this.validationRules.numberField}
               />
               <Item
                 editorType="dxCheckBox"
                 dataField="required"
                 editorOptions={{
-                  defaultValue: false
+                  defaultvalue: false,
+                  hint:
+                    "Počet zapsání studenta musí být právě z těchto typu předmětů."
                 }}
               />
             </Form>

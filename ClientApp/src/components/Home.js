@@ -4,6 +4,8 @@ import { insertOrUpdateUser } from "./../services/UserApi";
 import { getTokenByScope } from "../helpers/TokenHelper";
 import { getUserGroup } from "../services/GraphService";
 
+import { Grade } from "./../helpers/Enums";
+
 export const Home = props => {
   let user = {
     Email: props.auth.user.userName,
@@ -15,7 +17,9 @@ export const Home = props => {
       let scope = ["user.read"];
       let token = await getTokenByScope(scope);
       let groups = await getUserGroup(token);
+      console.log(groups);
       user.StudentClass = await getStudentClass(groups.value);
+      console.log(user.StudentClass);
       apiInsertOrUpdateUser();
     }
     async function apiInsertOrUpdateUser() {
@@ -48,18 +52,17 @@ export const Home = props => {
 };
 
 async function getStudentClass(groups) {
-  var classes = [
-    "Prima",
-    "Sekunda,",
-    "Tercie",
-    "Kvarta",
-    "Kvinta",
-    "Sexta",
-    "Septima",
-    "Oktáva"
+  var gradesList = [
+    Grade.Prima,
+    Grade.Sekunda,
+    Grade.Tercie,
+    Grade.Kvarta,
+    Grade.Kvinta,
+    Grade.Sexta,
+    Grade.Septima,
+    Grade.Oktava
   ];
-
-  return classes.find(name =>
-    groups.find(group => group.displayName === "Studenti " + name)
+  return gradesList.find(name =>
+    groups.find(group => group.displayName === name)
   );
 }

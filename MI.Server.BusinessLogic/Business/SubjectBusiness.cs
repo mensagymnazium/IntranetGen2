@@ -49,13 +49,49 @@ namespace MI.Server.BusinessLogic.Business
             return subjects.Select(SubjectDbToSubjectDto);
         }
 
-        public async Task<List<SubjectDto>> GetSubjectByUserClass(UserDb userDb)
+        public async Task<SubjectDto> GetSubjectById(int id)
+        {
+            var subject = await _context.Subjects
+                .Include(s => s.UserSubjects)
+                .Where(s => s.Id == id)
+                .FirstOrDefaultAsync();
+
+            return SubjectDbToSubjectDto(subject);
+        }
+
+        public async Task<List<SubjectDto>> GetSubjectByUserGrade(UserDb userDb)
         {
             List<SubjectDb> subjects = await _context.Subjects
                 .Include(s => s.UserSubjects)
                 .ToListAsync();
+
+            var selected = subjects.Where(s => s.Grades.ToList().Contains(userDb.StudentGrade));
+
             //TODO
-            return subjects.Select(SubjectDbToSubjectDto).ToList();
+            return selected.Select(SubjectDbToSubjectDto).ToList();
+        }
+
+        private IEnumerable<SubjectDb> GetSuitableSubjectsByType(IEnumerable<SubjectDb> subjects, IEnumerable<SubjectTypeEnum> types)
+        {
+            if(types.Count() == 0)
+            {
+                return subjects;
+            }
+            var toReturn = new List<SubjectDb>();
+            foreach (var subject in subjects)
+            {
+                var subjectType = subject.Types.ToList();
+                foreach (var type in subjectType)
+                {
+                    if (types.Contains(type))
+                    {
+                        toReturn.Add(subject);
+                        break;
+                    }
+
+                }
+            }
+            return toReturn.Distinct();
         }
 
 

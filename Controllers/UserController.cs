@@ -45,8 +45,17 @@ namespace MI.Controllers
             try
             {
                 var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
-                await _manager.SignupBusiness.CreateSignup(userDb, subjectId, priority);
-                return Ok();
+                var subjectDto = await _manager.SubjectBusiness.GetSubjectById(subjectId);
+                var canSign = await _manager.SigningRulesBusiness.CanSign(userDb, subjectDto, priority);
+                if (canSign)
+                {
+                    await _manager.SignupBusiness.CreateSignup(userDb, subjectId, priority);
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (NotFoundException e)
             {
@@ -89,7 +98,7 @@ namespace MI.Controllers
             try
             {
                 var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
-                return await _manager.SubjectBusiness.GetSubjectByUserClass(userDb);
+                return await _manager.SubjectBusiness.GetSubjectByUserGrade(userDb);
             }
             catch (NotFoundException e)
             {

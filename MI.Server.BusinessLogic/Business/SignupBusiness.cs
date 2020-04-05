@@ -86,18 +86,6 @@ namespace MI.Server.BusinessLogic.Business
             await _context.SaveChangesAsync();
         }
 
-        private async Task<bool> CanSign(UserDb user)
-        {
-            var signingRules = await _context.SigningRules.Where(r => r.GradeEnum == user.StudentGrade).ToListAsync();
-
-            var allSignedSubject = await _context.UserSubjects.Where(u => u.UserId == user.Id).ToListAsync();
-
-
-
-
-            return true;
-        }
-
         public async Task DeleteSignup(UserDb student, int subjectId)
         {
             if (student == null)

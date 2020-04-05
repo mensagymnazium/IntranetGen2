@@ -71,7 +71,11 @@ class SubjectCrud extends React.Component {
     };
 
     this.validationRules = {
-      requiredField: [{ type: "required", message: "Povinné pole" }]
+      requiredField: [{ type: "required", message: "Povinné pole" }],
+      numberField: [
+        { type: "required", message: "Povinné pole" },
+        { type: "numeric", message: "Pouze čísla" }
+      ]
     };
 
     this.validateForm = e => {
@@ -180,7 +184,7 @@ class SubjectCrud extends React.Component {
               />
               <Item
                 dataField="capacity"
-                validationRules={this.validationRules.requiredField}
+                validationRules={this.validationRules.numberField}
               />
               <Item
                 dataField="period"

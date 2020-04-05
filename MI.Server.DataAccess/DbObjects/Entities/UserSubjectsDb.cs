@@ -11,7 +11,6 @@ namespace MI.Server.DataAccess.DbObjects.Entities
         public UserDb User { get; set; }
         public int SubjectId { get; set; }
         public SubjectDb Subject { get; set; }
-
         public Priority Priority { get; set; }
     }
 }
