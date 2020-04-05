@@ -14,7 +14,6 @@ namespace MI.Server.BusinessLogic.DTO
 
         public int? Quantity { get; set; }
 
-        public bool? Required { get; set; }
     }
 
 

@@ -28,8 +28,7 @@ namespace MI.Server.BusinessLogic.Business
                 Id = signingRulesDb.Id,
                 Grade = signingRulesDb.GradeEnum,
                 Type = signingRulesDb.Type.ToList(),
-                Quantity = signingRulesDb.Quantity,
-                Required = signingRulesDb.Required
+                Quantity = signingRulesDb.Quantity
             };
         }
 
@@ -108,8 +107,7 @@ namespace MI.Server.BusinessLogic.Business
             {
                 GradeEnum = signingRules.Grade,
                 Quantity = signingRules.Quantity,
-                Type = subjectType,
-                Required = signingRules.Required ?? false
+                Type = subjectType
             };
 
             _context.SigningRules.Add(signingRuleDb);
@@ -128,7 +126,6 @@ namespace MI.Server.BusinessLogic.Business
             }
 
             signingRulesDb.Quantity = signingRulesDto.Quantity ?? signingRulesDb.Quantity;
-            signingRulesDb.Required = signingRulesDto.Required ?? signingRulesDb.Required;
             signingRulesDb.GradeEnum = signingRulesDto.Grade == GradeEnum.NotDefined ? signingRulesDb.GradeEnum : signingRulesDto.Grade;
 
             if (signingRulesDto.Type.Count != 0)

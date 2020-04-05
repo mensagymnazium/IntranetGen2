@@ -12,7 +12,6 @@ import DataGrid, {
 import "devextreme-react/text-area";
 import { Item } from "devextreme-react/form";
 import CustomStore from "devextreme/data/custom_store";
-import CheckBox from "devextreme-react/check-box";
 import {
   getAllSigningRules,
   insertSigningRule,
@@ -169,15 +168,6 @@ class GradesRulesCrud extends React.Component {
                 dataField="quantity"
                 validationRules={this.validationRules.numberField}
               />
-              <Item
-                editorType="dxCheckBox"
-                dataField="required"
-                editorOptions={{
-                  defaultvalue: false,
-                  hint:
-                    "Počet zapsání studenta musí být právě z těchto typu předmětů."
-                }}
-              />
             </Form>
           </Editing>
 
@@ -185,7 +175,6 @@ class GradesRulesCrud extends React.Component {
           <Column dataField="grade" caption="Pro třídu" />
           <Column dataField="type" caption="Typ předmětu" />
           <Column dataField="quantity" caption="Počet možných zápisů" />
-          <Column dataField="required" caption="Musí být zapsáno" />
         </DataGrid>
       </div>
     );
