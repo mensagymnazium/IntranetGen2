@@ -64,10 +64,9 @@ namespace MI.Server.BusinessLogic.Business
             foreach (var rule in signingRules)
             {
                 var ruleTypes = rule.Type.ToList();
-                //var signedSubjectWithDesiredType = allSignedSubject.Where(s => s.Subject.Types.ToList().Any(x => ruleType.Any(y => y == x))).Select(x => x.Subject).ToList();
+                var signedSubjectWithDesiredType = allSignedSubject.Where(s => s.Subject.Types.ToList().Any(x => ruleTypes.Any(y => y == x))).Select(x => x.Subject).ToList();
                 foreach (var ruleType in ruleTypes)
                 {
-                    var signedSubjectWithDesiredType = allSignedSubject.Where(s => s.Subject.Types.ToList().Any(x => ruleType == x) && s.Priority == priority).Select(x => x.Subject).ToList();
                     if (signedSubjectWithDesiredType.Count() >= NumberOfRule(signingRules, ruleType))
                         continue;
                     if (subjectDto.Type.Contains(ruleType))
