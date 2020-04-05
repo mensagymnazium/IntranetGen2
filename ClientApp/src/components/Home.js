@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { insertOrUpdateUser } from "./../services/UserApi";
 import { getTokenByScope } from "../helpers/TokenHelper";
@@ -17,9 +17,7 @@ export const Home = props => {
       let scope = ["user.read"];
       let token = await getTokenByScope(scope);
       let groups = await getUserGroup(token);
-      console.log(groups);
       user.StudentClass = await getStudentClass(groups.value);
-      console.log(user.StudentClass);
       apiInsertOrUpdateUser();
     }
     async function apiInsertOrUpdateUser() {

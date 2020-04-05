@@ -61,7 +61,6 @@ class SubjectSigning extends React.Component {
       this.setState({
         subjects: result.data
       });
-      console.log(this.state.subjects);
     } catch (error) {
       console.log(error);
       //TODO Logger

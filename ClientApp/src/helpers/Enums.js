@@ -25,7 +25,7 @@ export const SubjectType = {
   ForeignLanguage: "Cizí jazyk",
   Seminars: "Nadstavbový seminář",
   SpecialSeminars: "Specializační semináře",
-  LanguageCommunication: "Jazyk a jazyková komuniakce",
+  LanguageCommunication: "Jazyk a jazyková komunikace",
   MathApplication: "Matematika a její aplikace",
   Informatics: "Informační a komunikační technologie",
   HumanSociety: "Člověk a společnost",

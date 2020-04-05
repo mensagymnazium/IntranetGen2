@@ -7,6 +7,11 @@ export async function getAllSigningRules() {
   return await api.get("/api/signingRules");
 }
 
+export async function getAllSigningRulesForMe() {
+  let api = await authenticatedApi(scope);
+  return await api.get("/api/signingRules/my");
+}
+
 export async function insertSigningRule(signingRule) {
   let api = await authenticatedApi(scope);
   return await api.post("/api/signingRules", JSON.stringify(signingRule));

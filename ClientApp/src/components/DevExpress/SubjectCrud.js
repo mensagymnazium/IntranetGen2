@@ -86,7 +86,6 @@ class SubjectCrud extends React.Component {
   async apiGetAllSubjects() {
     try {
       let result = await getAllSubjects();
-      console.log(result.data);
       return result.data;
     } catch (error) {
       console.log(error);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MI.Server.BusinessLogic;
 using MI.Server.BusinessLogic.DTO;
 using MI.Server.BusinessLogic.Exceptions;
+using MI.Server.DataAccess.DbObjects.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,14 @@ namespace MI.Controllers
         public async Task<IEnumerable<SigningRulesDto>> Get()
         {
             return await _manager.SigningRulesBusiness.GetSigningRules();
+        }
+
+        [HttpGet("my")]
+        [Authorize]
+        public async Task<IEnumerable<SigningRulesDto>> GetByGrade()
+        {
+            var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
+            return await _manager.SigningRulesBusiness.GetSigningRulesByGrade(userDb.StudentGrade);
         }
 
 

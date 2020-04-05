@@ -9,9 +9,8 @@ import { GraphData } from "./components/GraphData";
 import { SubjectsInfoTable } from "./components/SubjectsInfoTable";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { Role } from "./helpers/Enums";
-import SubjectCrud from "./components/DevExpress/SubjectCrud";
-import SubjectSigning from "./components/DevExpress/SubjectSigning";
 import Administration from "./components/Administration";
+import StudentSigns from "./components/StudentSigns";
 
 class RootApp extends Component {
   render() {
@@ -29,7 +28,7 @@ class RootApp extends Component {
             <Route
               exact
               path="/subjects-sign"
-              render={() => <SubjectSigning {...this.props} />}
+              render={() => <StudentSigns {...this.props} />}
             />
             <Route exact path="/graph-data" component={GraphData} />
             <PrivateRoute
