@@ -67,33 +67,8 @@ namespace MI.Server.BusinessLogic.Business
 
             var selected = subjects.Where(s => s.Grades.ToList().Contains(userDb.StudentGrade));
 
-            //TODO
             return selected.Select(SubjectDbToSubjectDto).ToList();
         }
-
-        private IEnumerable<SubjectDb> GetSuitableSubjectsByType(IEnumerable<SubjectDb> subjects, IEnumerable<SubjectTypeEnum> types)
-        {
-            if(types.Count() == 0)
-            {
-                return subjects;
-            }
-            var toReturn = new List<SubjectDb>();
-            foreach (var subject in subjects)
-            {
-                var subjectType = subject.Types.ToList();
-                foreach (var type in subjectType)
-                {
-                    if (types.Contains(type))
-                    {
-                        toReturn.Add(subject);
-                        break;
-                    }
-
-                }
-            }
-            return toReturn.Distinct();
-        }
-
 
         public async Task CreateSubject(SubjectDto subject)
         {

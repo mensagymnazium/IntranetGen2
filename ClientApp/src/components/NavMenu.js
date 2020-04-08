@@ -21,7 +21,7 @@ export class NavMenu extends Component {
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
-      role: props.auth.user.idToken.roles[0],
+      haveRoles: props.auth.user.idToken.roles,
       collapsed: true
     };
   }
@@ -33,7 +33,7 @@ export class NavMenu extends Component {
   }
 
   render() {
-    const roles = [Role.Admin];
+    const roles = [Role.Admin, Role.Teacher];
     return (
       <header>
         <Navbar
@@ -57,11 +57,13 @@ export class NavMenu extends Component {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/subjects">
+                  <NavLink tag={Link} className="text-dark" to="/subjects-sign">
                     Předměty
                   </NavLink>
                 </NavItem>
-                {roles && roles.indexOf(this.state.role) === -1 ? null : (
+                {roles &&
+                roles.some(x => this.state.haveRoles.indexOf(x) === -1) ===
+                  false ? null : (
                   <NavItem>
                     <NavLink
                       tag={Link}
@@ -72,14 +74,18 @@ export class NavMenu extends Component {
                     </NavLink>
                   </NavItem>
                 )}
+                {roles &&
+                roles.some(x => this.state.haveRoles.indexOf(x) === -1) ===
+                  false ? null : (
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/students">
+                      Žáci a zápisy
+                    </NavLink>
+                  </NavItem>
+                )}
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/graph-data">
                     Get Graph data
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/subjects-sign">
-                    Předměty vol 2
                   </NavLink>
                 </NavItem>
                 <UserLogin {...this.props} />

@@ -14,7 +14,6 @@ class SigningInfo extends React.Component {
 
   async componentDidMount() {
     await this.apiGetAllSignedRulesForMe();
-    console.log(this.state.rules);
     this.setState({
       loading: false
     });

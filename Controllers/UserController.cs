@@ -24,6 +24,15 @@ namespace MI.Controllers
             _manager = manager;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<UserDto>> Get()
+        {
+            var students = await _manager.UserBusiness.GetStudents();
+            await _manager.SigningRulesBusiness.SetSigningDone(students);
+
+            return students;
+        }
+
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> InsertOrUpdateUser(UserDto userDto)

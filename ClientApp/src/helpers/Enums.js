@@ -16,7 +16,8 @@ export const Priority = {
 
 export const Role = {
   Admin: "Admin",
-  User: "User"
+  User: "User",
+  Teacher: "Teacher"
 };
 
 export const SubjectType = {

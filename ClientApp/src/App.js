@@ -6,11 +6,11 @@ import { withAuth } from "./msal/MsalAuthProvider";
 import { NoMatch } from "./components/NoMatch";
 import { NavMenu } from "./components/NavMenu";
 import { GraphData } from "./components/GraphData";
-import { SubjectsInfoTable } from "./components/SubjectsInfoTable";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { Role } from "./helpers/Enums";
 import Administration from "./components/Administration";
 import StudentSigns from "./components/StudentSigns";
+import Students from "./components/DevExpress/Students";
 
 class RootApp extends Component {
   render() {
@@ -22,19 +22,19 @@ class RootApp extends Component {
             <Route exact path="/" render={() => <Home {...this.props} />} />
             <Route
               exact
-              path="/subjects"
-              render={() => <SubjectsInfoTable {...this.props} />}
-            />
-            <Route
-              exact
               path="/subjects-sign"
               render={() => <StudentSigns {...this.props} />}
             />
             <Route exact path="/graph-data" component={GraphData} />
             <PrivateRoute
               path="/subject-edit"
-              roles={[Role.Admin]}
+              roles={[Role.Admin, Role.Teacher]}
               component={Administration}
+            />
+            <PrivateRoute
+              path="/students"
+              roles={[Role.Admin, Role.Teacher]}
+              component={Students}
             />
             <Route component={NoMatch} />
           </Switch>

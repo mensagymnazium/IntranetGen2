@@ -10,10 +10,10 @@ namespace MI.Server.BusinessLogic.DTO
     {
         public int Id { get; set; }
 
-        [Required]
         public string Email { get; set; }
 
-        [Required]
         public GradeEnum StudentClass { get; set; }
+
+        public bool SignDone { get; set; }
     }
 }

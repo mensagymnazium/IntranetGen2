@@ -46,6 +46,22 @@ namespace MI.Server.BusinessLogic.Business
             return signingRules.Select(SubjectDbToSubjectDto);
         }
 
+        public async Task SetSigningDone(List<UserDto> students)
+        {
+            foreach(var student in students)
+            {
+                var rules = await _context.SigningRules.Where(r => r.GradeEnum == student.StudentClass).ToListAsync();
+                var allSignedSubject = await _context.UserSubjects
+                .Include(s => s.Subject)
+                .Include(u => u.User)
+                .Where(u => u.UserId == student.Id && u.Priority == Priority.Primary).ToListAsync();
+                var number = NumberOfPossibleSigns(rules);
+
+                if (allSignedSubject.Count == number)
+                    student.SignDone = true;
+            }
+        }
+
         public async Task<bool> CanSign(UserDb user, SubjectDto subjectDto, Priority priority)
         {
             var allSignedSubject = await _context.UserSubjects
