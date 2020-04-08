@@ -38,6 +38,25 @@ namespace MI.Server.BusinessLogic.Business
                 .ToList();
         }
 
+        public async Task<List<string>> SubjectsByStudentAndPriority(int id, Priority priority)
+        {
+            UserDb student = await _context.Users
+                .Include(s => s.UserSubjects).ThenInclude(us => us.Subject)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (student == null)
+            {
+                throw new NotFoundException($"Student with id {id} does not exist in database.");
+            }
+
+            return student.UserSubjects
+                .Where(u => u.Priority == priority)
+                .Select(us => us.Subject.Name)
+                .ToList();
+        }
+
+
+
         public async Task<List<UserDto>> StudentBySubject(int id)
         {
             SubjectDb subject = await _context.Subjects

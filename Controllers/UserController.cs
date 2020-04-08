@@ -28,6 +28,13 @@ namespace MI.Controllers
         public async Task<IEnumerable<UserDto>> Get()
         {
             var students = await _manager.UserBusiness.GetStudents();
+            foreach(var student in students)
+            {
+                student.PrimarySubjects = await _manager.SignupBusiness.SubjectsByStudentAndPriority(student.Id, Priority.Primary);
+                student.SecondarySubjects = await _manager.SignupBusiness.SubjectsByStudentAndPriority(student.Id, Priority.Secondary);
+
+
+            }
             await _manager.SigningRulesBusiness.SetSigningDone(students);
 
             return students;

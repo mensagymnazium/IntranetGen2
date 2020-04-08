@@ -5,6 +5,8 @@ import { getAllStudents } from "./../../services/UserApi";
 const columns = [
   { dataField: "email", caption: "Email" },
   { dataField: "studentClass", caption: "Třída" },
+  { dataField: "primarySubjects", caption: "Primární zápis" },
+  { dataField: "secondarySubjects", caption: "Sekundární" },
   { dataField: "signDone", caption: "Zápis dokončen" }
 ];
 
@@ -31,6 +33,7 @@ class Students extends React.Component {
       this.setState({
         students: result.data
       });
+      console.log(result.data);
     } catch (error) {
       console.log(error);
       //TODO Logger
