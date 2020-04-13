@@ -1,6 +1,7 @@
 ﻿using MI.Server.BusinessLogic.DTO;
 using MI.Server.DataAccess.Database;
 using MI.Server.DataAccess.DbObjects.Entities;
+using MI.Server.DataAccess.DbObjects.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task<List<UserDto>> GetStudents()
         {
-            var students = await _context.Users.Include(x => x.UserSubjects).ToListAsync();
+            var students = await _context.Users.Include(x => x.UserSubjects).Where(s => s.StudentGrade != GradeEnum.NotDefined).ToListAsync();
 
             return students.Select(UserDbToUserDto).ToList();
         }

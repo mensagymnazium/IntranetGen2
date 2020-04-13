@@ -32,8 +32,6 @@ namespace MI.Controllers
             {
                 student.PrimarySubjects = await _manager.SignupBusiness.SubjectsByStudentAndPriority(student.Id, Priority.Primary);
                 student.SecondarySubjects = await _manager.SignupBusiness.SubjectsByStudentAndPriority(student.Id, Priority.Secondary);
-
-
             }
             await _manager.SigningRulesBusiness.SetSigningDone(students);
 
@@ -54,6 +52,7 @@ namespace MI.Controllers
                 return BadRequest();
             }
         }
+
 
         [HttpPost("subject/{subjectId}")]
         public async Task<IActionResult> SignUpToSubject([FromRoute]int subjectId,[FromBody] Priority priority )

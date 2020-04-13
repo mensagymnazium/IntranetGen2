@@ -11,6 +11,7 @@ import { Role } from "./helpers/Enums";
 import Administration from "./components/Administration";
 import StudentSigns from "./components/StudentSigns";
 import Students from "./components/DevExpress/Students";
+import "./styles/Base.css";
 
 class RootApp extends Component {
   render() {

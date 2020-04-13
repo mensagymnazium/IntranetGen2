@@ -70,11 +70,13 @@ namespace MI.Server.BusinessLogic.Business
                 .Where(u => u.UserId == user.Id && u.Priority == priority).ToListAsync();
             var signingRules = await _context.SigningRules.Where(r => r.GradeEnum == user.StudentGrade).ToListAsync();
 
-            var n = NumberOfPossibleSigns(signingRules);
 
-            if (allSignedSubject.Count >= n)
+            if (subjectDto.Capacity == subjectDto.EnrolledStudents)
                 return false;
             if (allSignedSubject.Any(s => s.SubjectId == subjectDto.Id))
+                return false;
+            var n = NumberOfPossibleSigns(signingRules);
+            if (allSignedSubject.Count >= n)
                 return false;
 
             foreach (var rule in signingRules)

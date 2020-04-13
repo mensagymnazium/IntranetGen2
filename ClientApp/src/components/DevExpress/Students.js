@@ -1,8 +1,10 @@
 import React from "react";
 import DataGrid, { SearchPanel } from "devextreme-react/data-grid";
 import { getAllStudents } from "./../../services/UserApi";
+import { getSignStudentsForAllSubjects } from "./../../services/SignupApi";
+import { CSVLink } from "react-csv";
 
-const columns = [
+const defaultColumn = [
   { dataField: "email", caption: "Email" },
   { dataField: "studentClass", caption: "Třída" },
   { dataField: "primarySubjects", caption: "Primární zápis" },
@@ -10,18 +12,32 @@ const columns = [
   { dataField: "signDone", caption: "Zápis dokončen" }
 ];
 
+const headersCsv = [
+  { label: "Email", key: "email" },
+  { label: "Třída", key: "studentClass" },
+  { label: "Primární předměty", key: "primarySubjects" },
+  { label: "Sekundární předměty", key: "secondarySubjects" }
+];
+
+const studentsHeader = [
+  { label: "Předmět", key: "subjectName" },
+  { label: "Seznam přihlášených žáků", key: "signedStudentsEmail" }
+];
+
 class Students extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      students: [],
+      data: [],
+      studentBySubjects: [],
       loading: true
     };
   }
 
   async componentDidMount() {
     await this.apiGetAllStudents();
+    await this.apiGetAllStudentsForSubjects();
     this.setState({
       loading: false
     });
@@ -31,7 +47,7 @@ class Students extends React.Component {
     try {
       let result = await getAllStudents();
       this.setState({
-        students: result.data
+        data: result.data
       });
       console.log(result.data);
     } catch (error) {
@@ -40,15 +56,49 @@ class Students extends React.Component {
     }
   }
 
+  async apiGetAllStudentsForSubjects() {
+    try {
+      let result = await getSignStudentsForAllSubjects();
+      this.setState({
+        studentBySubjects: result.data
+      });
+    } catch (error) {
+      console.log(error);
+      //TODO Logger
+    }
+  }
+
   render() {
-    return (
-      <DataGrid
-        dataSource={this.state.students}
-        defaultColumns={columns}
-        showBorders={true}
-      >
-        <SearchPanel visible={true} width={240} placeholder="Najít..." />
-      </DataGrid>
+    return this.state.loading ? (
+      <p>Loading...</p>
+    ) : (
+      <div>
+        <CSVLink
+          headers={headersCsv}
+          data={this.state.data}
+          filename={"zaci_zapis.csv"}
+          className="btn btn-primary"
+          target="_blank"
+        >
+          Export zápis žáků
+        </CSVLink>
+        <CSVLink
+          headers={studentsHeader}
+          data={this.state.studentBySubjects}
+          filename={"predmet_zaci.csv"}
+          className="btn btn-primary"
+          target="_blank"
+        >
+          Export předměty x žáci
+        </CSVLink>
+        <DataGrid
+          dataSource={this.state.data}
+          defaultColumns={defaultColumn}
+          showBorders={true}
+        >
+          <SearchPanel visible={true} width={240} placeholder="Najít..." />
+        </DataGrid>
+      </div>
     );
   }
 }
