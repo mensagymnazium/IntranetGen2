@@ -1,0 +1,41 @@
+body {
+  font-family: Tahoma;
+}
+
+/* declare a 11 column grid on the table */
+.schedule {
+  table-layout: fixed;
+  margin: 10px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(11, minmax(50px, 140px));
+}
+
+.schedule tr,
+.schedule tbody,
+.schedule thead {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(11, minmax(50px, 140px));
+  width: 100%;
+}
+
+.schedule td,
+.schedule th {
+  padding: 5px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  border: 1px solid #ccc;
+}
+
+.schedule td {
+  min-height: 100px;
+}
+
+caption {
+  text-align: center;
+  grid-column: 1 / -1;
+  font-size: 130%;
+  font-weight: bold;
+  padding: 10px 0;
+}

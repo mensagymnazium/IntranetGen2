@@ -6,15 +6,20 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects.Enums
 {
+    [JsonConverter(typeof(StringEnumConverter))]
+    [Flags]
     public enum GradeEnum
     {
-        Prima = 0,
-        Sekunda = 1,
-        Tercie = 2,
-        Kvarta = 3,
-        Kvinta = 4,
-        Sexta = 5,
-        Septima = 6,
-        Oktava = 7
+        NotDefined = 0,
+        Prima = 1,
+        Sekunda = 2,
+        Tercie = 4,
+        Kvarta = 8,
+        Kvinta = 16,
+        Sexta = 32,
+        Septima = 64,
+        Oktáva = 128,
+        Teacher = 256,
+        Admin = 512
     }
 }

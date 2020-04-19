@@ -1,0 +1,19 @@
+.subject {
+      flex: 0 0 auto;
+      border-radius: 4px;
+      padding: 5px;
+      margin-bottom: 5px;
+      line-height: 14px;
+      background: #e4f2f2;
+      border: 1px solid #b5dbdc;
+      cursor: pointer;
+  }
+
+  .subject p:first-of-type{
+      color: black;
+      font-size: 15px;
+  }
+
+  .teacher {
+      font-size: 10px;
+  }

@@ -11,17 +11,16 @@ namespace MI.Server.DataAccess.DbObjects.Entities
         public SubjectDb()
         {
             UserSubjects = new List<UserSubjectsDb>();
-            GradeSubjects = new List<GradeSubjectsDb>();
         }
 
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Capacity { get; set; }
-        public DayEnum DayPeriod { get; set; }
-        public PeriodEnum TimePeriod { get; set; }
-        public UserDb Teacher { get; set; }
-        public int? TeacherId { get; set; }
+        public int? Capacity { get; set; }
+        public DayEnum Day { get; set; }
+        public PeriodEnum Period{ get; set; }
+        public string Teacher { get; set; }
+        public SubjectTypeEnum Types { get; set; }
+        public GradeEnum Grades { get; set; }
         public ICollection<UserSubjectsDb> UserSubjects { get; set; }
-        public ICollection<GradeSubjectsDb> GradeSubjects { get; set; }
     }
 }

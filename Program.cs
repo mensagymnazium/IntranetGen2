@@ -25,7 +25,7 @@ namespace MI
                 {
                     var context = services.GetRequiredService<MensaIntranetContext>();
                     context.Database.EnsureCreated();
-                    Data.DataAccess.Database.DbInitializer.Initialize(context);
+                    //Data.DataAccess.Database.DbInitializer.Initialize(context);
                 }
                 catch(System.Exception ex)
                 {

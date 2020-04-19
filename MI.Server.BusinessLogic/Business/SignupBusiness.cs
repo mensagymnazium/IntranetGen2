@@ -21,13 +21,10 @@ namespace MI.Server.BusinessLogic.Business
             _context = context;
         }
 
-        public async Task<List<SubjectDTO>> SubjectsByStudent(int id)
+        public async Task<List<SubjectDto>> SubjectsByStudent(int id)
         {
             UserDb student = await _context.Users
-                .Where(s => !s.IsDeleted)
-                .Where(s => s.Role == UserType.Student)
-                .Include(s => s.UserSubjects).ThenInclude(us => us.Subject).ThenInclude(s => s.GradeSubjects)
-                .Include(s => s.UserSubjects).ThenInclude(us => us.Subject).ThenInclude(s => s.UserSubjects)
+                .Include(s => s.UserSubjects).ThenInclude(us => us.Subject)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
             if (student == null)
@@ -36,16 +33,33 @@ namespace MI.Server.BusinessLogic.Business
             }
 
             return student.UserSubjects
-                .Where(us => !us.IsDeleted)
                 .Select(us => us.Subject)
-                .Select(s => SubjectBusiness.SubjectDbToSubjectDTO(s))
+                .Select(s => SubjectBusiness.SubjectDbToSubjectDto(s))
                 .ToList();
         }
 
-        public async Task<List<StudentDTO>> StudentBySubject(int id)
+        public async Task<List<string>> SubjectsByStudentAndPriority(int id, Priority priority)
+        {
+            UserDb student = await _context.Users
+                .Include(s => s.UserSubjects).ThenInclude(us => us.Subject)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (student == null)
+            {
+                throw new NotFoundException($"Student with id {id} does not exist in database.");
+            }
+
+            return student.UserSubjects
+                .Where(u => u.Priority == priority)
+                .Select(us => us.Subject.Name)
+                .ToList();
+        }
+
+
+
+        public async Task<List<UserDto>> StudentBySubject(int id)
         {
             SubjectDb subject = await _context.Subjects
-                .Where(s => !s.IsDeleted)
                 .Include(s => s.UserSubjects).ThenInclude(us => us.User)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
@@ -55,55 +69,53 @@ namespace MI.Server.BusinessLogic.Business
             }
 
             return subject.UserSubjects
-                .Where(us => !us.IsDeleted)
                 .Select(us => us.User)
-                .Select(u => new StudentDTO()
+                .Select(u => new UserDto()
                 {
-                    Name = u.FullName,
+                    Email = u.Email,
                     Id = u.Id,
-                    Grade = u.StudentClass
+                    StudentClass = u.StudentGrade
                 })
                 .ToList();
         }
 
-        public async Task CreateSignup(int studentId, int subjectId)
+        public async Task CreateSignup(UserDb student, int subjectId, Priority priority)
         {
-            UserSubjectsDb existingSignup = await _context.UserSubjects
-                .Where(us => !us.IsDeleted)
-                .FirstOrDefaultAsync(us => us.SubjectId == subjectId && us.UserId == studentId);
+            if (student == null)
+                throw new ArgumentNullException();
+
+            var existingSignup = await _context.UserSubjects
+                .FirstOrDefaultAsync(us => us.SubjectId == subjectId && us.UserId == student.Id);
 
             if (existingSignup != null)
             {
-                throw new NotFoundException($"Student with id {studentId} has already signed up for the subject with id {subjectId}.");
+                throw new NotFoundException($"Student with id {student.Id} has already signed up for the subject with id {subjectId}.");
             }
 
-            UserDb student = await _context.Users
-                .Where(s => !s.IsDeleted)
-                .Where(s => s.Role == UserType.Student)
-                .FirstOrDefaultAsync(s => s.Id == studentId);
-
-            SubjectDb subject = await _context.Subjects
-                .Where(s => !s.IsDeleted)
+            var subject = await _context.Subjects
                 .FirstOrDefaultAsync(s => s.Id == subjectId);
 
             _context.UserSubjects.Add(new UserSubjectsDb()
             {
-                User = student ?? throw new NotFoundException($"Student with id {studentId} does not exist in database."),
-                Subject = subject ?? throw new NotFoundException($"Subject with id {subjectId} does not exist in database.")
+                User = student,
+                Subject = subject ?? throw new NotFoundException($"Subject with id {subjectId} does not exist in database."),
+                Priority = priority
             });
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteSignup(int studentId, int subjectId)
+        public async Task DeleteSignup(UserDb student, int subjectId)
         {
+            if (student == null)
+                throw new ArgumentNullException();
+
             UserSubjectsDb signup = await _context.UserSubjects
-                .Where(us => !us.IsDeleted)
-                .FirstOrDefaultAsync(us => us.SubjectId == subjectId && us.UserId == studentId);
+                .FirstOrDefaultAsync(us => us.SubjectId == subjectId && us.UserId == student.Id);
 
             if (signup == null)
             {
-                throw new NotFoundException($"A student with id {studentId} hasn't signed up for a subject with id {subjectId}.");
+                throw new NotFoundException($"A student with id {student.Id} hasn't signed up for a subject with id {subjectId}.");
             }
             _context.UserSubjects.Remove(signup);
 

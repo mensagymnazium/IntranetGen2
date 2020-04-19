@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MI.Server.BusinessLogic;
 using MI.Server.BusinessLogic.DTO;
-using MI.Server.BusinessLogic.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,58 +20,23 @@ namespace MI.Controllers
             _manager = manager;
         }
 
-        [HttpGet("subject/{id}")]
-        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetBySubjectId(int id)
+        [HttpGet]
+        [Authorize(Roles = "Admin,Teacher")]
+        public async Task<IEnumerable<SignupSubjectsDto>> GetStudentsBySubjects()
         {
-            try
+            var subjects = await _manager.SubjectBusiness.GetSubjects();
+            var result = new List<SignupSubjectsDto>();
+            foreach (var subject in subjects)
             {
-                return await _manager.SignupBusiness.StudentBySubject(id);
+                var dto = new SignupSubjectsDto
+                {
+                    SubjectName = subject.Name
+                };
+                var list = await _manager.SignupBusiness.StudentBySubject(subject.Id.Value);
+                dto.SignedStudentsEmail = list.Select(x => x.Email).ToList();
+                result.Add(dto);
             }
-            catch (NotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
-        }
-
-        [HttpGet("student/{id}")]
-        public async Task<ActionResult<IEnumerable<SubjectDTO>>> GetByStudentId(int id)
-        {
-            try
-            {
-                return await _manager.SignupBusiness.SubjectsByStudent(id);
-            }
-            catch (NotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
-        }
-
-        [HttpPut("{studentId}-{subjectId}")]
-        public async Task<ActionResult> Put(int studentId, int subjectId)
-        {
-            try
-            {
-                await _manager.SignupBusiness.CreateSignup(studentId, subjectId);
-                return NoContent();
-            }
-            catch (NotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
-        }
-
-        [HttpDelete("{studentId}-{subjectId}")]
-        public async Task<ActionResult> Delete(int studentId, int subjectId)
-        {
-            try
-            {
-                await _manager.SignupBusiness.DeleteSignup(studentId, subjectId);
-                return NoContent();
-            }
-            catch (NotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
+            return result;
         }
     }
 }

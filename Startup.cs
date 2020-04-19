@@ -9,7 +9,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MI.Server.DataAccess.Database;
 using MI.Server.BusinessLogic;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace MI
 {
@@ -26,7 +30,7 @@ namespace MI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+           
             services.AddControllers().AddNewtonsoftJson();
 
             // In production, the React files will be served from this directory
@@ -40,6 +44,22 @@ namespace MI
 
             services.AddScoped<BusinessManager>();
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                // note: the tenant id (authority) and client id (audience) 
+                // should normally be pulled from the config file or ENV vars.
+                // this code uses an inline example for brevity.
+
+                options.Authority = "https://login.microsoftonline.com/bc4facfa-6ca4-4771-aa06-3bce0418701c";
+                //options.Audience = "api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf";
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidAudience = "api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf"
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,16 +75,16 @@ namespace MI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
 
+            app.UseAuthentication();
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {

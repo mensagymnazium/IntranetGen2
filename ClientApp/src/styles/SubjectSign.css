@@ -1,0 +1,14 @@
+#grid-container .dx-datagrid-content tr.dx-data-row {
+  cursor: pointer;
+}
+.subject-info .subject-headline {
+  float: left;
+  padding: 20px 20px 20px 0;
+  font-weight: bold;
+}
+
+.subject-info .subject-notes {
+  padding-top: 20px;
+  text-align: justify;
+  white-space: normal;
+}
