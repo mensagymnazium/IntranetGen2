@@ -59,7 +59,7 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task<List<UserDto>> GetStudents()
         {
-            var students = await _context.Users.Include(x => x.UserSubjects).Where(s => s.StudentGrade != GradeEnum.NotDefined).ToListAsync();
+            var students = await _context.Users.Include(x => x.UserSubjects).Where(s => s.StudentGrade != GradeEnum.NotDefined && s.StudentGrade != GradeEnum.Teacher && s.StudentGrade != GradeEnum.Admin).ToListAsync();
 
             return students.Select(UserDbToUserDto).ToList();
         }

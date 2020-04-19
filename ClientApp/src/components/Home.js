@@ -58,8 +58,16 @@ async function getStudentClass(groups) {
     Grade.Kvinta,
     Grade.Sexta,
     Grade.Septima,
-    Grade.Oktava
+    Grade.Oktava,
+    Grade.Teacher,
+    Grade.Admin
   ];
+
+  var admin = groups.find(group => group.displayName === Grade.Admin);
+  if (admin) return "Admin";
+  var teacher = groups.find(group => group.displayName === Grade.Teacher);
+  if (teacher) return "Teacher";
+
   return gradesList.find(name =>
     groups.find(group => group.displayName === name)
   );

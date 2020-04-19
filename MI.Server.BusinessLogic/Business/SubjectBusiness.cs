@@ -65,6 +65,9 @@ namespace MI.Server.BusinessLogic.Business
                 .Include(s => s.UserSubjects)
                 .ToListAsync();
 
+            if(userDb.StudentGrade == GradeEnum.Admin || userDb.StudentGrade == GradeEnum.Teacher)
+                return subjects.Select(SubjectDbToSubjectDto).ToList();
+
             var selected = subjects.Where(s => s.Grades.ToList().Contains(userDb.StudentGrade));
 
             return selected.Select(SubjectDbToSubjectDto).ToList();

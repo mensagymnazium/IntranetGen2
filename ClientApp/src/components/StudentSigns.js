@@ -12,7 +12,7 @@ class StudentSigns extends React.Component {
         <SigningInfo />
         <br />
         <h3>
-          <strong>Zápisy </strong>
+          <strong>Zápisy: </strong>
         </h3>
         <SubjectSigning {...this.props} />
       </div>

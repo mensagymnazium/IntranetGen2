@@ -19,5 +19,7 @@ namespace MI.Server.DataAccess.DbObjects.Enums
         Sexta = 32,
         Septima = 64,
         Oktáva = 128,
+        Teacher = 256,
+        Admin = 512
     }
 }
