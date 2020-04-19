@@ -19,11 +19,6 @@ const headersCsv = [
   { label: "Sekundární předměty", key: "secondarySubjects" }
 ];
 
-const studentsHeader = [
-  { label: "Předmět", key: "subjectName" },
-  { label: "Seznam přihlášených žáků", key: "signedStudentsEmail" }
-];
-
 class Students extends React.Component {
   constructor(props) {
     super(props);
@@ -81,15 +76,6 @@ class Students extends React.Component {
           target="_blank"
         >
           Export zápis žáků
-        </CSVLink>
-        <CSVLink
-          headers={studentsHeader}
-          data={this.state.studentBySubjects}
-          filename={"predmet_zaci.csv"}
-          className="btn btn-primary"
-          target="_blank"
-        >
-          Export předměty x žáci
         </CSVLink>
         <DataGrid
           dataSource={this.state.data}

@@ -25,6 +25,7 @@ namespace MI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Teacher")]
         public async Task<IEnumerable<UserDto>> Get()
         {
             var students = await _manager.UserBusiness.GetStudents();
@@ -40,6 +41,7 @@ namespace MI.Controllers
 
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
+        [Authorize]
         public async Task<IActionResult> InsertOrUpdateUser(UserDto userDto)
         {
             try
@@ -55,6 +57,7 @@ namespace MI.Controllers
 
 
         [HttpPost("subject/{subjectId}")]
+        [Authorize]
         public async Task<IActionResult> SignUpToSubject([FromRoute]int subjectId,[FromBody] Priority priority )
         {
             try
@@ -79,6 +82,7 @@ namespace MI.Controllers
         }
 
         [HttpDelete("subject/{subjectId}")]
+        [Authorize]
         public async Task<IActionResult> UnSignUpSubject([FromRoute]int subjectId)
         {
             try
@@ -94,7 +98,8 @@ namespace MI.Controllers
         }
 
         [HttpGet("my/subjects")]
-        public async Task<ActionResult<IEnumerable<SubjectDto>>> GetByStudentId()
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<SubjectDto>>> GetByStudent()
         {
             try
             {
@@ -108,6 +113,7 @@ namespace MI.Controllers
         }
 
         [HttpGet("subjects")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<SubjectDto>>> GetAllAvailableSubjects()
         {
             try

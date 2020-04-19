@@ -21,7 +21,7 @@ namespace MI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin,Teacher")]
         public async Task<IEnumerable<SignupSubjectsDto>> GetStudentsBySubjects()
         {
             var subjects = await _manager.SubjectBusiness.GetSubjects();
