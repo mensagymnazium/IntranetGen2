@@ -34,7 +34,7 @@ export class NavMenu extends Component {
 
   render() {
     const roles = [Role.Admin, Role.Teacher];
-    const adminRole = [Role.Admin];
+    console.log(this.state.haveRoles);
     return (
       <header>
         <Navbar
@@ -62,9 +62,7 @@ export class NavMenu extends Component {
                     Předměty
                   </NavLink>
                 </NavItem>
-                {adminRole &&
-                adminRole.some(x => this.state.haveRoles.indexOf(x) === -1) ===
-                  false ? null : (
+                {this.state.haveRoles.indexOf(Role.Admin) === -1 ? null : (
                   <NavItem>
                     <NavLink
                       tag={Link}
