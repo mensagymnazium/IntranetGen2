@@ -30,7 +30,7 @@ namespace MI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-           
+
             services.AddControllers().AddNewtonsoftJson();
 
             // In production, the React files will be served from this directory
@@ -49,7 +49,7 @@ namespace MI
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                // note: the tenant id (authority) and client id (audience) 
+                // note: the tenant id (authority) and client id (audience)
                 // should normally be pulled from the config file or ENV vars.
                 // this code uses an inline example for brevity.
 
@@ -60,6 +60,14 @@ namespace MI
                     ValidAudience = "api://6842fe3c-f09c-4ec1-b6b0-1d15cf6a37bf"
                 };
             });
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            // ...
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,10 +83,10 @@ namespace MI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+            app.UseCors("MyPolicy");
 
             app.UseAuthentication();
-            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
