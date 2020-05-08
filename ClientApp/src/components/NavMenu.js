@@ -82,11 +82,6 @@ export class NavMenu extends Component {
                     </NavLink>
                   </NavItem>
                 )}
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/graph-data">
-                    Get Graph data
-                  </NavLink>
-                </NavItem>
                 <UserLogin {...this.props} />
               </ul>
             </Collapse>

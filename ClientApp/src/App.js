@@ -5,7 +5,6 @@ import { Home } from "./components/Home";
 import { withAuth } from "./msal/MsalAuthProvider";
 import { NoMatch } from "./components/NoMatch";
 import { NavMenu } from "./components/NavMenu";
-import { GraphData } from "./components/GraphData";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { Role } from "./helpers/Enums";
 import Administration from "./components/Administration";
@@ -26,7 +25,6 @@ class RootApp extends Component {
               path="/subjects-sign"
               render={() => <StudentSigns {...this.props} />}
             />
-            <Route exact path="/graph-data" component={GraphData} />
             <PrivateRoute
               path="/subject-edit"
               roles={[Role.Admin, Role.Teacher]}
