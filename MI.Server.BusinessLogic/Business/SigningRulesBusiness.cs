@@ -64,10 +64,14 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task<bool> CanSign(UserDb user, SubjectDto subjectDto, Priority priority)
         {
+            if (user.StudentGrade == GradeEnum.Admin || user.StudentGrade == GradeEnum.Teacher)
+                return false;
+
             var allSignedSubject = await _context.UserSubjects
                 .Include(s => s.Subject)
                 .Include(u => u.User)
                 .Where(u => u.UserId == user.Id && u.Priority == priority).ToListAsync();
+
             var signingRules = await _context.SigningRules.Where(r => r.GradeEnum == user.StudentGrade).ToListAsync();
 
 
