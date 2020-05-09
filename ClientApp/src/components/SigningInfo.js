@@ -34,8 +34,11 @@ class SigningInfo extends React.Component {
   render() {
     return this.state.loading ? (
       <p>Loading...</p>
-    ) : (
+    ) : this.state.rules.length ? (
       <div>
+        <h3>
+          <strong> Co si zapsat:</strong>
+        </h3>
         <Container>
           <Row>
             <Col>
@@ -57,7 +60,7 @@ class SigningInfo extends React.Component {
           })}
         </Container>
       </div>
-    );
+    ) : null;
   }
 }
 

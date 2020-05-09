@@ -6,9 +6,6 @@ class StudentSigns extends React.Component {
   render() {
     return (
       <div>
-        <h3>
-          <strong> Co si zapsat:</strong>
-        </h3>
         <SigningInfo />
         <br />
         <h3>

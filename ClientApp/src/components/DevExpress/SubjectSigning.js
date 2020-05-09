@@ -27,8 +27,6 @@ class SubjectSigning extends React.Component {
       signedSubjects: [],
       loading: true
     };
-    this.contentReady = this.contentReady.bind(this);
-    this.selectionChanged = this.selectionChanged.bind(this);
     this.signUpClick = this.signUpClick.bind(this);
     this.unSignUpClick = this.unSignUpClick.bind(this);
     this.isSignUpVisible = this.isSignUpVisible.bind(this);
@@ -85,16 +83,6 @@ class SubjectSigning extends React.Component {
       console.log(error);
       //TODO Logger
     }
-  }
-
-  contentReady(e) {
-    if (!e.component.getSelectedRowKeys().length) {
-      e.component.selectRowsByIndexes(0);
-    }
-  }
-  selectionChanged(e) {
-    e.component.collapseAll(-1);
-    e.component.expandRow(e.currentSelectedRowKeys[0]);
   }
 
   async signUpClick(e, priority) {
@@ -164,7 +152,7 @@ class SubjectSigning extends React.Component {
               }
             ]}
           />
-          <MasterDetail enabled={false} render={renderDetail} />
+          <MasterDetail enabled={true} render={renderDetail} />
         </DataGrid>
       </div>
     );
