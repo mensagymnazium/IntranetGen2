@@ -12,6 +12,8 @@ import { UserLogin } from "./UserLogin";
 import { Link } from "react-router-dom";
 import "./../styles/NavMenu.css";
 import { Role } from "../helpers/Enums";
+import Logo from "../resources/Logo.png";
+import Header from "../resources/Header.png";
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
@@ -34,16 +36,23 @@ export class NavMenu extends Component {
 
   render() {
     const roles = [Role.Admin, Role.Teacher];
-    console.log(this.state.haveRoles);
+    const style = {
+      backgroundImage: `url(${Header}`,
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      backgroundColor: "transparent"
+    };
     return (
       <header>
         <Navbar
+          style={style}
           className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
           light
         >
           <Container>
             <NavbarBrand tag={Link} to="/">
-              Mensa Intranet
+              <img src={Logo} alt="Mensa Intranet" />
             </NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse
