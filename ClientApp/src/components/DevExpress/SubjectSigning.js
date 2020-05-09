@@ -75,8 +75,6 @@ class SubjectSigning extends React.Component {
     try {
       let primary = await getSignedPrimarySubjects();
       let secondary = await getSignedSecondarySubjects();
-      console.log(primary.data);
-      console.log(secondary.data);
       this.setState({
         primarySubjects: primary.data,
         secondarySubjects: secondary.data

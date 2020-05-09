@@ -1,10 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import { getAllSigningRulesForMe } from "./../services/SigningRulesApi";
-import {
-  getSignedPrimarySubjects,
-  getSignedSecondarySubjects
-} from "./../services/UserApi";
 
 class SigningInfo extends React.Component {
   constructor(props) {
@@ -12,34 +8,15 @@ class SigningInfo extends React.Component {
 
     this.state = {
       rules: [],
-      loading: true,
-      primarySubjects: [],
-      secondarySubjects: []
+      loading: true
     };
   }
 
   async componentDidMount() {
     await this.apiGetAllSignedRulesForMe();
-    await this.apiGetSignedSubjects();
     this.setState({
       loading: false
     });
-  }
-
-  async apiGetSignedSubjects() {
-    try {
-      let primary = await getSignedPrimarySubjects();
-      let secondary = await getSignedSecondarySubjects();
-      console.log(primary.data);
-      console.log(secondary.data);
-      this.setState({
-        primarySubjects: primary.data,
-        secondarySubjects: secondary.data
-      });
-    } catch (error) {
-      console.log(error);
-      //TODO Logger
-    }
   }
 
   async apiGetAllSignedRulesForMe() {
