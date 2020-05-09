@@ -151,65 +151,70 @@ class SubjectCrud extends React.Component {
             >
               <Position my="top" at="top" of={window} />
             </Popup>
-            <Form colCount={2} onOptionChanged={this.validateForm}>
-              <Item
-                dataField="name"
-                validationRules={this.validationRules.requiredField}
-              />
-              <Item
-                dataField="type"
-                editorType="dxTagBox"
-                editorOptions={{
-                  items: this.type,
-                  showSelectionControls: true,
-                  applyValueMode: "useButtons"
-                }}
-                validationRules={this.validationRules.requiredField}
-              />
-              <Item
-                dataField="teacher"
-                validationRules={this.validationRules.requiredField}
-              />
+            <Form onOptionChanged={this.validateForm}>
+              <Item itemType="group">
+                <Item
+                  dataField="name"
+                  col="2"
+                  validationRules={this.validationRules.requiredField}
+                />
 
-              <Item
-                dataField="day"
-                editorType="dxSelectBox"
-                editorOptions={{
-                  items: this.day,
-                  searchEnabled: true,
-                  value: ""
-                }}
-                validationRules={this.validationRules.requiredField}
-              />
-              <Item
-                dataField="capacity"
-                validationRules={this.validationRules.numberField}
-              />
-              <Item
-                dataField="period"
-                editorType="dxSelectBox"
-                editorOptions={{
-                  items: this.timePeriod,
-                  searchEnabled: true,
-                  value: ""
-                }}
-                validationRules={this.validationRules.requiredField}
-              />
-              <Item
-                dataField="grades"
-                editorType="dxTagBox"
-                editorOptions={{
-                  items: this.gradesList,
-                  showSelectionControls: true,
-                  applyValueMode: "useButtons"
-                }}
-                validationRules={this.validationRules.requiredField}
-              />
+                <Item
+                  dataField="teacher"
+                  validationRules={this.validationRules.requiredField}
+                />
 
+                <Item
+                  dataField="capacity"
+                  validationRules={this.validationRules.numberField}
+                />
+
+                <Item
+                  dataField="grades"
+                  editorType="dxTagBox"
+                  editorOptions={{
+                    items: this.gradesList,
+                    showSelectionControls: true,
+                    applyValueMode: "useButtons"
+                  }}
+                  validationRules={this.validationRules.requiredField}
+                />
+
+                <Item
+                  dataField="type"
+                  editorType="dxTagBox"
+                  editorOptions={{
+                    items: this.type,
+                    showSelectionControls: true,
+                    applyValueMode: "useButtons"
+                  }}
+                  validationRules={this.validationRules.requiredField}
+                />
+                <Item
+                  dataField="day"
+                  editorType="dxSelectBox"
+                  editorOptions={{
+                    items: this.day,
+                    searchEnabled: true,
+                    value: ""
+                  }}
+                  validationRules={this.validationRules.requiredField}
+                />
+                <Item
+                  dataField="period"
+                  editorType="dxSelectBox"
+                  editorOptions={{
+                    items: this.timePeriod,
+                    searchEnabled: true,
+                    value: ""
+                  }}
+                  validationRules={this.validationRules.requiredField}
+                />
+              </Item>
               <Item
                 dataField="description"
                 editorType="dxTextArea"
-                editorOptions={{ height: 90 }}
+                editorOptions={{ height: "312px" }}
                 validationRules={this.validationRules.requiredField}
               />
             </Form>
