@@ -38,8 +38,29 @@ export const Home = props => {
       </Helmet>
       <div className="container">
         <div className="alert alert-warning border border-warning">
-          <p>Toto je hlavní stránka nového Intranetu</p>
-          <p>Ještě není jasný, jestli sem něco dáme nebo ne</p>
+          <p>
+            Toto je hlavní stránka nového Intranetu Byl vytvořen z důvodu
+            údržitelnosti a škálovatelnosti, což u předcházející verze nebylo
+            možné. Vize tohoto intranetu není jen u zápisu předmětů, ale dá se
+            rožšířit o spousty skvělých funkcí, které budou žákům a učitelům
+            zlepšovat působení ve škole.
+          </p>
+          <p>
+            Jedná se již o produkční verzi. Přesto prosím smýšlejte o tomto webu
+            jako o BETA verzi ve které určitě bude spousty chyb. Systém pro
+            zápis není navržen úplně user friendly, ale spíše jako MVP verze
+            (minimum viable product) z důvodu mé vlastní omezené časové kapacity
+            pro tento projekt.
+          </p>
+          <p>
+            Rád bych tento projekt jednou vydal jako Open source a věnoval právě
+            vám žákům Mensa gymnazia, kdy budete moci navrhovat a ještě lépe ti
+            zdatnější přidávat funkcionality.
+          </p>
+          <p>
+            Intranet je psán pomocí technologie React a .NET Core s databázi v
+            Microsoft SQL.
+          </p>
           <p>
             Tato stránka byla vykreslena v <b>{new Date().toLocaleString()}</b>.
           </p>
