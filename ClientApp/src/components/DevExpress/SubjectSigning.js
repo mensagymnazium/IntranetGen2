@@ -3,7 +3,6 @@ import React from "react";
 import DataGrid, {
   Column,
   Paging,
-  Selection,
   MasterDetail,
   SearchPanel
 } from "devextreme-react/data-grid";
@@ -12,8 +11,11 @@ import {
   signUpSubject,
   getSignedSubjects,
   unSignUpSubject,
-  getAvailableSubjects
+  getAvailableSubjects,
+  getSignedPrimarySubjects,
+  getSignedSecondarySubjects
 } from "./../../services/UserApi";
+import { Row, Col } from "reactstrap";
 
 import "./../../styles/SubjectSign.css";
 import { Priority } from "../../helpers/Enums";
@@ -25,6 +27,9 @@ class SubjectSigning extends React.Component {
     this.state = {
       subjects: [],
       signedSubjects: [],
+
+      primarySubjects: [],
+      secondarySubjects: [],
       loading: true
     };
     this.signUpClick = this.signUpClick.bind(this);
@@ -36,6 +41,7 @@ class SubjectSigning extends React.Component {
   async componentDidMount() {
     await this.apiGetAllSubjects();
     await this.apiGetSignedSubjects();
+    await this.apiGetAllSignedSubjects();
     this.setState({
       loading: false
     });
@@ -58,6 +64,22 @@ class SubjectSigning extends React.Component {
       let result = await getAvailableSubjects();
       this.setState({
         subjects: result.data
+      });
+    } catch (error) {
+      console.log(error);
+      //TODO Logger
+    }
+  }
+
+  async apiGetAllSignedSubjects() {
+    try {
+      let primary = await getSignedPrimarySubjects();
+      let secondary = await getSignedSecondarySubjects();
+      console.log(primary.data);
+      console.log(secondary.data);
+      this.setState({
+        primarySubjects: primary.data,
+        secondarySubjects: secondary.data
       });
     } catch (error) {
       console.log(error);
@@ -89,6 +111,7 @@ class SubjectSigning extends React.Component {
     e.event.preventDefault();
     await this.apiSignUpSubjects(e.row.data.id, priority);
     await this.apiGetSignedSubjects();
+    await this.apiGetAllSignedSubjects();
     await this.apiGetAllSubjects();
   }
 
@@ -96,6 +119,7 @@ class SubjectSigning extends React.Component {
     e.event.preventDefault();
     await this.apiUnSignUpSubjects(e.row.data.id);
     await this.apiGetSignedSubjects();
+    await this.apiGetAllSignedSubjects();
     await this.apiGetAllSubjects();
   }
 
@@ -112,48 +136,79 @@ class SubjectSigning extends React.Component {
     return this.state.loading ? (
       <p>Loading...</p>
     ) : (
-      <div className="demo-container">
-        <DataGrid
-          id="grid-container"
-          dataSource={subjects}
-          keyExpr="id"
-          showBorders={true}
-          onSelectionChanged={this.selectionChanged}
-          onContentReady={this.contentReady}
-        >
-          <Paging enabled={false} />
-          <SearchPanel visible={true} width={240} placeholder="Najít..." />
-          <Selection mode="single" />
-          <Column dataField="name" caption="Název" />
-          <Column dataField="type" caption="Typ předmětu" />
-          <Column dataField="teacher" caption="Vyučující" />
-          <Column dataField="description" caption="Popis" />
-          <Column dataField="day" caption="Den" width={80} />
-          <Column dataField="period" caption="Čas" />
-          <Column dataField="capacity" caption="Kapacita" width={80} />
-          <Column
-            caption="Zapsat"
-            type="buttons"
-            buttons={[
-              {
-                text: "Primárně",
-                visible: this.isSignUpVisible,
-                onClick: e => this.signUpClick(e, Priority.Primary)
-              },
-              {
-                text: "Sekundárně",
-                visible: this.isSignUpVisible,
-                onClick: e => this.signUpClick(e, Priority.Secondary)
-              },
-              {
-                text: "Odhlásit",
-                visible: this.isUnSignVisible,
-                onClick: this.unSignUpClick
-              }
-            ]}
-          />
-          <MasterDetail enabled={true} render={renderDetail} />
-        </DataGrid>
+      <div>
+        <div style={{ marginBottom: "20px" }}>
+          <Row>
+            <Col>
+              <strong>Zapsáno: </strong>
+            </Col>
+            <Col xs="2" style={{ textAlign: "center" }}>
+              <strong>Priorita: </strong>
+            </Col>
+          </Row>
+          {this.state.primarySubjects.map(x => {
+            return (
+              <Row>
+                <Col> {x} </Col>
+                <Col xs="2" style={{ textAlign: "center" }}>
+                  Primární
+                </Col>
+              </Row>
+            );
+          })}
+          {this.state.secondarySubjects.map(x => {
+            return (
+              <Row>
+                <Col> {x} </Col>
+                <Col xs="2" style={{ textAlign: "center" }}>
+                  Sekundární
+                </Col>
+              </Row>
+            );
+          })}
+        </div>
+
+        <div className="demo-container">
+          <DataGrid
+            id="grid-container"
+            dataSource={subjects}
+            keyExpr="id"
+            showBorders={true}
+            onContentReady={this.contentReady}
+          >
+            <Paging enabled={false} />
+            <SearchPanel visible={true} width={240} placeholder="Najít..." />
+            <Column dataField="name" caption="Název" />
+            <Column dataField="type" caption="Typ předmětu" />
+            <Column dataField="teacher" caption="Vyučující" />
+            <Column dataField="description" caption="Popis" />
+            <Column dataField="day" caption="Den" width={80} />
+            <Column dataField="period" caption="Čas" />
+            <Column dataField="capacity" caption="Kapacita" width={80} />
+            <Column
+              caption="Zapsat"
+              type="buttons"
+              buttons={[
+                {
+                  text: "Primárně",
+                  visible: this.isSignUpVisible,
+                  onClick: e => this.signUpClick(e, Priority.Primary)
+                },
+                {
+                  text: "Sekundárně",
+                  visible: this.isSignUpVisible,
+                  onClick: e => this.signUpClick(e, Priority.Secondary)
+                },
+                {
+                  text: "Odhlásit",
+                  visible: this.isUnSignVisible,
+                  onClick: this.unSignUpClick
+                }
+              ]}
+            />
+            <MasterDetail enabled={true} render={renderDetail} />
+          </DataGrid>
+        </div>
       </div>
     );
   }

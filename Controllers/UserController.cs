@@ -112,6 +112,36 @@ namespace MI.Controllers
             }
         }
 
+        [HttpGet("my/subjects/primary")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<string>>> GetByStudentPrimary()
+        {
+            try
+            {
+                var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
+                return await _manager.SignupBusiness.SubjectsByStudentAndPriority(userDb.Id, Priority.Primary);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpGet("my/subjects/secondary")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<string>>> GetByStudentSecondary()
+        {
+            try
+            {
+                var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
+                return await _manager.SignupBusiness.SubjectsByStudentAndPriority(userDb.Id, Priority.Secondary);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
         [HttpGet("subjects")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<SubjectDto>>> GetAllAvailableSubjects()

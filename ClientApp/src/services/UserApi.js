@@ -27,6 +27,15 @@ export async function getSignedSubjects() {
   return await api.get("/api/user/my/subjects/");
 }
 
+export async function getSignedPrimarySubjects() {
+  let api = await authenticatedApi(scope);
+  return await api.get("/api/user/my/subjects/primary");
+}
+export async function getSignedSecondarySubjects() {
+  let api = await authenticatedApi(scope);
+  return await api.get("/api/user/my/subjects/secondary");
+}
+
 export async function getAvailableSubjects() {
   let api = await authenticatedApi(scope);
   return await api.get("/api/user/subjects/");
