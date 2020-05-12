@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace MI.Controllers
 {
     [Route("api/[controller]")]
-    [EnableCors("CorsApi")]
     [ApiController]
     public class SubjectController : ControllerBase
     {

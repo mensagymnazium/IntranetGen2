@@ -64,12 +64,16 @@ namespace MI
 
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsApi",
-                    builder => builder.WithOrigins("https://intranet.mensagymnazium.cz", "https://172.24.8.13:443")
-                .AllowAnyHeader()
-                .AllowAnyMethod());
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    });
             });
-
 
         }
 
