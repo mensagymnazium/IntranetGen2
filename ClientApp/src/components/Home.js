@@ -88,8 +88,13 @@ async function getStudentClass(groups) {
   if (admin) return "Admin";
   var teacher = groups.find(group => group.displayName === Grade.Teacher);
   if (teacher) return "Teacher";
+  var oktava = groups.find(group => group.displayName === Grade.Oktava);
+  if (oktava) return Grade.Oktava;
 
-  return gradesList.find(name =>
+  var result = gradesList.find(name =>
     groups.find(group => group.displayName === name)
   );
+
+  var index = gradesList.indexOf(result);
+  return gradesList[index + 1];
 }
