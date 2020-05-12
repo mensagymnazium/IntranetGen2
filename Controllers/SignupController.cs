@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using MI.Server.BusinessLogic;
 using MI.Server.BusinessLogic.DTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MI.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("CorsApi")]
     [ApiController]
     public class SignupController : ControllerBase
     {

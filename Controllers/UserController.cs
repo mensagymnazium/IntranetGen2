@@ -8,12 +8,14 @@ using MI.Server.BusinessLogic.DTO;
 using MI.Server.BusinessLogic.Exceptions;
 using MI.Server.DataAccess.DbObjects.Enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MI.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("CorsApi")]
     [ApiController]
     [Authorize]
     public class UserController : ControllerBase
