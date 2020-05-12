@@ -70,8 +70,7 @@ namespace MI
                         builder
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
+                        .AllowAnyHeader();
                     });
             });
 
@@ -91,15 +90,14 @@ namespace MI
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
             app.UseRouting();
             app.UseCors("AllowAll");
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+            app.UseHttpsRedirection();
 
             app.UseEndpoints(endpoints =>
             {
