@@ -71,7 +71,8 @@ export class NavMenu extends Component {
                     Předměty
                   </NavLink>
                 </NavItem>
-                {this.state.haveRoles.indexOf(Role.Admin) === -1 ? null : (
+                {this.state.haveRoles &&
+                this.state.haveRoles.indexOf(Role.Admin) === -1 ? null : (
                   <NavItem>
                     <NavLink
                       tag={Link}
@@ -83,6 +84,7 @@ export class NavMenu extends Component {
                   </NavItem>
                 )}
                 {roles &&
+                this.state.haveRoles &&
                 roles.some(x => this.state.haveRoles.indexOf(x) === -1) ===
                   false ? null : (
                   <NavItem>
