@@ -5,6 +5,7 @@ import { getTokenByScope } from "../helpers/TokenHelper";
 import { getUserGroup } from "../services/GraphService";
 
 import { Grade } from "./../helpers/Enums";
+import { Grades } from "./../helpers/Data";
 
 export const Home = props => {
   let user = {
@@ -71,19 +72,6 @@ export const Home = props => {
 };
 
 async function getStudentClass(groups) {
-  var gradesList = [
-    Grade.Prima,
-    Grade.Sekunda,
-    Grade.Tercie,
-    Grade.Kvarta,
-    Grade.Kvinta,
-    Grade.Sexta,
-    Grade.Septima,
-    Grade.Oktava,
-    Grade.Teacher,
-    Grade.Admin
-  ];
-
   var admin = groups.find(group => group.displayName === Grade.Admin);
   if (admin) return "Admin";
   var teacher = groups.find(group => group.displayName === Grade.Teacher);
@@ -91,10 +79,10 @@ async function getStudentClass(groups) {
   var oktava = groups.find(group => group.displayName === Grade.Oktava);
   if (oktava) return Grade.Oktava;
 
-  var result = gradesList.find(name =>
+  var result = Grades.find(name =>
     groups.find(group => group.displayName === name)
   );
 
-  var index = gradesList.indexOf(result);
-  return gradesList[index + 1];
+  var index = Grades.indexOf(result);
+  return Grades[index + 1];
 }

@@ -8,7 +8,7 @@ export const Grade = {
   Septima: "Septima",
   Oktava: "Oktáva",
   Teacher: "Učitelé",
-  Admin: "Intranet-admins"
+  Admin: "Intranet-Admins"
 };
 
 export const Priority = {
