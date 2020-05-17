@@ -217,14 +217,14 @@ function renderDetail(props) {
   return (
     <div className="subject-info">
       <div className="subject-headline">
-        <p>Popis:</p>
         <p>Zapsáno:</p>
+        <p>Popis:</p>
       </div>
       <div className="subject-notes">
-        <p>{description}</p>
         <p>
           {enrolledStudents} / {capacity}
         </p>
+        <p>{description}</p>
       </div>
     </div>
   );
