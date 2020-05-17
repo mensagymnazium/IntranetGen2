@@ -8,6 +8,7 @@ namespace MI.Server.DataAccess.DbObjects.Entities
     public class SigningRulesDb : DbBase
     {
         public GradeEnum GradeEnum { get; set; }
+        public SubjectCategoryEnum Category { get; set; }
         public SubjectTypeEnum Type { get; set; }
         public int? Quantity { get; set; }
     }

@@ -12,42 +12,21 @@ namespace MI.Server.DataAccess.DbObjects.Enums
     public enum SubjectTypeEnum
     {
         NotDefined = 0 ,
-        [EnumMember(Value = "Volitelný")]
-        Optional = 1,
-        [EnumMember(Value = "Maturitní semináře")]
-        Graduational = 2,
-        [EnumMember(Value = "Cizí jazyk")]
-        ForeignLanguage = 4,
-        [EnumMember(Value = "Nadstavbový seminář")]
-        Seminars = 8,
-        [EnumMember(Value = "Specializační semináře")]
-        SpecialSeminars = 16,
         [EnumMember(Value = "Jazyk a jazyková komuniakce")]
-        LanguageCommunication = 32,
+        LanguageCommunication = 1,
         [EnumMember(Value = "Matematika a její aplikace")]
-        MathApplication = 64,
+        MathApplication = 2,
         [EnumMember(Value = "Informační a komunikační technologie")]
-        Informatics = 128,
+        Informatics = 4,
         [EnumMember(Value = "Člověk a společnost")]
-        HumanSociety = 256,
+        HumanSociety = 8,
         [EnumMember(Value = "Člověk a příroda")]
-        HumanNature = 512,
+        HumanNature = 16,
         [EnumMember(Value = "Umění a kultura")]
-        ArtCulture = 1024,
+        ArtCulture = 32,
         [EnumMember(Value = "Člověk a zdraví")]
-        HumanHealth = 2048,
+        HumanHealth = 64,
         [EnumMember(Value = "Člověk a svět práce")]
-        HumanWork = 4096,
-
-
-
-
-
-
-
-
-
-
-
+        HumanWork = 128,
     }
 }

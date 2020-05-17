@@ -1,5 +1,6 @@
 ﻿using MI.Server.BusinessLogic.DTO;
 using MI.Server.BusinessLogic.Exceptions;
+using MI.Server.BusinessLogic.Helpers;
 using MI.Server.DataAccess.Database;
 using MI.Server.DataAccess.DbObjects.Entities;
 using MI.Server.DataAccess.DbObjects.Enums;
@@ -27,6 +28,7 @@ namespace MI.Server.BusinessLogic.Business
             {
                 Id = signingRulesDb.Id,
                 Grade = signingRulesDb.GradeEnum,
+                Category = signingRulesDb.Category.ToList(),
                 Type = signingRulesDb.Type.ToList(),
                 Quantity = signingRulesDb.Quantity
             };
@@ -123,11 +125,13 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task CreateSigningRule(SigningRulesDto signingRules)
         {
-            var subjectType = GetSubjectTypeEnum(signingRules.Type);
+            var subjectType = EnumHelper.GetSubjectTypeEnum(signingRules.Type);
+            var subjectCategory = EnumHelper.GetCategoryEnum(signingRules.Category);
             SigningRulesDb signingRuleDb = new SigningRulesDb()
             {
                 GradeEnum = signingRules.Grade,
                 Quantity = signingRules.Quantity,
+                Category = subjectCategory,
                 Type = subjectType
             };
 
@@ -151,8 +155,13 @@ namespace MI.Server.BusinessLogic.Business
 
             if (signingRulesDto.Type.Count != 0)
             {
-                var subjectType = GetSubjectTypeEnum(signingRulesDto.Type);
+                var subjectType = EnumHelper.GetSubjectTypeEnum(signingRulesDto.Type);
                 signingRulesDb.Type = subjectType;
+            }
+            if (signingRulesDto.Category.Count != 0)
+            {
+                var subjectCategory = EnumHelper.GetCategoryEnum(signingRulesDto.Category);
+                signingRulesDb.Category = subjectCategory;
             }
 
             _context.SigningRules.Update(signingRulesDb);
@@ -172,13 +181,6 @@ namespace MI.Server.BusinessLogic.Business
 
             _context.SigningRules.Remove(signingRule);
             await _context.SaveChangesAsync();
-        }
-
-        private SubjectTypeEnum GetSubjectTypeEnum(List<SubjectTypeEnum> list)
-        {
-            if (list.Count == 0)
-                return SubjectTypeEnum.NotDefined;
-            return list.Aggregate((prev, next) => prev | next);
         }
     }
 }

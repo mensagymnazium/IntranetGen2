@@ -10,6 +10,7 @@ using MI.Server.DataAccess.DbObjects.Enums;
 using MI.Server.BusinessLogic.DTO;
 using MI.Server.BusinessLogic.Exceptions;
 using Newtonsoft.Json;
+using MI.Server.BusinessLogic.Helpers;
 
 namespace MI.Server.BusinessLogic.Business
 {
@@ -33,6 +34,7 @@ namespace MI.Server.BusinessLogic.Business
                 Capacity = s.Capacity,
                 EnrolledStudents = s.UserSubjects.Count(),
                 Period = s.Period,
+                Category = s.Category.ToList(),
                 Type = s.Types.ToList(),
                 Day = s.Day,
                 Teacher = s.Teacher,
@@ -75,8 +77,9 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task CreateSubject(SubjectDto subject)
         {
-            var subjectType = GetSubjectTypeEnum(subject.Type);
-            var grades = GetGradeEnum(subject.Grades);
+            var subjectType = EnumHelper.GetSubjectTypeEnum(subject.Type);
+            var grades = EnumHelper.GetGradeEnum(subject.Grades);
+            var category = EnumHelper.GetCategoryEnum(subject.Category);
 
             SubjectDb subjectDb = new SubjectDb()
             {
@@ -84,6 +87,7 @@ namespace MI.Server.BusinessLogic.Business
                 Description = subject.Description,
                 Capacity = subject.Capacity,
                 Teacher = subject.Teacher,
+                Category = category,
                 Types = subjectType,
                 Day = subject.Day,
                 Period = subject.Period,
@@ -113,13 +117,17 @@ namespace MI.Server.BusinessLogic.Business
 
             if (subjectDto.Type.Count != 0)
             {
-                var subjectType = GetSubjectTypeEnum(subjectDto.Type);
+                var subjectType = EnumHelper.GetSubjectTypeEnum(subjectDto.Type);
                 subjectDb.Types = subjectType;
             }
-
+            if (subjectDto.Category.Count != 0)
+            {
+                var subjectCategory = EnumHelper.GetCategoryEnum(subjectDto.Category);
+                subjectDb.Category = subjectCategory;
+            }
             if (subjectDto.Grades.Count != 0)
             {
-                var grades = GetGradeEnum(subjectDto.Grades);
+                var grades = EnumHelper.GetGradeEnum(subjectDto.Grades);
                 subjectDb.Grades = grades;
             }
 
@@ -140,20 +148,6 @@ namespace MI.Server.BusinessLogic.Business
 
             _context.Subjects.Remove(subject);
             await _context.SaveChangesAsync();
-        }
-
-        private SubjectTypeEnum GetSubjectTypeEnum(List<SubjectTypeEnum> list)
-        {
-            if (list.Count == 0)
-                return SubjectTypeEnum.NotDefined;
-            return list.Aggregate((prev, next) => prev | next);
-        }
-
-        private GradeEnum GetGradeEnum(List<GradeEnum> list)
-        {
-            if (list.Count == 0)
-                return GradeEnum.NotDefined;
-            return list.Aggregate((prev, next) => prev | next);
         }
     }
 }
