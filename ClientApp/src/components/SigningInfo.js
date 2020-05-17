@@ -42,7 +42,10 @@ class SigningInfo extends React.Component {
         <Container>
           <Row>
             <Col>
-              <strong>Typ předmětu: </strong>
+              <strong>Skupina: </strong>
+            </Col>
+            <Col>
+              <strong>Vzdělávací oblast: </strong>
             </Col>
             <Col xs="2" style={{ textAlign: "center" }}>
               <strong>Počet zapsání: </strong>
@@ -51,6 +54,7 @@ class SigningInfo extends React.Component {
           {this.state.rules.map(x => {
             return (
               <Row style={{ padding: 10 }}>
+                <Col> {x.category.join(", ")}</Col>
                 <Col> {x.type.join(", ")}</Col>
                 <Col xs="2" style={{ textAlign: "center" }}>
                   {x.quantity}

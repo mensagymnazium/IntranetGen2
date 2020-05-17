@@ -76,42 +76,23 @@ namespace MI.Server.BusinessLogic.Business
 
             var signingRules = await _context.SigningRules.Where(r => r.GradeEnum == user.StudentGrade).ToListAsync();
 
-
             if (subjectDto.Capacity == subjectDto.EnrolledStudents)
                 return false;
+
             if (allSignedSubject.Any(s => s.SubjectId == subjectDto.Id))
                 return false;
+
             var n = NumberOfPossibleSigns(signingRules);
             if (allSignedSubject.Count >= n)
                 return false;
 
-            foreach (var rule in signingRules)
-            {
-                var ruleTypes = rule.Type.ToList();
-                var signedSubjectWithDesiredType = allSignedSubject.Where(s => s.Subject.Types.ToList().Any(x => ruleTypes.Any(y => y == x))).Select(x => x.Subject).ToList();
-                foreach (var ruleType in ruleTypes)
-                {
-                    if (signedSubjectWithDesiredType.Count() >= NumberOfRule(signingRules, ruleType))
-                        continue;
-                    if (subjectDto.Type.Contains(ruleType))
-                        return true;
-                }
-            }
+            var numberOfPossibleSignsForThisSubject = signingRules.Where(x => x.Category.ToList().Contains(subjectDto.Category) && x.Type.ToList().Any(y => subjectDto.Type.Any(z => z == y))).Sum(w => w.Quantity);
+            var signed = allSignedSubject.Where(x => x.Subject.Category.ToList().Contains(subjectDto.Category) && x.Subject.Types.ToList().Any(y => subjectDto.Type.Any(z => z == y))).ToList().Count;
+
+            if (numberOfPossibleSignsForThisSubject > signed)
+                return true;
             return false;
         }
-
-        private int? NumberOfRule(List<SigningRulesDb> signRules, SubjectTypeEnum subjectTypeEnum)
-        {
-            int? number = 0;
-            foreach(var rule in signRules)
-            {
-                if (rule.Type.ToList().Contains(subjectTypeEnum))
-                    number += rule.Quantity;
-            }
-            return number;
-        }
-
-
 
         private int? NumberOfPossibleSigns(List<SigningRulesDb> signRules)
         {

@@ -9,7 +9,7 @@ class Administration extends React.Component {
         <h3>Předměty</h3>
         <SubjectCrud {...this.props} />
         <br />
-        <h3>Pravidla</h3>
+        <h3>Pravidla (mezi pravidly pro stejnou třídu je spojka A)</h3>
         <GradesRulesCrud {...this.props} />
       </div>
     );
