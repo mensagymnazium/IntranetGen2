@@ -1,4 +1,4 @@
-import { Grade, SubjectType, Day, TimePeriod } from "./Enums";
+import { Grade, SubjectType, Day, TimePeriod, Category } from "./Enums";
 
 export const Types = [
   SubjectType.LanguageCommunication,
@@ -12,10 +12,10 @@ export const Types = [
 ];
 
 export const Categories = [
-  SubjectType.Graduational,
-  SubjectType.ForeignLanguage,
-  SubjectType.Seminars,
-  SubjectType.SpecialSeminars
+  Category.Graduational,
+  Category.Seminars,
+  Category.SpecialSeminars,
+  Category.ForeignLanguage
 ];
 
 export const Days = [

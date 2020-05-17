@@ -18,36 +18,11 @@ import {
   deleteSigningRule,
   updateSigningRule
 } from "./../../services/SigningRulesApi";
-import { Grade, SubjectType } from "./../../helpers/Enums";
+import { Types, Grades, Categories } from "./../../helpers/Data";
 
 class GradesRulesCrud extends React.Component {
   constructor(props) {
     super(props);
-    this.type = [
-      SubjectType.Optional,
-      SubjectType.Graduational,
-      SubjectType.ForeignLanguage,
-      SubjectType.Seminars,
-      SubjectType.SpecialSeminars,
-      SubjectType.LanguageCommunication,
-      SubjectType.MathApplication,
-      SubjectType.Informatics,
-      SubjectType.HumanSociety,
-      SubjectType.HumanNature,
-      SubjectType.ArtCulture,
-      SubjectType.HumanHealth,
-      SubjectType.HumanWork
-    ];
-    this.gradesList = [
-      Grade.Prima,
-      Grade.Sekunda,
-      Grade.Tercie,
-      Grade.Kvarta,
-      Grade.Kvinta,
-      Grade.Sexta,
-      Grade.Septima,
-      Grade.Oktava
-    ];
 
     this.state = {
       rules: new CustomStore({
@@ -111,7 +86,8 @@ class GradesRulesCrud extends React.Component {
     }
   }
 
-  refreshDataGrid() {
+  async refreshDataGrid() {
+    await this.apiGetAllRules();
     this.dataGrid.instance.refresh();
   }
 
@@ -148,9 +124,19 @@ class GradesRulesCrud extends React.Component {
                 dataField="grade"
                 editorType="dxSelectBox"
                 editorOptions={{
-                  items: this.gradesList,
+                  items: Grades,
                   searchEnabled: true,
                   value: ""
+                }}
+                validationRules={this.validationRules.requiredField}
+              />
+              <Item
+                dataField="category"
+                editorType="dxTagBox"
+                editorOptions={{
+                  items: Categories,
+                  showSelectionControls: true,
+                  applyValueMode: "useButtons"
                 }}
                 validationRules={this.validationRules.requiredField}
               />
@@ -158,7 +144,7 @@ class GradesRulesCrud extends React.Component {
                 dataField="type"
                 editorType="dxTagBox"
                 editorOptions={{
-                  items: this.type,
+                  items: Types,
                   showSelectionControls: true,
                   applyValueMode: "useButtons"
                 }}
@@ -173,7 +159,8 @@ class GradesRulesCrud extends React.Component {
 
           <SearchPanel visible={true} width={240} placeholder="Najít..." />
           <Column dataField="grade" caption="Pro třídu" />
-          <Column dataField="type" caption="Typ předmětu" />
+          <Column dataField="category" caption="Skupina" />
+          <Column dataField="type" caption="Vzdělávací oblast" />
           <Column dataField="quantity" caption="Počet možných zápisů" />
         </DataGrid>
       </div>

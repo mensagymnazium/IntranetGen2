@@ -38,12 +38,14 @@ export const TimePeriod = {
   NinthTenth: "9-10. (16:15 - 17:50)"
 };
 
-export const SubjectType = {
-  Optional: "Volitelný",
+export const Category = {
   Graduational: "Maturitní semináře",
-  ForeignLanguage: "Cizí jazyk",
   Seminars: "Nadstavbový seminář",
   SpecialSeminars: "Specializační semináře",
+  ForeignLanguage: "Cizí jazyk"
+};
+
+export const SubjectType = {
   LanguageCommunication: "Jazyk a jazyková komunikace",
   MathApplication: "Matematika a její aplikace",
   Informatics: "Informační a komunikační technologie",

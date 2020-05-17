@@ -12,7 +12,7 @@ namespace MI.Server.DataAccess.DbObjects.Enums
     public enum SubjectTypeEnum
     {
         NotDefined = 0 ,
-        [EnumMember(Value = "Jazyk a jazyková komuniakce")]
+        [EnumMember(Value = "Jazyk a jazyková komunikace")]
         LanguageCommunication = 1,
         [EnumMember(Value = "Matematika a její aplikace")]
         MathApplication = 2,

@@ -43,7 +43,6 @@ namespace MI.Controllers
 
 
         [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post(SigningRulesDto signingRules)
         {

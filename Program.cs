@@ -1,6 +1,7 @@
 using MI.Server.DataAccess.Database;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
@@ -26,7 +27,6 @@ namespace MI
                 {
                     var context = services.GetRequiredService<MensaIntranetContext>();
                     context.Database.EnsureCreated();
-                    //Data.DataAccess.Database.DbInitializer.Initialize(context);
                 }
                 catch(System.Exception ex)
                 {

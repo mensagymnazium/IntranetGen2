@@ -17,8 +17,8 @@ namespace MI.Server.DataAccess.DbObjects.Enums
         [EnumMember(Value = "Nadstavbový seminář")]
         Seminars = 2,
         [EnumMember(Value = "Specializační semináře")]
-        SpecialSeminars = 3,
+        SpecialSeminars = 4,
         [EnumMember(Value = "Cizí jazyk")]
-        ForeignLanguage = 4
+        ForeignLanguage = 8
     }
 }
