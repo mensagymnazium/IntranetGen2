@@ -22,6 +22,22 @@ export const Role = {
   Teacher: "Teacher"
 };
 
+export const Day = {
+  Monday: "Pondělí",
+  Tuesday: "Úterý",
+  Wednesday: "Středa",
+  Thursday: "Čtvrtek",
+  Friday: "Pátek"
+};
+
+export const TimePeriod = {
+  FirstSecond: "1-2. (8:30 - 10:05)",
+  ThirdFourth: "3-4. (10:15 - 11:50)",
+  FifthSixth: "5-6. (12:15 - 13:50)",
+  SeventhEighth: "7-8. (14:30 - 16:05)",
+  NinthTenth: "9-10. (16:15 - 17:50)"
+};
+
 export const SubjectType = {
   Optional: "Volitelný",
   Graduational: "Maturitní semináře",

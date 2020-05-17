@@ -34,7 +34,7 @@ namespace MI.Server.BusinessLogic.Business
                 Capacity = s.Capacity,
                 EnrolledStudents = s.UserSubjects.Count(),
                 Period = s.Period,
-                Category = s.Category.ToList(),
+                Category = s.Category,
                 Type = s.Types.ToList(),
                 Day = s.Day,
                 Teacher = s.Teacher,
@@ -79,7 +79,7 @@ namespace MI.Server.BusinessLogic.Business
         {
             var subjectType = EnumHelper.GetSubjectTypeEnum(subject.Type);
             var grades = EnumHelper.GetGradeEnum(subject.Grades);
-            var category = EnumHelper.GetCategoryEnum(subject.Category);
+
 
             SubjectDb subjectDb = new SubjectDb()
             {
@@ -87,7 +87,7 @@ namespace MI.Server.BusinessLogic.Business
                 Description = subject.Description,
                 Capacity = subject.Capacity,
                 Teacher = subject.Teacher,
-                Category = category,
+                Category = subject.Category,
                 Types = subjectType,
                 Day = subject.Day,
                 Period = subject.Period,
@@ -112,6 +112,7 @@ namespace MI.Server.BusinessLogic.Business
             subjectDb.Description = subjectDto.Description ?? subjectDb.Description;
             subjectDb.Capacity = subjectDto.Capacity ?? subjectDb.Capacity;
             subjectDb.Day = subjectDto.Day == DayEnum.NotDefined ? subjectDb.Day : subjectDto.Day;
+            subjectDb.Category = subjectDto.Category == SubjectCategoryEnum.NotDefined ? subjectDb.Category : subjectDto.Category;
             subjectDb.Period = subjectDto.Period == PeriodEnum.NotDefined ? subjectDb.Period : subjectDto.Period;
             subjectDb.Teacher = subjectDto.Teacher ?? subjectDb.Teacher;
 
@@ -120,11 +121,7 @@ namespace MI.Server.BusinessLogic.Business
                 var subjectType = EnumHelper.GetSubjectTypeEnum(subjectDto.Type);
                 subjectDb.Types = subjectType;
             }
-            if (subjectDto.Category.Count != 0)
-            {
-                var subjectCategory = EnumHelper.GetCategoryEnum(subjectDto.Category);
-                subjectDb.Category = subjectCategory;
-            }
+
             if (subjectDto.Grades.Count != 0)
             {
                 var grades = EnumHelper.GetGradeEnum(subjectDto.Grades);

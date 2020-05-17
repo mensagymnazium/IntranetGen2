@@ -177,7 +177,8 @@ class SubjectSigning extends React.Component {
             <Paging enabled={false} />
             <SearchPanel visible={true} width={240} placeholder="Najít..." />
             <Column dataField="name" caption="Název" />
-            <Column dataField="type" caption="Typ předmětu" />
+            <Column dataField="category" caption="Skupina" />
+            <Column dataField="type" caption="Vzdělávací oblast" />
             <Column dataField="teacher" caption="Vyučující" />
             <Column dataField="description" caption="Popis" />
             <Column dataField="day" caption="Den" width={80} />

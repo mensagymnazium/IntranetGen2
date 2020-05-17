@@ -20,44 +20,17 @@ import {
   deleteSubject,
   updateSubject
 } from "./../../services/SubjectApi";
-import { Grade, SubjectType } from "../../helpers/Enums";
+import {
+  Types,
+  Categories,
+  Days,
+  TimePeriods,
+  Grades
+} from "../../helpers/Data";
 
 class SubjectCrud extends React.Component {
   constructor(props) {
     super(props);
-    this.type = [
-      SubjectType.Optional,
-      SubjectType.Graduational,
-      SubjectType.ForeignLanguage,
-      SubjectType.Seminars,
-      SubjectType.SpecialSeminars,
-      SubjectType.LanguageCommunication,
-      SubjectType.MathApplication,
-      SubjectType.Informatics,
-      SubjectType.HumanSociety,
-      SubjectType.HumanNature,
-      SubjectType.ArtCulture,
-      SubjectType.HumanHealth,
-      SubjectType.HumanWork
-    ];
-    this.day = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"];
-    this.timePeriod = [
-      "1-2. (8:30 - 10:05)",
-      "3-4. (10:15 - 11:50)",
-      "5-6. (12:15 - 13:50)",
-      "7-8. (14:30 - 16:05)",
-      "9-10. (16:15 - 17:50)"
-    ];
-    this.gradesList = [
-      Grade.Prima,
-      Grade.Sekunda,
-      Grade.Tercie,
-      Grade.Kvarta,
-      Grade.Kvinta,
-      Grade.Sexta,
-      Grade.Septima,
-      Grade.Oktava
-    ];
 
     this.state = {
       subjects: new CustomStore({
@@ -120,7 +93,8 @@ class SubjectCrud extends React.Component {
       //TODO Logger
     }
   }
-  refreshDataGrid() {
+  async refreshDataGrid() {
+    await this.apiGetAllSubjects();
     this.dataGrid.instance.refresh();
   }
 
@@ -148,7 +122,7 @@ class SubjectCrud extends React.Component {
               title="Detail předmětu"
               showTitle={true}
               width={900}
-              height={525}
+              height={700}
             >
               <Position my="top" at="top" of={window} />
             </Popup>
@@ -174,9 +148,20 @@ class SubjectCrud extends React.Component {
                   dataField="grades"
                   editorType="dxTagBox"
                   editorOptions={{
-                    items: this.gradesList,
+                    items: Grades,
                     showSelectionControls: true,
                     applyValueMode: "useButtons"
+                  }}
+                  validationRules={this.validationRules.requiredField}
+                />
+
+                <Item
+                  dataField="category"
+                  editorType="dxSelectBox"
+                  editorOptions={{
+                    items: Categories,
+                    searchEnabled: true,
+                    value: ""
                   }}
                   validationRules={this.validationRules.requiredField}
                 />
@@ -185,7 +170,7 @@ class SubjectCrud extends React.Component {
                   dataField="type"
                   editorType="dxTagBox"
                   editorOptions={{
-                    items: this.type,
+                    items: Types,
                     showSelectionControls: true,
                     applyValueMode: "useButtons"
                   }}
@@ -195,7 +180,7 @@ class SubjectCrud extends React.Component {
                   dataField="day"
                   editorType="dxSelectBox"
                   editorOptions={{
-                    items: this.day,
+                    items: Days,
                     searchEnabled: true,
                     value: ""
                   }}
@@ -205,7 +190,7 @@ class SubjectCrud extends React.Component {
                   dataField="period"
                   editorType="dxSelectBox"
                   editorOptions={{
-                    items: this.timePeriod,
+                    items: TimePeriods,
                     searchEnabled: true,
                     value: ""
                   }}
@@ -215,7 +200,7 @@ class SubjectCrud extends React.Component {
               <Item
                 dataField="description"
                 editorType="dxTextArea"
-                editorOptions={{ height: "312px" }}
+                editorOptions={{ height: "350px" }}
                 validationRules={this.validationRules.requiredField}
               />
             </Form>
@@ -223,7 +208,8 @@ class SubjectCrud extends React.Component {
 
           <SearchPanel visible={true} width={240} placeholder="Najít..." />
           <Column dataField="name" caption="Název" />
-          <Column dataField="type" caption="Typ předmětu" />
+          <Column dataField="category" caption="Skupina" />
+          <Column dataField="type" caption="Vzdělávací oblast" />
           <Column dataField="teacher" caption="Vyučující" />
           <Column dataField="description" caption="Popis" />
           <Column dataField="day" caption="Den" width={80} />
