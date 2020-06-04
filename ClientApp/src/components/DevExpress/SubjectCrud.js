@@ -135,27 +135,6 @@ class SubjectCrud extends React.Component {
                 />
 
                 <Item
-                  dataField="teacher"
-                  validationRules={this.validationRules.requiredField}
-                />
-
-                <Item
-                  dataField="capacity"
-                  validationRules={this.validationRules.numberField}
-                />
-
-                <Item
-                  dataField="grades"
-                  editorType="dxTagBox"
-                  editorOptions={{
-                    items: Grades,
-                    showSelectionControls: true,
-                    applyValueMode: "useButtons"
-                  }}
-                  validationRules={this.validationRules.requiredField}
-                />
-
-                <Item
                   dataField="category"
                   editorType="dxSelectBox"
                   editorOptions={{
@@ -176,6 +155,28 @@ class SubjectCrud extends React.Component {
                   }}
                   validationRules={this.validationRules.requiredField}
                 />
+
+                <Item
+                  dataField="teacher"
+                  validationRules={this.validationRules.requiredField}
+                />
+
+                <Item
+                  dataField="grades"
+                  editorType="dxTagBox"
+                  editorOptions={{
+                    items: Grades,
+                    showSelectionControls: true,
+                    applyValueMode: "useButtons"
+                  }}
+                  validationRules={this.validationRules.requiredField}
+                />
+
+                <Item
+                  dataField="capacity"
+                  validationRules={this.validationRules.numberField}
+                />
+
                 <Item
                   dataField="day"
                   editorType="dxSelectBox"
