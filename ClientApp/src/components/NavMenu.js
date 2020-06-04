@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink as RRNavLink, Link } from "react-router-dom";
 import {
   Collapse,
   Container,
@@ -9,7 +10,6 @@ import {
   NavLink
 } from "reactstrap";
 import { UserLogin } from "./UserLogin";
-import { Link } from "react-router-dom";
 import "./../styles/NavMenu.css";
 import { Role } from "../helpers/Enums";
 import Logo from "../resources/Logo.png";
@@ -43,6 +43,11 @@ export class NavMenu extends Component {
       backgroundPosition: "center",
       backgroundColor: "transparent"
     };
+    const highLightStyle = {
+      color: "black",
+      fontWeight: "bold"
+    };
+
     return (
       <header>
         <Navbar
@@ -62,12 +67,21 @@ export class NavMenu extends Component {
             >
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">
+                  <NavLink
+                    activeStyle={highLightStyle}
+                    tag={RRNavLink}
+                    exact
+                    to="/"
+                  >
                     Hlavní stránka
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/subjects-sign">
+                  <NavLink
+                    activeStyle={highLightStyle}
+                    tag={RRNavLink}
+                    to="/subjects-sign"
+                  >
                     Předměty
                   </NavLink>
                 </NavItem>
@@ -75,8 +89,8 @@ export class NavMenu extends Component {
                 this.state.haveRoles.indexOf(Role.Admin) === -1 ? null : (
                   <NavItem>
                     <NavLink
-                      tag={Link}
-                      className="text-dark"
+                      activeStyle={highLightStyle}
+                      tag={RRNavLink}
                       to="/subject-edit"
                     >
                       Správa předmětů
@@ -88,7 +102,11 @@ export class NavMenu extends Component {
                 roles.some(x => this.state.haveRoles.indexOf(x) === -1) ===
                   false ? null : (
                   <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/students">
+                    <NavLink
+                      activeStyle={highLightStyle}
+                      tag={RRNavLink}
+                      to="/students"
+                    >
                       Žáci a zápisy
                     </NavLink>
                   </NavItem>
