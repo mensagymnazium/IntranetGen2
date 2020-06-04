@@ -1,7 +1,6 @@
 import React from "react";
 import DataGrid, { SearchPanel } from "devextreme-react/data-grid";
 import { getAllStudents } from "./../../services/UserApi";
-import { getSignStudentsForAllSubjects } from "./../../services/SignupApi";
 import { CSVLink } from "react-csv";
 
 const defaultColumn = [
@@ -16,7 +15,8 @@ const headersCsv = [
   { label: "Email", key: "email" },
   { label: "Třída", key: "studentClass" },
   { label: "Primární předměty", key: "primarySubjects" },
-  { label: "Sekundární předměty", key: "secondarySubjects" }
+  { label: "Sekundární předměty", key: "secondarySubjects" },
+  { label: "Zápis dokončen", key: "signDone" }
 ];
 
 class Students extends React.Component {
@@ -25,14 +25,12 @@ class Students extends React.Component {
 
     this.state = {
       data: [],
-      studentBySubjects: [],
       loading: true
     };
   }
 
   async componentDidMount() {
     await this.apiGetAllStudents();
-    await this.apiGetAllStudentsForSubjects();
     this.setState({
       loading: false
     });
@@ -51,32 +49,44 @@ class Students extends React.Component {
     }
   }
 
-  async apiGetAllStudentsForSubjects() {
-    try {
-      let result = await getSignStudentsForAllSubjects();
-      this.setState({
-        studentBySubjects: result.data
-      });
-    } catch (error) {
-      console.log(error);
-      //TODO Logger
-    }
-  }
-
   render() {
     return this.state.loading ? (
       <p>Loading...</p>
     ) : (
       <div>
-        <CSVLink
-          headers={headersCsv}
-          data={this.state.data}
-          filename={"zaci_zapis.csv"}
-          className="btn btn-primary"
-          target="_blank"
+        <div>
+          <CSVLink
+            headers={headersCsv}
+            data={this.state.data}
+            filename={"zaci_zapis.csv"}
+            className="btn btn-primary"
+            target="_blank"
+          >
+            Export všech žáků
+          </CSVLink>
+          <CSVLink
+            style={{ marginLeft: "10px" }}
+            headers={headersCsv}
+            data={this.state.data.filter(x => !x.signDone)}
+            filename={"zaci_nedokon.csv"}
+            className="btn btn-primary"
+            target="_blank"
+          >
+            Export žáků, co nedokončili zápis
+          </CSVLink>
+        </div>
+        <br />
+        <h1>Žáci, co nedokončili zápis</h1>
+        <DataGrid
+          dataSource={this.state.data.filter(x => !x.signDone)}
+          defaultColumns={defaultColumn}
+          showBorders={true}
         >
-          Export zápis žáků
-        </CSVLink>
+          <SearchPanel visible={true} width={240} placeholder="Najít..." />
+        </DataGrid>
+        <br />
+
+        <h1>Všichni žáci</h1>
         <DataGrid
           dataSource={this.state.data}
           defaultColumns={defaultColumn}
