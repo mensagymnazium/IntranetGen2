@@ -1,4 +1,11 @@
-import { Grade, SubjectType, Day, TimePeriod, Category } from "./Enums";
+import {
+  Grade,
+  SubjectType,
+  Day,
+  TimePeriod,
+  Category,
+  GradeMail
+} from "./Enums";
 
 export const Types = [
   SubjectType.LanguageCommunication,
@@ -42,4 +49,15 @@ export const Grades = [
   Grade.Sexta,
   Grade.Septima,
   Grade.Oktava
+];
+
+export const GradesMailList = [
+  GradeMail.Prima,
+  GradeMail.Sekunda,
+  GradeMail.Tercie,
+  GradeMail.Kvarta,
+  GradeMail.Kvinta,
+  GradeMail.Sexta,
+  GradeMail.Septima,
+  GradeMail.Oktava
 ];

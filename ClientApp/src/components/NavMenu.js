@@ -97,8 +97,7 @@ export class NavMenu extends Component {
                     </NavLink>
                   </NavItem>
                 )}
-                {roles &&
-                this.state.haveRoles &&
+                {this.state.haveRoles &&
                 roles.some(x => this.state.haveRoles.indexOf(x) === -1) ===
                   false ? null : (
                   <NavItem>

@@ -4,8 +4,8 @@ import { insertOrUpdateUser } from "./../services/UserApi";
 import { getTokenByScope } from "../helpers/TokenHelper";
 import { getUserGroup } from "../services/GraphService";
 
-import { Grade } from "./../helpers/Enums";
-import { Grades } from "./../helpers/Data";
+import { Grade, GradeMail } from "./../helpers/Enums";
+import { Grades, GradesMailList } from "./../helpers/Data";
 
 export const Home = props => {
   let user = {
@@ -18,6 +18,7 @@ export const Home = props => {
       let scope = ["user.read"];
       let token = await getTokenByScope(scope);
       let groups = await getUserGroup(token);
+      console.log(groups);
       user.StudentClass = await getStudentClass(groups.value);
       apiInsertOrUpdateUser();
     }
@@ -72,17 +73,18 @@ export const Home = props => {
 };
 
 async function getStudentClass(groups) {
-  var admin = groups.find(group => group.displayName === Grade.Admin);
-  if (admin) return "Admin";
-  var teacher = groups.find(group => group.displayName === Grade.Teacher);
-  if (teacher) return "Teacher";
-  var oktava = groups.find(group => group.displayName === Grade.Oktava);
+  // var admin = groups.find(group => group.displayName === Grade.Admin);
+  // if (admin) return "Admin";
+  // var teacher = groups.find(group => group.displayName === Grade.Teacher);
+  // if (teacher) return "Teacher";
+  var oktava = groups.find(group => group.mail === GradeMail.Oktava);
   if (oktava) return Grade.Oktava;
 
-  var result = Grades.find(name =>
-    groups.find(group => group.displayName === name)
+  var result = GradesMailList.find(name =>
+    groups.find(group => group.mail === name)
   );
-
-  var index = Grades.indexOf(result);
+  var grade = result.split("@");
+  var t = grade[0][0].toUpperCase() + grade[0].slice(1);
+  var index = Grades.indexOf(t);
   return Grades[index + 1];
 }

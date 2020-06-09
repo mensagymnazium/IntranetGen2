@@ -172,6 +172,7 @@ class SubjectSigning extends React.Component {
             dataSource={subjects}
             keyExpr="id"
             showBorders={true}
+            allowColumnResizing={true}
             onContentReady={this.contentReady}
           >
             <Paging enabled={false} />

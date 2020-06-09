@@ -11,6 +11,17 @@ export const Grade = {
   Admin: "Intranet-Admins"
 };
 
+export const GradeMail = {
+  Prima: "prima@mensagymnazium.cz",
+  Sekunda: "sekunda@mensagymnazium.cz",
+  Tercie: "tercie@mensagymnazium.cz",
+  Kvarta: "kvarta@mensagymnazium.cz",
+  Kvinta: "kvinta@mensagymnazium.cz",
+  Sexta: "sexta@mensagymnazium.cz",
+  Septima: "septima@mensagymnazium.cz",
+  Oktava: "oktava@mensagymnazium.cz"
+};
+
 export const Priority = {
   Primary: "Primary",
   Secondary: "Secondary"
