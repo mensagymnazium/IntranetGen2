@@ -18,7 +18,6 @@ export const Home = props => {
       let scope = ["user.read"];
       let token = await getTokenByScope(scope);
       let groups = await getUserGroup(token);
-      console.log(groups);
       user.StudentClass = await getStudentClass(groups.value);
       apiInsertOrUpdateUser();
     }
@@ -73,10 +72,10 @@ export const Home = props => {
 };
 
 async function getStudentClass(groups) {
-  // var admin = groups.find(group => group.displayName === Grade.Admin);
-  // if (admin) return "Admin";
-  // var teacher = groups.find(group => group.displayName === Grade.Teacher);
-  // if (teacher) return "Teacher";
+  var admin = groups.find(group => group.displayName === Grade.Admin);
+  if (admin) return "Admin";
+  var teacher = groups.find(group => group.displayName === Grade.Teacher);
+  if (teacher) return "Teacher";
   var oktava = groups.find(group => group.mail === GradeMail.Oktava);
   if (oktava) return Grade.Oktava;
 
