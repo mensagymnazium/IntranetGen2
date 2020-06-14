@@ -33,11 +33,11 @@ class Students extends React.Component {
     }
   }
   separatePrimary(data) {
-    return data.primarySubjects.join(" ,");
+    return data.primarySubjects.join(", ");
   }
 
   separateSecondary(data) {
-    return data.secondarySubjects.join(" ,");
+    return data.secondarySubjects.join(", ");
   }
   render() {
     const headersCsv = [
