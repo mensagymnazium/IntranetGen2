@@ -5,14 +5,26 @@ using MI.Server.DataAccess.Database;
 using MI.Server.DataAccess.DbObjects.Entities;
 using MI.Server.DataAccess.DbObjects.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MI.Server.BusinessLogic.Business
 {
+    public class Pair
+    {
+        public int First { get; set; }
+        public int Second { get; set; }
+
+        public override string ToString()
+        {
+            return $" {First} | {Second} ";
+        }
+    }
     public class SigningRulesBusiness
     {
         private readonly MensaIntranetContext _context;
@@ -50,14 +62,14 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task SetSigningDone(List<UserDto> students)
         {
-            foreach(var student in students)
+            foreach (var student in students)
             {
                 var rules = await _context.SigningRules.Where(r => r.GradeEnum == student.StudentClass).ToListAsync();
                 var allSignedSubject = await _context.UserSubjects
                 .Include(s => s.Subject)
                 .Include(u => u.User)
                 .Where(u => u.UserId == student.Id && u.Priority == Priority.Primary).ToListAsync();
-                var number = NumberOfPossibleSigns(rules);
+                var number =rules.Sum(x => x.Quantity);
 
                 if (allSignedSubject.Count == number)
                     student.SignDone = true;
@@ -82,26 +94,57 @@ namespace MI.Server.BusinessLogic.Business
             if (allSignedSubject.Any(s => s.SubjectId == subjectDto.Id))
                 return false;
 
-            var n = NumberOfPossibleSigns(signingRules);
+            var n = signingRules.Sum(x => x.Quantity);
             if (allSignedSubject.Count >= n)
                 return false;
 
-            var numberOfPossibleSignsForThisSubject = signingRules.Where(x => x.Category.ToList().Contains(subjectDto.Category) && x.Type.ToList().Any(y => subjectDto.Type.Any(z => z == y))).Sum(w => w.Quantity);
-            var signed = allSignedSubject.Where(x => x.Subject.Category.ToList().Contains(subjectDto.Category) && x.Subject.Types.ToList().Any(y => subjectDto.Type.Any(z => z == y))).ToList().Count;
+            var signingRulesDto = new List<SigningRulesDto>();
+            foreach (var rulesDb in signingRules)
+            {
+                signingRulesDto.Add(SubjectDbToSubjectDto(rulesDb));
+            }
 
-            if (numberOfPossibleSignsForThisSubject > signed)
+            SetTheList(signingRulesDto, allSignedSubject.Select(x => x.Subject).ToList());
+
+            var numberOfPossibleSignsForThisSubject = signingRulesDto.Where(x => x.Category.ToList().Contains(subjectDto.Category) && x.Type.ToList().Any(y => subjectDto.Type.Any(z => z == y))).Sum(w => w.Quantity);
+
+            if (numberOfPossibleSignsForThisSubject > 0)
                 return true;
             return false;
         }
 
-        private int? NumberOfPossibleSigns(List<SigningRulesDb> signRules)
+        private void SetTheList(List<SigningRulesDto> signingRulesDto, List<SubjectDb> allSignedSubject)
         {
-            int? number = 0;
-            foreach (var rule in signRules)
+
+            foreach (var rule in signingRulesDto)
             {
-                number += rule.Quantity;
+                for(int i = 0; i < rule.Category.Count(); i++)
+                {
+                    for (int y = 0; y < allSignedSubject.Count(); y++)
+                    {
+                        if (rule.Category[i] == allSignedSubject[y].Category)
+                        {
+                            foreach (var type in rule.Type)
+                            {
+                                if (allSignedSubject[y].Types.ToList().Contains(type))
+                                {
+                                    if (rule.Quantity > 0)
+                                    {
+                                        rule.Quantity--;
+                                        allSignedSubject.RemoveAt(y);
+                                        i = 0;
+                                        y = 0;
+                                        break;
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+
+                }
             }
-            return number;
+
         }
 
         public async Task CreateSigningRule(SigningRulesDto signingRules)
