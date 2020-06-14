@@ -88,7 +88,7 @@ namespace MI.Server.BusinessLogic.Business
 
             var signingRules = await _context.SigningRules.Where(r => r.GradeEnum == user.StudentGrade).ToListAsync();
 
-            if (subjectDto.Capacity == subjectDto.EnrolledStudents)
+            if (subjectDto.Capacity == subjectDto.EnrolledStudents && priority == Priority.Primary)
                 return false;
 
             if (allSignedSubject.Any(s => s.SubjectId == subjectDto.Id))
