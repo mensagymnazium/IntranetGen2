@@ -15,7 +15,7 @@ import {
   getSignedPrimarySubjects,
   getSignedSecondarySubjects
 } from "./../../services/UserApi";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Container } from "reactstrap";
 
 import "./../../styles/SubjectSign.css";
 import { Priority } from "../../helpers/Enums";
@@ -136,34 +136,35 @@ class SubjectSigning extends React.Component {
     ) : (
       <div>
         <div style={{ marginBottom: "20px" }}>
-          <Row>
-            <Col>
-              <strong>Zapsáno: </strong>
-            </Col>
-            <Col xs="2" style={{ textAlign: "center" }}>
-              <strong>Priorita: </strong>
-            </Col>
-          </Row>
-          {this.state.primarySubjects.map(x => {
-            return (
-              <Row>
-                <Col> {x} </Col>
-                <Col xs="2" style={{ textAlign: "center" }}>
-                  Primární
-                </Col>
-              </Row>
-            );
-          })}
-          {this.state.secondarySubjects.map(x => {
-            return (
-              <Row>
-                <Col> {x} </Col>
-                <Col xs="2" style={{ textAlign: "center" }}>
-                  Sekundární
-                </Col>
-              </Row>
-            );
-          })}
+          <Container>
+            <Row>
+              <Col>
+                <strong>Zapsáno: </strong>
+              </Col>
+              <Col>
+                <strong>Priorita: </strong>
+              </Col>
+              <Col xs="2"></Col>
+            </Row>
+            {this.state.primarySubjects.map(x => {
+              return (
+                <Row>
+                  <Col> {x} </Col>
+                  <Col>Primární</Col>
+                  <Col xs="2"></Col>
+                </Row>
+              );
+            })}
+            {this.state.secondarySubjects.map(x => {
+              return (
+                <Row>
+                  <Col> {x} </Col>
+                  <Col>Náhradní</Col>
+                  <Col xs="2"></Col>
+                </Row>
+              );
+            })}
+          </Container>
         </div>
 
         <div className="demo-container">
@@ -195,7 +196,7 @@ class SubjectSigning extends React.Component {
                   onClick: e => this.signUpClick(e, Priority.Primary)
                 },
                 {
-                  text: "Sekundárně",
+                  text: "Náhradní",
                   visible: this.isSignUpVisible,
                   onClick: e => this.signUpClick(e, Priority.Secondary)
                 },

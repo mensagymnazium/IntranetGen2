@@ -32,20 +32,14 @@ class Students extends React.Component {
       //TODO Logger
     }
   }
-  calculateCellValue(data) {
-    var s = data.primarySubjects.join("\n");
-    console.log(s);
-    return data.primarySubjects.join("\n");
+  separatePrimary(data) {
+    return data.primarySubjects.join(" ,");
+  }
+
+  separateSecondary(data) {
+    return data.secondarySubjects.join(" ,");
   }
   render() {
-    // const defaultColumn = [
-    //   { dataField: "email", caption: "Email" },
-    //   { dataField: "studentClass", caption: "Třída" },
-    //   { dataField: "primarySubjects", caption: "Primární zápis" },
-    //   { dataField: "secondarySubjects", caption: "Sekundární" },
-    //   { dataField: "signDone", caption: "Zápis dokončen" }
-    // ];
-
     const headersCsv = [
       { label: "Email", key: "email" },
       { label: "Třída", key: "studentClass" },
@@ -83,30 +77,37 @@ class Students extends React.Component {
         <DataGrid
           dataSource={this.state.data.filter(x => !x.signDone)}
           showBorders={true}
+          cellHintEnabled={true}
+          allowColumnResizing={true}
         >
+          <SearchPanel visible={true} width={240} placeholder="Najít..." />
           <Column caption="Email" dataField="email" />
           <Column caption="Třída" dataField="studentClass" />
           <Column caption="Primární zápis" dataField="primarySubjects" />
-          <Column caption="Sekundární zápis" dataField="secondarySubjects" />
+          <Column caption="Náhradní zápis" dataField="secondarySubjects" />
           <Column caption="Zápis dokončen" dataField="signDone" />
-
-          <SearchPanel visible={true} width={240} placeholder="Najít..." />
         </DataGrid>
         <br />
 
         <h1>Všichni žáci</h1>
-        <DataGrid dataSource={this.state.data} showBorders={true}>
+        <DataGrid
+          dataSource={this.state.data}
+          showBorders={true}
+          cellHintEnabled={true}
+          allowColumnResizing={true}
+        >
+          <SearchPanel visible={true} width={240} placeholder="Najít..." />
           <Column caption="Email" dataField="email" />
           <Column caption="Třída" dataField="studentClass" />
           <Column
             caption="Primární zápis"
-            calculateCellValue={this.calculateCellValue}
-            dataType="dxTextArea"
+            calculateCellValue={this.separatePrimary}
           />
-          <Column caption="Sekundární zápis" dataField="secondarySubjects" />
+          <Column
+            caption="Náhradní zápis"
+            calculateCellValue={this.separateSecondary}
+          />
           <Column caption="Zápis dokončen" dataField="signDone" />
-
-          <SearchPanel visible={true} width={240} placeholder="Najít..." />
         </DataGrid>
       </div>
     );

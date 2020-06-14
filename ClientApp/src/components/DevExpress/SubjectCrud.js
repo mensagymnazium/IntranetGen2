@@ -107,6 +107,7 @@ class SubjectCrud extends React.Component {
           keyExpr="ID"
           showBorders={true}
           cellHintEnabled={true}
+          allowColumnResizing={true}
           ref={ref => (this.dataGrid = ref)}
         >
           <Paging enabled={false} />
