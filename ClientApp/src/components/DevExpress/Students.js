@@ -105,7 +105,7 @@ class Students extends React.Component {
         <br />
         <h1>Žáci, co nedokončili zápis</h1>
         <DataGrid
-          dataSource={this.state.data.filter(x => !x.signDone)}
+          dataSource={this.state.data.filter(x => x.signDone === "Nedokončen")}
           showBorders={true}
           cellHintEnabled={true}
           allowColumnResizing={true}
