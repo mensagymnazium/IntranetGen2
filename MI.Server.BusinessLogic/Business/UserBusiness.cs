@@ -27,7 +27,7 @@ namespace MI.Server.BusinessLogic.Business
                 Id = u.Id,
                 Email = u.Email,
                 StudentClass = u.StudentGrade,
-                SignDone = false
+                SignDone = "Nedokončen"
             };
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MI.Server.BusinessLogic;
 using MI.Server.BusinessLogic.DTO;
+using MI.Server.DataAccess.DbObjects.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -33,8 +34,11 @@ namespace MI.Controllers
                 {
                     SubjectName = subject.Name
                 };
-                var list = await _manager.SignupBusiness.StudentBySubject(subject.Id.Value);
-                dto.SignedStudentsEmail = list.Select(x => x.Email).ToList();
+                var primary = await _manager.SignupBusiness.StudentBySubject(subject.Id.Value, Priority.Primary);
+                dto.PrimaryStudents = primary.Select(x => x.Email).ToList();
+                var secondary = await _manager.SignupBusiness.StudentBySubject(subject.Id.Value, Priority.Secondary);
+                dto.SecondaryStudents = secondary.Select(x => x.Email).ToList();
+
                 result.Add(dto);
             }
             return result;

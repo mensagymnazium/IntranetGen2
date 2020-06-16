@@ -8,6 +8,9 @@ namespace MI.Server.BusinessLogic.DTO
     {
         public string SubjectName { get; set; }
 
-        public List<string> SignedStudentsEmail { get; set; }
+        public List<string> PrimaryStudents { get; set; }
+
+        public List<string> SecondaryStudents { get; set; }
+
     }
 }

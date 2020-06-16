@@ -1,6 +1,7 @@
 import React from "react";
 import DataGrid, { SearchPanel, Column } from "devextreme-react/data-grid";
 import { getAllStudents } from "./../../services/UserApi";
+import { getSignStudentsForAllSubjects } from "./../../services/SignupApi";
 import { CSVLink } from "react-csv";
 
 class Students extends React.Component {
@@ -9,15 +10,28 @@ class Students extends React.Component {
 
     this.state = {
       data: [],
+      studentsBySubjects: [],
       loading: true
     };
   }
 
   async componentDidMount() {
     await this.apiGetAllStudents();
+    await this.apiGetAllSignedStudentsBySubjects();
     this.setState({
       loading: false
     });
+  }
+
+  async apiGetAllSignedStudentsBySubjects() {
+    try {
+      let result = await getSignStudentsForAllSubjects();
+      this.setState({
+        studentsBySubjects: result.data
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async apiGetAllStudents() {
@@ -26,7 +40,6 @@ class Students extends React.Component {
       this.setState({
         data: result.data
       });
-      console.log(result.data);
     } catch (error) {
       console.log(error);
       //TODO Logger
@@ -46,6 +59,12 @@ class Students extends React.Component {
       { label: "Primární předměty", key: "primarySubjects" },
       { label: "Sekundární předměty", key: "secondarySubjects" },
       { label: "Zápis dokončen", key: "signDone" }
+    ];
+
+    const studentsBySubjectsHeader = [
+      { label: "Předmět", key: "subjectName" },
+      { label: "Žáci primárně", key: "primaryStudents" },
+      { label: "Žáci náhradní", key: "secondaryStudents" }
     ];
     return this.state.loading ? (
       <p>Loading...</p>
@@ -70,6 +89,17 @@ class Students extends React.Component {
             target="_blank"
           >
             Export žáků, co nedokončili zápis
+          </CSVLink>
+
+          <CSVLink
+            style={{ marginLeft: "10px" }}
+            headers={studentsBySubjectsHeader}
+            data={this.state.studentsBySubjects}
+            filename={"student_pres_predmety.csv"}
+            className="btn btn-primary"
+            target="_blank"
+          >
+            Export žáků dle předmětu
           </CSVLink>
         </div>
         <br />

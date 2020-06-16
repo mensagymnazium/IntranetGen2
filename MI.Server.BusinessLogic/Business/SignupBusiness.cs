@@ -57,7 +57,7 @@ namespace MI.Server.BusinessLogic.Business
 
 
 
-        public async Task<List<UserDto>> StudentBySubject(int id)
+        public async Task<List<UserDto>> StudentBySubject(int id, Priority priority)
         {
             SubjectDb subject = await _context.Subjects
                 .Include(s => s.UserSubjects).ThenInclude(us => us.User)
@@ -69,6 +69,7 @@ namespace MI.Server.BusinessLogic.Business
             }
 
             return subject.UserSubjects
+                .Where(x => x.Priority == priority)
                 .Select(us => us.User)
                 .Select(u => new UserDto()
                 {

@@ -72,7 +72,9 @@ namespace MI.Server.BusinessLogic.Business
                 var number =rules.Sum(x => x.Quantity);
 
                 if (allSignedSubject.Count == number)
-                    student.SignDone = true;
+                    student.SignDone = "Dokončen";
+                else
+                    student.SignDone = "Nedokončen";
             }
         }
 

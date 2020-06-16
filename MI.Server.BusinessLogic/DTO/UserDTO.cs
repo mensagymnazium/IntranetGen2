@@ -14,7 +14,7 @@ namespace MI.Server.BusinessLogic.DTO
 
         public GradeEnum StudentClass { get; set; }
 
-        public bool SignDone { get; set; }
+        public string SignDone { get; set; }
 
         public List<string> PrimarySubjects { get; set; } = new List<string>();
         public List<string> SecondarySubjects { get; set; } = new List<string>();
