@@ -83,7 +83,7 @@ class Students extends React.Component {
           <CSVLink
             style={{ marginLeft: "10px" }}
             headers={headersCsv}
-            data={this.state.data.filter(x => !x.signDone)}
+            data={this.state.data.filter(x => x.signDone === "Nedokončen")}
             filename={"zaci_nedokon.csv"}
             className="btn btn-primary"
             target="_blank"

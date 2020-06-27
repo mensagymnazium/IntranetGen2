@@ -14,6 +14,7 @@ namespace MI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SignupController : ControllerBase
     {
         private readonly BusinessManager _manager;

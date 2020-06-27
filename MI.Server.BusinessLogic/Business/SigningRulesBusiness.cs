@@ -15,16 +15,6 @@ using System.Threading.Tasks;
 
 namespace MI.Server.BusinessLogic.Business
 {
-    public class Pair
-    {
-        public int First { get; set; }
-        public int Second { get; set; }
-
-        public override string ToString()
-        {
-            return $" {First} | {Second} ";
-        }
-    }
     public class SigningRulesBusiness
     {
         private readonly MensaIntranetContext _context;
@@ -72,7 +62,7 @@ namespace MI.Server.BusinessLogic.Business
                 var number =rules.Sum(x => x.Quantity);
 
                 if (allSignedSubject.Count == number)
-                    student.SignDone = "Dokončen";
+                    student.SignDone = "Zápis splněn";
                 else
                     student.SignDone = "Nedokončen";
             }
