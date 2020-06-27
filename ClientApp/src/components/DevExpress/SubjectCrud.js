@@ -62,7 +62,7 @@ class SubjectCrud extends React.Component {
       let result = await getAllSubjects();
       return result.data;
     } catch (error) {
-      console.log(error);
+      
       //TODO Logger
     }
   }
@@ -71,7 +71,7 @@ class SubjectCrud extends React.Component {
     try {
       await insertSubject(subject);
     } catch (error) {
-      console.log(error);
+      
       //TODO Logger
     }
   }
@@ -80,7 +80,7 @@ class SubjectCrud extends React.Component {
     try {
       await deleteSubject(id);
     } catch (error) {
-      console.log(error);
+      
       //TODO Logger
     }
   }
@@ -89,7 +89,7 @@ class SubjectCrud extends React.Component {
     try {
       await updateSubject(oldSubject.id, subject);
     } catch (error) {
-      console.log(error);
+      
       //TODO Logger
     }
   }

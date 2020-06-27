@@ -26,7 +26,7 @@ class SigningInfo extends React.Component {
         rules: result.data
       });
     } catch (error) {
-      console.log(error);
+
       //TODO Logger
     }
   }

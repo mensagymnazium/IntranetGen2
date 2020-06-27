@@ -24,7 +24,7 @@ namespace MI.Server.BusinessLogic.Business
             _context = context;
         }
 
-        public static SigningRulesDto SubjectDbToSubjectDto(SigningRulesDb signingRulesDb)
+        public static SigningRulesDto SigningRulesDbToSigningRulesDto(SigningRulesDb signingRulesDb)
         {
             return new SigningRulesDto()
             {
@@ -40,14 +40,14 @@ namespace MI.Server.BusinessLogic.Business
         {
             List<SigningRulesDb> signingRules = await _context.SigningRules.ToListAsync();
 
-            return signingRules.Select(SubjectDbToSubjectDto);
+            return signingRules.Select(SigningRulesDbToSigningRulesDto);
         }
 
         public async Task<IEnumerable<SigningRulesDto>> GetSigningRulesByGrade(GradeEnum grade)
         {
             List<SigningRulesDb> signingRules = await _context.SigningRules.Where(g => g.GradeEnum == grade).ToListAsync();
 
-            return signingRules.Select(SubjectDbToSubjectDto);
+            return signingRules.Select(SigningRulesDbToSigningRulesDto);
         }
 
         public async Task SetSigningDone(List<UserDto> students)
@@ -93,7 +93,7 @@ namespace MI.Server.BusinessLogic.Business
             var signingRulesDto = new List<SigningRulesDto>();
             foreach (var rulesDb in signingRules)
             {
-                signingRulesDto.Add(SubjectDbToSubjectDto(rulesDb));
+                signingRulesDto.Add(SigningRulesDbToSigningRulesDto(rulesDb));
             }
 
             SetTheList(signingRulesDto, allSignedSubject.Select(x => x.Subject).ToList());

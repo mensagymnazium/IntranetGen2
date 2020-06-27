@@ -30,7 +30,7 @@ class Students extends React.Component {
         studentsBySubjects: result.data
       });
     } catch (error) {
-      console.log(error);
+      
     }
   }
 
@@ -41,7 +41,7 @@ class Students extends React.Component {
         data: result.data
       });
     } catch (error) {
-      console.log(error);
+      
       //TODO Logger
     }
   }

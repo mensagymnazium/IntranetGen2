@@ -54,7 +54,7 @@ class GradesRulesCrud extends React.Component {
       let result = await getAllSigningRules();
       return result.data;
     } catch (error) {
-      console.log(error);
+      
       //TODO Logger
     }
   }
@@ -63,7 +63,7 @@ class GradesRulesCrud extends React.Component {
     try {
       await insertSigningRule(signingRule);
     } catch (error) {
-      console.log(error);
+      
       //TODO Logger
     }
   }
@@ -72,7 +72,7 @@ class GradesRulesCrud extends React.Component {
     try {
       await deleteSigningRule(id);
     } catch (error) {
-      console.log(error);
+      
       //TODO Logger
     }
   }
@@ -81,7 +81,7 @@ class GradesRulesCrud extends React.Component {
     try {
       await updateSigningRule(oldSigningRule.id, signingRule);
     } catch (error) {
-      console.log(error);
+      
       //TODO Logger
     }
   }

@@ -47,7 +47,6 @@ export class NavMenu extends Component {
       color: "black",
       fontWeight: "bold"
     };
-    console.log(this.state.haveRoles);
 
     return (
       <header>

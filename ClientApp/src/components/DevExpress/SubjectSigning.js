@@ -18,13 +18,13 @@ import {
 import { Row, Col, Container } from "reactstrap";
 
 import "./../../styles/SubjectSign.css";
-import { Priority } from "../../helpers/Enums";
+import { Priority, Role } from "../../helpers/Enums";
 
 class SubjectSigning extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
+      roles: props.auth.user.idToken.roles,
       subjects: [],
       signedSubjects: [],
 
@@ -54,7 +54,6 @@ class SubjectSigning extends React.Component {
         signedSubjects: result.data
       });
     } catch (error) {
-      console.log(error);
       //TODO Logger
     }
   }
@@ -66,7 +65,6 @@ class SubjectSigning extends React.Component {
         subjects: result.data
       });
     } catch (error) {
-      console.log(error);
       //TODO Logger
     }
   }
@@ -80,7 +78,6 @@ class SubjectSigning extends React.Component {
         secondarySubjects: secondary.data
       });
     } catch (error) {
-      console.log(error);
       //TODO Logger
     }
   }
@@ -90,7 +87,6 @@ class SubjectSigning extends React.Component {
       let result = await signUpSubject(id, priority);
       return result.data;
     } catch (error) {
-      console.log(error);
       //TODO Logger
     }
   }
@@ -100,7 +96,6 @@ class SubjectSigning extends React.Component {
       let result = await unSignUpSubject(id);
       return result.data;
     } catch (error) {
-      console.log(error);
       //TODO Logger
     }
   }
@@ -207,7 +202,10 @@ class SubjectSigning extends React.Component {
                 }
               ]}
             />
-            <MasterDetail enabled={true} render={renderDetail} />
+            <MasterDetail
+              enabled={true}
+              render={props => renderDetail(props, this.state.roles)}
+            />
           </DataGrid>
         </div>
       </div>
@@ -215,20 +213,72 @@ class SubjectSigning extends React.Component {
   }
 }
 
-function renderDetail(props) {
-  let { enrolledStudents, capacity, description } = props.data;
+function renderDetail(props, roles) {
+  let { enrolledStudents, capacity, description, signedStudents } = props.data;
+  let allowedRoles = [Role.Admin, Role.Teacher];
+  var elements = [];
+  if (roles && allowedRoles.some(x => roles.indexOf(x) !== -1)) {
+    let primaryLength = signedStudents.primaryStudents.length;
+    let secondaryLength = signedStudents.secondaryStudents.length;
+    let index = Math.min(primaryLength, secondaryLength);
+    var i;
+    for (i = 0; i < index; i++) {
+      elements.push(
+        <Row>
+          <Col> {signedStudents.primaryStudents[i]} </Col>
+          <Col> {signedStudents.secondaryStudents[i]} </Col>
+        </Row>
+      );
+    }
+    if (primaryLength < secondaryLength) {
+      for (index; index < secondaryLength; index++) {
+        elements.push(
+          <Row>
+            <Col> </Col>
+            <Col> {signedStudents.secondaryStudents[index]} </Col>
+          </Row>
+        );
+      }
+    } else if (primaryLength > secondaryLength) {
+      for (index; index < primaryLength; index++) {
+        elements.push(
+          <Row>
+            <Col> {signedStudents.primaryStudents[index]} </Col>
+            <Col> </Col>
+          </Row>
+        );
+      }
+    }
+  }
+
   return (
-    <div className="subject-info">
-      <div className="subject-headline">
-        <p>Zapsáno:</p>
-        <p>Popis:</p>
+    <div>
+      <div className="subject-info">
+        <div className="subject-headline">
+          <p>Zapsáno:</p>
+          <p>Popis:</p>
+        </div>
+        <div className="subject-notes">
+          <p>
+            {enrolledStudents} / {capacity}
+          </p>
+          <p>{description}</p>
+        </div>
       </div>
-      <div className="subject-notes">
-        <p>
-          {enrolledStudents} / {capacity}
-        </p>
-        <p>{description}</p>
-      </div>
+
+      {roles && allowedRoles.some(x => roles.indexOf(x) !== -1) ? (
+        <div>
+          <Row>
+            <Col>
+              <strong>Primární zápis </strong>
+            </Col>
+            <Col>
+              <strong>Náhradní zápis </strong>
+            </Col>
+          </Row>
+          {elements}
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -150,7 +150,23 @@ namespace MI.Controllers
             try
             {
                 var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
-                return await _manager.SubjectBusiness.GetSubjectByUserGrade(userDb);
+
+                var subjects = await _manager.SubjectBusiness.GetSubjectByUserGrade(userDb);
+                foreach (var subject in subjects)
+                {
+                    var dto = new SignupSubjectsDto
+                    {
+                        SubjectName = subject.Name
+                    };
+                    var primary = await _manager.SignupBusiness.StudentBySubject(subject.Id.Value, Priority.Primary);
+                    dto.PrimaryStudents = primary.Select(x => x.Email).ToList();
+                    var secondary = await _manager.SignupBusiness.StudentBySubject(subject.Id.Value, Priority.Secondary);
+                    dto.SecondaryStudents = secondary.Select(x => x.Email).ToList();
+
+                    subject.SignedStudents = dto;
+                }
+
+                return subjects;
             }
             catch (NotFoundException e)
             {
