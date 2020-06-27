@@ -47,6 +47,7 @@ export class NavMenu extends Component {
       color: "black",
       fontWeight: "bold"
     };
+    console.log(this.state.haveRoles);
 
     return (
       <header>
@@ -98,8 +99,7 @@ export class NavMenu extends Component {
                   </NavItem>
                 )}
                 {this.state.haveRoles &&
-                roles.some(x => this.state.haveRoles.indexOf(x) === -1) ===
-                  false ? null : (
+                roles.some(x => this.state.haveRoles.indexOf(x) !== -1) ? (
                   <NavItem>
                     <NavLink
                       activeStyle={highLightStyle}
@@ -109,7 +109,7 @@ export class NavMenu extends Component {
                       Žáci a zápisy
                     </NavLink>
                   </NavItem>
-                )}
+                ) : null}
                 <UserLogin {...this.props} />
               </ul>
             </Collapse>
