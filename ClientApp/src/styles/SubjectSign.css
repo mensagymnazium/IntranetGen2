@@ -12,3 +12,7 @@
   text-align: justify;
   white-space: normal;
 }
+
+.dx-toast-message {
+  white-space: pre-line;
+}

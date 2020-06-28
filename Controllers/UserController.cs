@@ -65,16 +65,14 @@ namespace MI.Controllers
             {
                 var userDb = await _manager.UserBusiness.GetUserDbByMail(User.Identity.Name);
                 var subjectDto = await _manager.SubjectBusiness.GetSubjectById(subjectId);
-                var canSign = await _manager.SigningRulesBusiness.CanSign(userDb, subjectDto, priority);
-                if (canSign)
+                var canSignMessage = await _manager.SigningRulesBusiness.CanSign(userDb, subjectDto, priority);
+                if (canSignMessage == "Zapsáno")
                 {
                     await _manager.SignupBusiness.CreateSignup(userDb, subjectId, priority);
-                    return Ok();
+                    return Ok(canSignMessage);
                 }
-                else
-                {
-                    return BadRequest();
-                }
+
+                return BadRequest(canSignMessage);
             }
             catch (NotFoundException e)
             {

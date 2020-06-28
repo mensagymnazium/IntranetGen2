@@ -25,7 +25,6 @@ export const Home = props => {
       try {
         insertOrUpdateUser(user);
       } catch (error) {
-        
         //TODO Logger
       }
     }
@@ -72,7 +71,6 @@ export const Home = props => {
 };
 
 async function getStudentClass(groups) {
-    return Grade.Sexta;
   var admin = groups.find(group => group.displayName === Grade.Admin);
   if (admin) return "Admin";
   var teacher = groups.find(group => group.displayName === Grade.Teacher);

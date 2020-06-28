@@ -16,6 +16,7 @@ import {
   getSignedSecondarySubjects
 } from "./../../services/UserApi";
 import { Row, Col, Container } from "reactstrap";
+import notify from "devextreme/ui/notify";
 
 import "./../../styles/SubjectSign.css";
 import { Priority, Role } from "../../helpers/Enums";
@@ -30,7 +31,8 @@ class SubjectSigning extends React.Component {
 
       primarySubjects: [],
       secondarySubjects: [],
-      loading: true
+      loading: true,
+      errorMessage: null
     };
     this.signUpClick = this.signUpClick.bind(this);
     this.unSignUpClick = this.unSignUpClick.bind(this);
@@ -85,9 +87,10 @@ class SubjectSigning extends React.Component {
   async apiSignUpSubjects(id, priority) {
     try {
       let result = await signUpSubject(id, priority);
+      notify("Zapsáno", "success", 1000);
       return result.data;
     } catch (error) {
-      //TODO Logger
+      notify(error.response.data, "error", 5000);
     }
   }
 
@@ -129,7 +132,7 @@ class SubjectSigning extends React.Component {
     return this.state.loading ? (
       <p>Loading...</p>
     ) : (
-      <div>
+      <div id="toast">
         <div style={{ marginBottom: "20px" }}>
           <Container>
             <Row>

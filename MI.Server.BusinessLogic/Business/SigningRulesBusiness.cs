@@ -68,10 +68,10 @@ namespace MI.Server.BusinessLogic.Business
             }
         }
 
-        public async Task<bool> CanSign(UserDb user, SubjectDto subjectDto, Priority priority)
+        public async Task<string> CanSign(UserDb user, SubjectDto subjectDto, Priority priority)
         {
             if (user.StudentGrade == GradeEnum.Admin || user.StudentGrade == GradeEnum.Teacher)
-                return false;
+                return "Admin nebo učitel si nemůže zapsat předmět.";
 
             var allSignedSubject = await _context.UserSubjects
                 .Include(s => s.Subject)
@@ -81,14 +81,14 @@ namespace MI.Server.BusinessLogic.Business
             var signingRules = await _context.SigningRules.Where(r => r.GradeEnum == user.StudentGrade).ToListAsync();
 
             if (subjectDto.Capacity == subjectDto.EnrolledStudents && priority == Priority.Primary)
-                return false;
+                return "Kapacita předmětu je plná.";
 
             if (allSignedSubject.Any(s => s.SubjectId == subjectDto.Id))
-                return false;
+                return "Tento předmět je již zapsán.";
 
             var n = signingRules.Sum(x => x.Quantity);
             if (allSignedSubject.Count >= n)
-                return false;
+                return "Již máš zapsaný maximální počet předmětů.";
 
             var signingRulesDto = new List<SigningRulesDto>();
             foreach (var rulesDb in signingRules)
@@ -101,8 +101,19 @@ namespace MI.Server.BusinessLogic.Business
             var numberOfPossibleSignsForThisSubject = signingRulesDto.Where(x => x.Category.ToList().Contains(subjectDto.Category) && x.Type.ToList().Any(y => subjectDto.Type.Any(z => z == y))).Sum(w => w.Quantity);
 
             if (numberOfPossibleSignsForThisSubject > 0)
-                return true;
-            return false;
+                return "Zapsáno";
+
+            var leftToSign = signingRulesDto.Where(x => x.Quantity > 0);
+            var sb = new StringBuilder();
+            foreach (var left in leftToSign)
+            {
+                var categoriesString = string.Join(", ", left.Category.ToList().Select(x => x.ToEnumMemberAttrValue()));
+                var typeString = string.Join(", ", left.Type.ToList().Select(x => x.ToEnumMemberAttrValue()));
+                var message = $"Kategorie: {categoriesString} {Environment.NewLine} Typ: {typeString} {Environment.NewLine} Počet: {left.Quantity}";
+                sb.AppendLine(message);
+            }
+
+            return $"Tento předmět nelze zapsat. Zbývá: {Environment.NewLine} {sb.ToString()}";
         }
 
         private void SetTheList(List<SigningRulesDto> signingRulesDto, List<SubjectDb> allSignedSubject)
