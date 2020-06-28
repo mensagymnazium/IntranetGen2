@@ -87,7 +87,7 @@ class SubjectSigning extends React.Component {
   async apiSignUpSubjects(id, priority) {
     try {
       let result = await signUpSubject(id, priority);
-      notify("Zapsáno", "success", 1000);
+      notify(result.data, "success", 1000);
       return result.data;
     } catch (error) {
       notify(error.response.data, "error", 5000);
