@@ -9,6 +9,8 @@ namespace MI.Server.DataAccess.DbObjects.Configuration
         public void Configure(EntityTypeBuilder<UserDb> builder)
         {
             builder.ToTable("Users");
+
+            builder.HasMany(s => s.Submissions).WithOne(u => u.User);
         }
     }
 }

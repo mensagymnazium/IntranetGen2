@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MI.Server.DataAccess", "MI.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MI.Server.BusinessLogic", "MI.Server.BusinessLogic\MI.Server.BusinessLogic.csproj", "{7F4BB316-B290-4878-B1C9-5DAC94BE9AAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MI.Server.CodeRunner", "..\MI.Server.CodeRunner\MI.Server.CodeRunner.csproj", "{0638AE05-3E7C-48F5-8072-215D9D3EB63C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{7F4BB316-B290-4878-B1C9-5DAC94BE9AAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F4BB316-B290-4878-B1C9-5DAC94BE9AAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F4BB316-B290-4878-B1C9-5DAC94BE9AAF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0638AE05-3E7C-48F5-8072-215D9D3EB63C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0638AE05-3E7C-48F5-8072-215D9D3EB63C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0638AE05-3E7C-48F5-8072-215D9D3EB63C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0638AE05-3E7C-48F5-8072-215D9D3EB63C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
