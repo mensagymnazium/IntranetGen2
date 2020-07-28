@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +12,8 @@ using MI.Server.DataAccess.Database;
 using MI.Server.BusinessLogic;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 
@@ -89,6 +92,12 @@ namespace MI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider
+                    (Path.Combine(Directory.GetCurrentDirectory(), @"UploadedFiles")),
+                RequestPath = new PathString("/UploadedFiles")
+            });
             app.UseRouting();
 
             app.UseAuthorization();

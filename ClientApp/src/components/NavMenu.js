@@ -85,6 +85,15 @@ export class NavMenu extends Component {
                     Předměty
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink
+                    activeStyle={highLightStyle}
+                    tag={RRNavLink}
+                    to="/programming"
+                  >
+                    Seminář prográmko
+                  </NavLink>
+                </NavItem>
                 {this.state.haveRoles &&
                 this.state.haveRoles.indexOf(Role.Admin) === -1 ? null : (
                   <NavItem>

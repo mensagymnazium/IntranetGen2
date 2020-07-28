@@ -11,6 +11,7 @@ import Administration from "./components/Administration";
 import StudentSigns from "./components/StudentSigns";
 import Students from "./components/DevExpress/Students";
 import "./styles/Base.css";
+import FileUpload from "./components/Upload/FileUpload";
 
 class RootApp extends Component {
   render() {
@@ -34,6 +35,11 @@ class RootApp extends Component {
               path="/students"
               roles={[Role.Admin, Role.Teacher]}
               component={Students}
+            />
+            <Route
+              exact
+              path="/programming"
+              render={() => <FileUpload {...this.props} />}
             />
             <Route component={NoMatch} />
           </Switch>
