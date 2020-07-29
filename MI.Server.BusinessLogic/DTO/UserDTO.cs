@@ -17,7 +17,9 @@ namespace MI.Server.BusinessLogic.DTO
         public string SignDone { get; set; }
 
         public List<string> PrimarySubjects { get; set; } = new List<string>();
+
         public List<string> SecondarySubjects { get; set; } = new List<string>();
 
+        public IEnumerable<SubmissionDto> Submissions { get; set; }
     }
 }
