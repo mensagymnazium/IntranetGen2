@@ -46,7 +46,6 @@ export default class FileUpload extends Component {
     return (
       <div className="container-fluid">
         <form onSubmit={e => this.apiUpload(e)}>
-          <h1>File upload</h1>
           <input type="file" accept=".zip" onChange={e => this.setFile(e)} />
           <button
             className="btn btn-primary"

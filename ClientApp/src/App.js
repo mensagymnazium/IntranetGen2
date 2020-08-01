@@ -11,7 +11,7 @@ import Administration from "./components/Administration";
 import StudentSigns from "./components/StudentSigns";
 import Students from "./components/DevExpress/Students";
 import "./styles/Base.css";
-import FileUpload from "./components/Upload/FileUpload";
+import AssignmentMenu from "./components/Upload/AssignmentMenu";
 
 class RootApp extends Component {
   render() {
@@ -39,7 +39,7 @@ class RootApp extends Component {
             <Route
               exact
               path="/programming"
-              render={() => <FileUpload {...this.props} />}
+              render={() => <AssignmentMenu {...this.props} />}
             />
             <Route component={NoMatch} />
           </Switch>
