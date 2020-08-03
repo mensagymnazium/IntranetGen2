@@ -1,4 +1,5 @@
 using System.IO;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,9 +11,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MI.Server.DataAccess.Database;
 using MI.Server.BusinessLogic;
-
+using MI.Server.BusinessLogic.DTO;
+using MI.Server.DataAccess.DbObjects.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
@@ -31,6 +34,15 @@ namespace MI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AssignmentDb, AssignmentDto>();
+                cfg.CreateMap<SubmissionDb, SubmissionDto>();
+                cfg.CreateMap<UserDb, UserDto>();
+                //TODO do technical debt
+            });
+            services.AddSingleton(configuration.CreateMapper());
+
             services.AddControllersWithViews();
 
             services.AddControllers().AddNewtonsoftJson();

@@ -6,7 +6,7 @@ export async function uploadFile(file, onUploadProgress) {
   let api = await uploadAuthenticatedApi(scope);
   const formData = new FormData();
   formData.append("body", file);
-  return await api.post("/api/upload", formData, {
+  return await api.post("/api/submission/1", formData, {
     onUploadProgress: progressEvent => {
       var result = (progressEvent.loaded / progressEvent.total) * 100;
       onUploadProgress(result);

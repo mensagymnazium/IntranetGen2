@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "reactstrap";
 import notify from "devextreme/ui/notify";
-import { uploadFile } from "../../services/UploadService";
+import { uploadFile } from "../../services/SubmissionService";
 
 export default class Assignment extends Component {
   constructor(props) {
@@ -50,11 +50,11 @@ export default class Assignment extends Component {
         <form onSubmit={e => this.apiUpload(e)}>
           <Row>
             <Col className="bold">Název</Col>
-            <Col>{this.props.active.name}</Col>
+            <Col>{this.props.name}</Col>
           </Row>
           <Row>
             <Col className="bold">Termín odevzdání</Col>
-            <Col>{this.props.active.deadline}</Col>
+            <Col>{this.props.deadline}</Col>
           </Row>
           <Row>
             <Col className="bold">Maximální počet nahrání</Col>
@@ -62,7 +62,7 @@ export default class Assignment extends Component {
           </Row>
           <Row>
             <Col className="bold">Povinný</Col>
-            <Col>{this.props.active.required}</Col>
+            <Col>{this.props.required}</Col>
           </Row>
           <Row className="inner">
             <Col>

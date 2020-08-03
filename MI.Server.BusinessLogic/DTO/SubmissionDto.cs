@@ -2,7 +2,7 @@
 
 namespace MI.Server.BusinessLogic.DTO
 {
-    public class SubmissionDto
+    public class SubmissionDto : BaseDto
     {
         public string FilePath { get; set; }
 

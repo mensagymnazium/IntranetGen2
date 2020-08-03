@@ -10,10 +10,6 @@ namespace MI.Server.BusinessLogic.DTO
 
         public DateTime Deadline { get; set; }
 
-        public DateTime ActiveFrom { get; set; }
-
-        public string SolutionPath { get; set; }
-
         public int MaxNumberOfUploads { get; set; }
 
         public bool Required { get; set; }

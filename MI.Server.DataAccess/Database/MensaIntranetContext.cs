@@ -15,6 +15,8 @@ namespace MI.Server.DataAccess.Database
         public DbSet<SubjectDb> Subjects { get; set; }
         public DbSet<UserSubjectsDb> UserSubjects { get; set; }
         public DbSet<SigningRulesDb> SigningRules { get; set; }
+        public DbSet<SubmissionDb> Submissions { get; set; }
+        public DbSet<AssignmentDb> Assignments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +25,8 @@ namespace MI.Server.DataAccess.Database
             modelBuilder.ApplyConfiguration(new DbUserConfiguration());
             modelBuilder.ApplyConfiguration(new DbSubjectConfiguration());
             modelBuilder.ApplyConfiguration(new DbUserSubjectsConfiguration());
+            modelBuilder.ApplyConfiguration(new DbSubmissionConfiguration());
+            modelBuilder.ApplyConfiguration(new DbAssignmentConfiguration());
         }
     }
 }

@@ -27,8 +27,6 @@ export default class AssignmentMenu extends Component {
   async apiGetAllAssignments() {
     try {
       let result = await getAllAssignments();
-      console.log(result.data);
-      console.log(this.state);
       this.setState({
         assignments: result.data
       });
@@ -63,7 +61,7 @@ export default class AssignmentMenu extends Component {
         </div>
 
         {this.state.activeDocument != null ? (
-          <Assignment active={this.state.activeDocument} />
+          <Assignment {...this.state.activeDocument} />
         ) : null}
       </div>
     );
