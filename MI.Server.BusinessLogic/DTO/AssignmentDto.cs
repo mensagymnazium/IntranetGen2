@@ -8,7 +8,7 @@ namespace MI.Server.BusinessLogic.DTO
     {
         public string Name { get; set; }
 
-        public DateTime Deadline { get; set; }
+        public string Deadline { get; set; }
 
         public int MaxNumberOfUploads { get; set; }
 

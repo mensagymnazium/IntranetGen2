@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -39,6 +40,10 @@ namespace MI
                 cfg.CreateMap<AssignmentDb, AssignmentDto>();
                 cfg.CreateMap<SubmissionDb, SubmissionDto>();
                 cfg.CreateMap<UserDb, UserDto>();
+                cfg.CreateMap<SubmissionDb, SubmissionDto>().ForMember(x => x.UploadTime,
+                    opt => opt.MapFrom(src => ((DateTime)src.UploadTime).ToString("g")));
+                cfg.CreateMap<AssignmentDb, AssignmentDto>().ForMember(x => x.Deadline,
+                    opt => opt.MapFrom(src => ((DateTime)src.Deadline).ToString("g")));
                 //TODO do technical debt
             });
             services.AddSingleton(configuration.CreateMapper());

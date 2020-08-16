@@ -6,7 +6,7 @@ namespace MI.Server.DataAccess.DbObjects.Entities
     {
         public string FilePath { get; set; }
 
-        public string Score { get; set; }
+        public int Score { get; set; }
 
         public DateTime UploadTime { get; set; }
 

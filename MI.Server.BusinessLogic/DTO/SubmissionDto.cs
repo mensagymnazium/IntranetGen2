@@ -6,9 +6,9 @@ namespace MI.Server.BusinessLogic.DTO
     {
         public string FilePath { get; set; }
 
-        public string Score { get; set; }
+        public int Score { get; set; }
 
-        public DateTime UploadTime { get; set; }
+        public string UploadTime { get; set; }
 
         public string Note { get; set; }
 
@@ -20,6 +20,5 @@ namespace MI.Server.BusinessLogic.DTO
 
         public UserDto User { get; set; }
 
-        public AssignmentDto Assignment { get; set; }
     }
 }

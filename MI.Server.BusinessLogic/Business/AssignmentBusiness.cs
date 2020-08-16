@@ -6,6 +6,7 @@ using MI.Server.BusinessLogic.DTO;
 using MI.Server.DataAccess.Database;
 using MI.Server.DataAccess.DbObjects.Entities;
 using Microsoft.EntityFrameworkCore;
+using Z.EntityFramework.Plus;
 
 namespace MI.Server.BusinessLogic.Business
 {
@@ -21,10 +22,13 @@ namespace MI.Server.BusinessLogic.Business
         }
 
 
-        public async Task<IEnumerable<AssignmentDto>> GetAssignments()
+        public async Task<IEnumerable<AssignmentDto>> GetAssignmentsByUserName(string userName)
         {
-            return await _context.Assignments.Include(x => x.Submissions).Select(y => _mapper.Map<AssignmentDb, AssignmentDto>(y))
-                .ToListAsync().ConfigureAwait(false);
+            var listDb = await _context.Assignments
+                .IncludeFilter(x => x.Submissions.Where(y => y.User.Email == userName))
+                .ToListAsync();
+
+            return  _mapper.Map<IEnumerable<AssignmentDto>>(listDb);
         }
     }
 }

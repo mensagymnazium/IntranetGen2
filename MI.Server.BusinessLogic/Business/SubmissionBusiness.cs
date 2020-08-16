@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -24,6 +25,12 @@ namespace MI.Server.BusinessLogic.Business
             _mapper = mapper;
         }
 
+        public async Task<SubmissionDto> GetById(int id)
+        {
+            var submissioDb = await _context.Submissions.FirstAsync(x => x.Id == id);
+            return _mapper.Map<SubmissionDto>(submissioDb);
+        }
+
         public async Task InsertOrUpdateSubmissionAsync(string filePath, string userName, int assignmentId)
         {
             var assignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Id == assignmentId).ConfigureAwait(false);
@@ -31,7 +38,7 @@ namespace MI.Server.BusinessLogic.Business
                 throw new InvalidOperationException("You can't upload file to non existing assignment.");
 
             var userDb = await _context.Users.SingleOrDefaultAsync(x => x.Email == userName).ConfigureAwait(false);
-            if(userDb == null)
+            if (userDb == null)
                 throw new InvalidOperationException("User with this email does not exist.");
 
             var result = await ProcessFileAsync(assignment.SolutionPath, filePath).ConfigureAwait(false);
@@ -53,6 +60,7 @@ namespace MI.Server.BusinessLogic.Business
             }
             else
             {
+                Directory.Delete(submissionInDb.FilePath, true);
                 submissionInDb.FilePath = filePath;
                 submissionInDb.UploadTime = DateTime.Now;
                 submissionInDb.NumberOfUploads++;
@@ -71,12 +79,15 @@ namespace MI.Server.BusinessLogic.Business
                     Directory.Delete(extractedPath, true);
                 Directory.CreateDirectory(extractedPath);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
-                throw;
+                return new ProcessAsyncHelper.ProcessResult()
+                {
+                    Completed = true,
+                    ExitCode = 1,
+                    Output = "Problem with the extracted content."
+                };
             }
-
 
             ZipFile.ExtractToDirectory(submissionPath, extractedPath);
 
@@ -95,18 +106,24 @@ namespace MI.Server.BusinessLogic.Business
                 var destPath = Path.Combine(extractedPath, Path.GetFileName(file));
                 try
                 {
-                    File.Copy(file, destPath);
+                    if (!File.Exists(file))
+                        File.Copy(file, destPath);
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine(e);
+                    return new ProcessAsyncHelper.ProcessResult()
+                    {
+                        Completed = true,
+                        ExitCode = 1,
+                        Output = "Problem with the extracted content."
+                    };
                 }
             }
 
             var result = await ProcessAsyncHelper.ExecuteShellCommand("dotnet", $"test  \"{solutionPath}\" ", 60000);
 
-            Directory.Delete(extractedPath,true);
+            Directory.Delete(extractedPath, true);
 
             return result;
         }

@@ -5,6 +5,7 @@ import "../../styles/AssignmentMenu.css";
 import "../../styles/SideBarOverride.scss";
 import { AssignmentIcon } from "./AssignmentIcon";
 import { getAllAssignments } from "../../services/AssignmentService";
+import Submission from "./Submission";
 
 export default class AssignmentMenu extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ export default class AssignmentMenu extends Component {
   async apiGetAllAssignments() {
     try {
       let result = await getAllAssignments();
+      console.log(result.data);
       this.setState({
         assignments: result.data
       });
@@ -60,9 +62,15 @@ export default class AssignmentMenu extends Component {
           </ProSidebar>
         </div>
 
-        {this.state.activeDocument != null ? (
-          <Assignment {...this.state.activeDocument} />
-        ) : null}
+        <div>
+          {this.state.activeDocument != null ? (
+            <Assignment {...this.state.activeDocument} />
+          ) : null}
+          {this.state.activeDocument != null &&
+          this.state.activeDocument.submissions.length ? (
+            <Submission {...this.state.activeDocument.submissions[0]} />
+          ) : null}
+        </div>
       </div>
     );
   }

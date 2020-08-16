@@ -16,6 +16,7 @@
     "devextreme": "^19.2.6",
     "devextreme-react": "^19.2.6",
     "emotion": "^10.0.27",
+    "file-saver": "^2.0.2",
     "jszip": "^3.2.2",
     "msal": "^1.2.1",
     "node-sass": "^4.14.1",
