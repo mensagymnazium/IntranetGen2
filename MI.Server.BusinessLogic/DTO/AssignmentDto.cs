@@ -6,9 +6,12 @@ namespace MI.Server.BusinessLogic.DTO
 {
     public class AssignmentDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public string Deadline { get; set; }
+
+        public string ActiveFrom { get; set; }
 
         public int MaxNumberOfUploads { get; set; }
 

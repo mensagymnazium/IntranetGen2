@@ -14,17 +14,6 @@ export async function authenticatedApi(scope) {
   });
 }
 
-export async function downloadAuthenticatedApi(scope) {
-  const token = await getTokenByScope(scope);
-  return axios.create({
-    baseURL: baseUrl,
-    headers: {
-      Authorization: `Bearer ${token.accessToken}`,
-      responseType: "blob"
-    }
-  });
-}
-
 export async function uploadAuthenticatedApi(scope) {
   const token = await getTokenByScope(scope);
   return axios.create({

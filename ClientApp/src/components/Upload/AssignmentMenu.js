@@ -6,6 +6,8 @@ import "../../styles/SideBarOverride.scss";
 import { AssignmentIcon } from "./AssignmentIcon";
 import { getAllAssignments } from "../../services/AssignmentService";
 import Submission from "./Submission";
+import { Button } from "reactstrap";
+import { NewAssignmentIcon } from "./NewAssignmentIcon";
 
 export default class AssignmentMenu extends Component {
   constructor(props) {
@@ -14,7 +16,8 @@ export default class AssignmentMenu extends Component {
     this.state = {
       assignments: [],
       loading: true,
-      activeDocument: null
+      activeDocument: null,
+      new: false
     };
   }
 
@@ -38,7 +41,11 @@ export default class AssignmentMenu extends Component {
   }
 
   setFile(e) {
-    this.setState({ activeDocument: e });
+    this.setState({ activeDocument: e, new: false });
+  }
+
+  addNew(e) {
+    this.setState({ activeDocument: null, new: true });
   }
 
   render() {
@@ -58,17 +65,26 @@ export default class AssignmentMenu extends Component {
                   {x.name}
                 </MenuItem>
               ))}
+              <MenuItem
+                icon={<NewAssignmentIcon />}
+                onClick={e => this.addNew()}
+              >
+                Add
+              </MenuItem>
             </Menu>
           </ProSidebar>
         </div>
 
         <div>
           {this.state.activeDocument != null ? (
-            <Assignment {...this.state.activeDocument} />
+            <Assignment {...this.state.activeDocument} new="" />
           ) : null}
           {this.state.activeDocument != null &&
           this.state.activeDocument.submissions.length ? (
             <Submission {...this.state.activeDocument.submissions[0]} />
+          ) : null}
+          {this.state.activeDocument == null && this.state.new === true ? (
+            <Assignment new="edit" />
           ) : null}
         </div>
       </div>
