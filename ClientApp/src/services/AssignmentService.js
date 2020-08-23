@@ -11,3 +11,8 @@ export async function insertOrUpdateAssignment(assignment) {
   let api = await authenticatedApi(scope);
   return await api.put("/api/assignment", JSON.stringify(assignment));
 }
+
+export async function deleteAssignment(id) {
+  let api = await authenticatedApi(scope);
+  return await api.delete(`/api/assignment/${id}`);
+}

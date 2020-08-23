@@ -4,7 +4,7 @@ import notify from "devextreme/ui/notify";
 import { uploadFile } from "../../services/SubmissionService";
 import {
   insertOrUpdateAssignment,
-  getAllAssignments
+  deleteAssignment
 } from "../../services/AssignmentService";
 
 export default class Assignment extends Component {
@@ -12,12 +12,13 @@ export default class Assignment extends Component {
     super(props);
 
     this.state = {
+      id: this.props.id,
       name: "",
       deadline: "",
       activeFrom: "",
       solutionPath: "",
       maxNumberOfUploads: 0,
-      required: false,
+      required: true,
       file: "",
       readyToUpload: false,
       progress: 0
@@ -41,7 +42,7 @@ export default class Assignment extends Component {
       );
       if (lastFour === ".zip") {
         try {
-          uploadFile(this.state.file, this.onUploadProgress);
+          uploadFile(this.state.file, this.state.id, this.onUploadProgress);
         } catch (error) {
           //TODO Logger
         }
@@ -51,27 +52,39 @@ export default class Assignment extends Component {
     }
   }
 
+  async apiDeleteAssignment(id) {
+    try {
+      await deleteAssignment(id);
+    } catch (error) {
+      //TODO Logger
+    }
+  }
+
   async apiNewAssignment(e) {
     e.preventDefault();
     var assignment = {
       name: this.state.name,
       deadline: this.state.deadline,
       activeFrom: this.state.activeFrom,
-      solutionPath: this.state.file,
+      solutionPath: this.state.solutionPath,
       maxNumberOfUploads: this.state.maxNumberOfUploads,
       required: this.state.required
     };
 
     try {
       await insertOrUpdateAssignment(assignment);
-      await getAllAssignments();
     } catch (error) {
       //TODO Logger
     }
   }
 
   handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    if (e.target.name === "required") {
+      console.log(e.target.checked);
+      this.setState({ [e.target.name]: e.target.checked });
+    } else {
+      this.setState({ [e.target.name]: e.target.value });
+    }
   }
 
   setFile(e) {
@@ -82,6 +95,7 @@ export default class Assignment extends Component {
     return this.props.new != "edit" ? (
       <Container>
         <h1>Zadání</h1>
+        <Button onClick={e => this.apiDeleteAssignment(this.props.id)} />
         <form onSubmit={e => this.apiUpload(e)}>
           <Row>
             <Col className="bold">Název</Col>
@@ -93,11 +107,11 @@ export default class Assignment extends Component {
           </Row>
           <Row>
             <Col className="bold">Maximální počet nahrání</Col>
-            <Col></Col>
+            <Col>{this.props.maxNumberOfUploads}</Col>
           </Row>
           <Row>
             <Col className="bold">Povinný</Col>
-            <Col>{this.props.required}</Col>
+            <Col>{this.props.required ? "Ano" : "Ne"}</Col>
           </Row>
           <Row className="inner">
             <Col>
@@ -186,7 +200,7 @@ export default class Assignment extends Component {
               <input
                 type="checkbox"
                 name="required"
-                value={this.state.required}
+                checked={this.state.required}
                 onChange={this.handleChange}
               />
             </Col>

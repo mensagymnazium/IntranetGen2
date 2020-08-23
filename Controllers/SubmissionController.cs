@@ -33,10 +33,11 @@ namespace MI.Controllers
 
                 if (postedFile.Length > 0)
                 {
+                    var assignment = await _manager.AssignmentBusiness.GetAssignmentById(assignmentId);
                     var filePath =
-                        await SaveFileAsync(postedFile, User.Identity.Name, "test").ConfigureAwait(false);
+                        await SaveFileAsync(postedFile, User.Identity.Name, assignment.Name).ConfigureAwait(false);
                     await _manager.SubmissionBusiness.InsertOrUpdateSubmissionAsync(filePath, User.Identity.Name,
-                        assignmentId).ConfigureAwait(false);
+                        assignment).ConfigureAwait(false);
                 }
 
                 return Ok($"File is uploaded Successfully");

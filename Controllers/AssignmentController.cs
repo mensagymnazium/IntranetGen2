@@ -5,6 +5,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using MI.Server.BusinessLogic;
 using MI.Server.BusinessLogic.DTO;
+using MI.Server.BusinessLogic.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,8 +33,8 @@ namespace MI.Controllers
 
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
-        [Authorize]
-        public async Task<IActionResult> InsertAssignment(AssignmentDto assignment)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> InsertOrUpdateAssignment(AssignmentDto assignment)
         {
             try
             {
@@ -43,6 +44,21 @@ namespace MI.Controllers
             catch (Exception)
             {
                 return BadRequest();
+            }
+        }
+
+        [HttpDelete("{assignmentId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete([FromRoute] int assignmentId)
+        {
+            try
+            {
+                await _manager.AssignmentBusiness.DeleteAssignment(assignmentId);
+                return Ok();
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
             }
         }
     }

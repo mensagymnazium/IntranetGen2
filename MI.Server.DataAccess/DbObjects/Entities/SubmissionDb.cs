@@ -16,7 +16,7 @@ namespace MI.Server.DataAccess.DbObjects.Entities
 
         public int NumberOfUploads { get; set; }
 
-        public int RunTime { get; set; }
+        public double RunTime { get; set; }
 
         public UserDb User { get; set; }
 

@@ -123,6 +123,10 @@ namespace MI.Server.BusinessLogic
             public bool Completed;
             public int? ExitCode;
             public string Output;
+            public string MaxTest;
+            public string PassedTest;
+            public string Time;
+
         }
 
     }

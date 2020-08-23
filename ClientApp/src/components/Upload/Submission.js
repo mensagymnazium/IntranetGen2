@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "reactstrap";
+import "../../styles/Submission.css";
 
 export default class Submission extends Component {
   render() {
@@ -7,7 +8,9 @@ export default class Submission extends Component {
       <Container>
         <h1>Odevzdání</h1>
         <Row>
-          <Col className="bold">Soubor</Col>
+          <Col xs="3" className="bold">
+            Soubor
+          </Col>
           <Col>
             {this.props.filePath
               .split("\\")
@@ -17,27 +20,44 @@ export default class Submission extends Component {
           </Col>
         </Row>
         <Row>
-          <Col className="bold">Datum odevzdání</Col>
-          <Col>{this.props.uploadTime}</Col>
+          <Col xs="3" className="bold">
+            Datum odevzdání
+          </Col>
+          <Col xs>{this.props.uploadTime}</Col>
         </Row>
         <Row>
-          <Col className="bold">Číslo pokusu</Col>
+          <Col xs="3" className="bold">
+            Číslo pokusu
+          </Col>
           <Col>{this.props.numberOfUploads}</Col>
         </Row>
         <Row>
-          <Col className="bold">Počet bodů</Col>
+          <Col xs="3" className="bold">
+            Počet bodů
+          </Col>
           <Col>{this.props.score}</Col>
         </Row>
-        <Row>
-          <Col className="bold">Rychlost řešení</Col>
+        {/* <Row>
+          <Col xs="3" className="bold">
+            Rychlost řešení
+          </Col>
           <Col>{this.props.runTime}</Col>
+        </Row> */}
+        <Row>
+          <Col xs="3" className="bold">
+            Výpis programu
+          </Col>
+          <Col>
+            <div className="display-linebreak">{this.props.resultMessage}</div>
+          </Col>
         </Row>
         <Row>
-          <Col className="bold">Výpis programu</Col>
-          <Col>{this.props.resultMessage}</Col>
-        </Row>
-        <Row>
-          <Col className="bold">Poznámka učitele</Col>
+          {this.props.notes ? (
+            <Col xs="3" className="bold">
+              Poznámka učitele
+            </Col>
+          ) : null}
+
           <Col>{this.props.note}</Col>
         </Row>
       </Container>
