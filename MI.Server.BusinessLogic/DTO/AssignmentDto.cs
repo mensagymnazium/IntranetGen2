@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MI.Server.DataAccess.DbObjects.Entities;
+using MI.Server.DataAccess.DbObjects.Enums;
 
 namespace MI.Server.BusinessLogic.DTO
 {
@@ -15,6 +16,10 @@ namespace MI.Server.BusinessLogic.DTO
         public string ActiveFrom { get; set; }
 
         public int MaxNumberOfUploads { get; set; }
+
+        public ProgrammingGroup Group { get; set; }
+
+        public string Url { get; set; }
 
         public string SolutionPath { get; set; }
 

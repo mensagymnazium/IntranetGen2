@@ -11,6 +11,13 @@ export const Grade = {
   Admin: "Intranet-Admins"
 };
 
+export const ProgrammingGroup = {
+  NotInGroup: 0,
+  First: 1,
+  Second: 2,
+  Admin: 3
+};
+
 export const GradeMail = {
   Prima: "prima@mensagymnazium.cz",
   Sekunda: "sekunda@mensagymnazium.cz",

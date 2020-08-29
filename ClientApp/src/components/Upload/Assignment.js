@@ -6,6 +6,7 @@ import {
   insertOrUpdateAssignment,
   deleteAssignment
 } from "../../services/AssignmentService";
+import { Role } from "../../helpers/Enums";
 
 export default class Assignment extends Component {
   constructor(props) {
@@ -17,7 +18,9 @@ export default class Assignment extends Component {
       deadline: "",
       activeFrom: "",
       solutionPath: "",
+      url: "",
       maxNumberOfUploads: 0,
+      group: 0,
       required: true,
       file: "",
       readyToUpload: false,
@@ -67,6 +70,8 @@ export default class Assignment extends Component {
       deadline: this.state.deadline,
       activeFrom: this.state.activeFrom,
       solutionPath: this.state.solutionPath,
+      url: this.state.url,
+      group: this.state.group,
       maxNumberOfUploads: this.state.maxNumberOfUploads,
       required: this.state.required
     };
@@ -80,7 +85,6 @@ export default class Assignment extends Component {
 
   handleChange(e) {
     if (e.target.name === "required") {
-      console.log(e.target.checked);
       this.setState({ [e.target.name]: e.target.checked });
     } else {
       this.setState({ [e.target.name]: e.target.value });
@@ -91,15 +95,23 @@ export default class Assignment extends Component {
     this.setState({ file: e.target.files[0], readyToUpload: true });
   }
   render() {
-    console.log(this.props);
     return this.props.new != "edit" ? (
       <Container>
         <h1>Zadání</h1>
-        <Button onClick={e => this.apiDeleteAssignment(this.props.id)} />
+        {this.props.roles &&
+        this.props.roles.indexOf(Role.Admin) === -1 ? null : (
+          <Button onClick={e => this.apiDeleteAssignment(this.props.id)} />
+        )}
         <form onSubmit={e => this.apiUpload(e)}>
           <Row>
             <Col className="bold">Název</Col>
             <Col>{this.props.name}</Col>
+          </Row>
+          <Row>
+            <Col className="bold">Zadání</Col>
+            <Col>
+              <a href={this.props.url}>Github</a>
+            </Col>
           </Row>
           <Row>
             <Col className="bold">Termín odevzdání</Col>
@@ -157,6 +169,28 @@ export default class Assignment extends Component {
                 type="text"
                 name="deadline"
                 value={this.state.deadline}
+                onChange={this.handleChange}
+              />
+            </Col>
+          </Row>
+          <Row style={{ marginBottom: "10px" }}>
+            <Col className="bold">Group:</Col>
+            <Col>
+              <input
+                type="text"
+                name="group"
+                value={this.state.group}
+                onChange={this.handleChange}
+              />
+            </Col>
+          </Row>
+          <Row style={{ marginBottom: "10px" }}>
+            <Col className="bold">Url:</Col>
+            <Col>
+              <input
+                type="text"
+                name="url"
+                value={this.state.url}
                 onChange={this.handleChange}
               />
             </Col>

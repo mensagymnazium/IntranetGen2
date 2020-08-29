@@ -12,6 +12,7 @@ using AutoMapper;
 using MI.Server.BusinessLogic.DTO;
 using MI.Server.DataAccess.Database;
 using MI.Server.DataAccess.DbObjects.Entities;
+using MI.Server.DataAccess.DbObjects.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
@@ -42,6 +43,10 @@ namespace MI.Server.BusinessLogic.Business
             var userDb = await _context.Users.SingleOrDefaultAsync(x => x.Email == userName).ConfigureAwait(false);
             if (userDb == null)
                 throw new InvalidOperationException("User with this email does not exist.");
+
+            if(userDb.Group != ProgrammingGroup.Admin && assignment.Group != userDb.Group)
+                throw new InvalidOperationException("You can't upload submission to this assignment.");
+
             ProcessAsyncHelper.ProcessResult result = new ProcessAsyncHelper.ProcessResult();
             int score = 0;
             try
@@ -75,6 +80,10 @@ namespace MI.Server.BusinessLogic.Business
             }
             else
             {
+                if (assignment.MaxNumberOfUploads == submissionInDb.NumberOfUploads)
+                {
+                    throw new InvalidOperationException("Maximum number of uploads exceeded.");
+                }
                 try
                 {
                     File.Delete(submissionInDb.FilePath);

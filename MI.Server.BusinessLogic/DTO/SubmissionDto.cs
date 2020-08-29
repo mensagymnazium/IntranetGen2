@@ -17,8 +17,5 @@ namespace MI.Server.BusinessLogic.DTO
         public int NumberOfUploads { get; set; }
 
         public double RunTime { get; set; }
-
-        public UserDto User { get; set; }
-
     }
 }

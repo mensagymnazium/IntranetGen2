@@ -4,13 +4,14 @@ import { insertOrUpdateUser } from "./../services/UserApi";
 import { getTokenByScope } from "../helpers/TokenHelper";
 import { getUserGroup } from "../services/GraphService";
 
-import { Grade, GradeMail } from "./../helpers/Enums";
+import { Grade, GradeMail, ProgrammingGroup } from "./../helpers/Enums";
 import { Grades, GradesMailList } from "./../helpers/Data";
 
 export const Home = props => {
   let user = {
     Email: props.auth.user.userName,
-    StudentClass: ""
+    StudentClass: "",
+    Group: ""
   };
 
   useEffect(() => {
@@ -19,6 +20,8 @@ export const Home = props => {
       let token = await getTokenByScope(scope);
       let groups = await getUserGroup(token);
       user.StudentClass = await getStudentClass(groups.value);
+      console.log("skupiny", groups.value);
+      user.Group = await getProgrammingGroup(groups.value);
       apiInsertOrUpdateUser();
     }
     async function apiInsertOrUpdateUser() {
@@ -70,8 +73,25 @@ export const Home = props => {
   );
 };
 
+async function getProgrammingGroup(groups) {
+  var admin = groups.find(group => group.displayName === Grade.Admin);
+  if (admin) return "Admin";
+  var seminarI = groups.find(
+    group => group.id === "8ec9013b-6a43-4d5b-9716-74bcfffb6eab"
+  );
+  if (seminarI) return ProgrammingGroup.First;
+  var seminarII = groups.find(
+    group => group.id === "877044fb-957f-480b-8be4-60ed9bf12f68"
+  );
+  console.log("seminar", seminarII);
+  if (seminarII) {
+    return ProgrammingGroup.Second;
+  }
+
+  return ProgrammingGroup.NotInGroup;
+}
+
 async function getStudentClass(groups) {
-  return Grade.Sexta;
   var admin = groups.find(group => group.displayName === Grade.Admin);
   if (admin) return "Admin";
   var teacher = groups.find(group => group.displayName === Grade.Teacher);

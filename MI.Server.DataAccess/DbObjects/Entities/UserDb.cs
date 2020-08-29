@@ -13,6 +13,7 @@ namespace MI.Server.DataAccess.DbObjects.Entities
         }
         public string Email { get; set; }
         public GradeEnum StudentGrade { get; set; }
+        public ProgrammingGroup Group { get; set; }
         public ICollection<UserSubjectsDb> UserSubjects { get; set; }
         public ICollection<SubmissionDb> Submissions { get; set; }
     }

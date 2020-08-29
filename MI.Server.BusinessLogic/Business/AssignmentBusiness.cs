@@ -9,6 +9,7 @@ using MI.Server.BusinessLogic.DTO;
 using MI.Server.BusinessLogic.Exceptions;
 using MI.Server.DataAccess.Database;
 using MI.Server.DataAccess.DbObjects.Entities;
+using MI.Server.DataAccess.DbObjects.Enums;
 using Microsoft.EntityFrameworkCore;
 using Z.EntityFramework.Plus;
 
@@ -38,8 +39,13 @@ namespace MI.Server.BusinessLogic.Business
                 .IncludeFilter(x => x.Submissions.Where(y => y.User.Email == userName))
                 .ToListAsync();
 
+            var user = await _context.Users.Where(x => x.Email == userName).FirstAsync();
+
+            if(user.Group == ProgrammingGroup.Admin)
+                return _mapper.Map<IEnumerable<AssignmentDto>>(listDb);
+
             var dateTime = DateTime.Now;
-            var returnList = listDb.Where(x => x.ActiveFrom <= dateTime);
+            var returnList = listDb.Where(x => x.ActiveFrom <= dateTime && x.Group == user.Group);
             return  _mapper.Map<IEnumerable<AssignmentDto>>(returnList);
         }
 
@@ -49,6 +55,8 @@ namespace MI.Server.BusinessLogic.Business
             var assignmentDb = new AssignmentDb
             {
                 Id = assignmentDto.Id,
+                Group = assignmentDto.Group,
+                Url = assignmentDto.Url,
                 MaxNumberOfUploads = assignmentDto.MaxNumberOfUploads,
                 Name = assignmentDto.Name,
                 SolutionPath = assignmentDto.SolutionPath,

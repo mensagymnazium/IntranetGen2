@@ -8,12 +8,14 @@ import { getAllAssignments } from "../../services/AssignmentService";
 import Submission from "./Submission";
 import { Button } from "reactstrap";
 import { NewAssignmentIcon } from "./NewAssignmentIcon";
+import { Role } from "../../helpers/Enums";
 
 export default class AssignmentMenu extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      haveRoles: props.auth.user.idToken.roles,
       assignments: [],
       loading: true,
       activeDocument: null,
@@ -31,7 +33,7 @@ export default class AssignmentMenu extends Component {
   async apiGetAllAssignments() {
     try {
       let result = await getAllAssignments();
-      console.log(result.data);
+
       this.setState({
         assignments: result.data
       });
@@ -65,19 +67,28 @@ export default class AssignmentMenu extends Component {
                   {x.name}
                 </MenuItem>
               ))}
-              <MenuItem
-                icon={<NewAssignmentIcon />}
-                onClick={e => this.addNew()}
-              >
-                Add
-              </MenuItem>
+              {this.state.haveRoles &&
+              this.state.haveRoles.indexOf(Role.Admin) === -1 ? (
+                <div></div>
+              ) : (
+                <MenuItem
+                  icon={<NewAssignmentIcon />}
+                  onClick={e => this.addNew()}
+                >
+                  Add
+                </MenuItem>
+              )}
             </Menu>
           </ProSidebar>
         </div>
 
         <div>
           {this.state.activeDocument != null ? (
-            <Assignment {...this.state.activeDocument} new="" />
+            <Assignment
+              {...this.state.activeDocument}
+              new=""
+              roles={this.state.haveRoles}
+            />
           ) : null}
           {this.state.activeDocument != null &&
           this.state.activeDocument.submissions.length ? (

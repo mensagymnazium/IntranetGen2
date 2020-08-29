@@ -29,11 +29,17 @@ namespace MI.Controllers
         {
             try
             {
+                var assignment = await _manager.AssignmentBusiness.GetAssignmentById(assignmentId);
+                if (assignment == null)
+                    return BadRequest($"Uploading to not existing assignment");
+
+                if (assignment.Deadline < DateTime.Now)
+                    return Ok("Uploading after deadline.");
+
                 var postedFile = Request.Form.Files[0];
 
                 if (postedFile.Length > 0)
                 {
-                    var assignment = await _manager.AssignmentBusiness.GetAssignmentById(assignmentId);
                     var filePath =
                         await SaveFileAsync(postedFile, User.Identity.Name, assignment.Name).ConfigureAwait(false);
                     await _manager.SubmissionBusiness.InsertOrUpdateSubmissionAsync(filePath, User.Identity.Name,
@@ -41,6 +47,10 @@ namespace MI.Controllers
                 }
 
                 return Ok($"File is uploaded Successfully");
+            }
+            catch (InvalidOperationException exception)
+            {
+                return Ok(exception.Message);
             }
             catch (Exception)
             {
