@@ -54,7 +54,7 @@ namespace MI.Controllers
             }
             catch (InvalidOperationException exception)
             {
-                return Ok(exception.Message);
+                return StatusCode(406, exception.Message);
             }
             catch (Exception)
             {

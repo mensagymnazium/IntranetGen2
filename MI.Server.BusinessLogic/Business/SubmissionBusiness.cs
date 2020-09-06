@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -15,6 +16,7 @@ using MI.Server.DataAccess.DbObjects.Entities;
 using MI.Server.DataAccess.DbObjects.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using Microsoft.Extensions.Configuration;
 
 namespace MI.Server.BusinessLogic.Business
 {
@@ -22,11 +24,13 @@ namespace MI.Server.BusinessLogic.Business
     {
         private readonly MensaIntranetContext _context;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
 
-        internal SubmissionBusiness(MensaIntranetContext context, IMapper mapper)
+        internal SubmissionBusiness(MensaIntranetContext context, IMapper mapper, IConfiguration config)
         {
             _context = context;
             _mapper = mapper;
+            _config = config;
         }
 
         public async Task<SubmissionDto> GetById(int id)
@@ -51,9 +55,13 @@ namespace MI.Server.BusinessLogic.Business
             int score = 0;
             try
             {
-                result = await ProcessFileAsync(assignment.SolutionPath, filePath).ConfigureAwait(false);
+                var temp = Path.Combine(_config["SavePath"], "temp", userName);
+                ZipFile.ExtractToDirectory(assignment.SolutionPath, temp);
+                var directories = Directory.GetDirectories(temp);
+                result = await ProcessFileAsync(directories[0], filePath).ConfigureAwait(false);
                 double d = (double.Parse(result.PassedTest) / double.Parse(result.MaxTest)) * 100;
                 score = (int)Math.Round(d);
+                Directory.Delete(temp, true);
             }
             catch (Exception e)
             {
@@ -105,7 +113,7 @@ namespace MI.Server.BusinessLogic.Business
 
         public async Task<ProcessAsyncHelper.ProcessResult> ProcessFileAsync(string solutionPath, string submissionPath)
         {
-            var extractedPath = Path.Combine(Path.GetDirectoryName(solutionPath) ?? throw new InvalidOperationException(), "Extracted");
+            var extractedPath = Path.Combine(solutionPath, "Extracted");
             try
             {
                 if (Directory.Exists(extractedPath))
@@ -154,7 +162,10 @@ namespace MI.Server.BusinessLogic.Business
                 }
             }
 
-            var result = await ProcessAsyncHelper.ExecuteShellCommand("dotnet", $"test  \"{solutionPath}\" ", 60000);
+            var solutionFile = Directory.GetFiles(solutionPath, "*.sln");
+            if(solutionFile.Length != 1)
+                throw new InvalidOperationException();
+            var result = await ProcessAsyncHelper.ExecuteShellCommand("dotnet", $"test  \"{solutionFile[0]}\" ", 60000);
 
             if (result.Completed)
             {

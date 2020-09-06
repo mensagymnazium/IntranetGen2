@@ -109,12 +109,12 @@ namespace MI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider
-                    (Path.Combine(Directory.GetCurrentDirectory(), @"UploadedFiles")),
-                RequestPath = new PathString(Configuration["SavePath"])
-            });
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider
+            //        (Path.Combine(Directory.GetCurrentDirectory(), @"UploadedFiles")),
+            //    RequestPath = new PathString(Configuration["SavePath"])
+            //});
             app.UseRouting();
 
             app.UseAuthorization();
