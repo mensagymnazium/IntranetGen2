@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -9,6 +10,7 @@ using MI.Server.BusinessLogic.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace MI.Controllers
 {
@@ -17,10 +19,12 @@ namespace MI.Controllers
     public class SubmissionController : ControllerBase
     {
         private readonly BusinessManager _manager;
+        private readonly IConfiguration _config;
 
-        public SubmissionController(BusinessManager manager)
+        public SubmissionController(BusinessManager manager, IConfiguration config)
         {
             _manager = manager;
+            _config = config;
         }
 
         [HttpPost("{assignmentId}")]
@@ -34,7 +38,7 @@ namespace MI.Controllers
                     return BadRequest($"Uploading to not existing assignment");
 
                 if (assignment.Deadline < DateTime.Now)
-                    return Ok("Uploading after deadline.");
+                    return StatusCode(406,"Uploading after deadline.");
 
                 var postedFile = Request.Form.Files[0];
 
@@ -61,7 +65,7 @@ namespace MI.Controllers
         public async Task<string> SaveFileAsync(IFormFile postedFile, string userName, string assignmentName)
         {
             var fileName = ContentDispositionHeaderValue.Parse(postedFile.ContentDisposition).FileName.Trim('"');
-            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles", assignmentName, userName);
+            var uploadFolder = Path.Combine(_config["SavePath"], assignmentName, userName);
             Directory.CreateDirectory(uploadFolder);
             var finalPath = Path.Combine(uploadFolder, fileName);
             using (var fileStream = new FileStream(finalPath, FileMode.Create))

@@ -113,7 +113,7 @@ namespace MI
             {
                 FileProvider = new PhysicalFileProvider
                     (Path.Combine(Directory.GetCurrentDirectory(), @"UploadedFiles")),
-                RequestPath = new PathString("/UploadedFiles")
+                RequestPath = new PathString(Configuration["SavePath"])
             });
             app.UseRouting();
 

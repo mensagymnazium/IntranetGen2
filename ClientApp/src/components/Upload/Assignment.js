@@ -45,9 +45,15 @@ export default class Assignment extends Component {
       );
       if (lastFour === ".zip") {
         try {
-          uploadFile(this.state.file, this.state.id, this.onUploadProgress);
+          let result = await uploadFile(
+            this.state.file,
+            this.state.id,
+            this.onUploadProgress
+          );
+          notify(result.data, "success", 1000);
+          window.location.reload(false);
         } catch (error) {
-          //TODO Logger
+          notify(error.response.data, "error", 3000);
         }
       } else {
         notify("Only upload .zip file", "error", 3000);

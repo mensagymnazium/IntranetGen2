@@ -33,10 +33,12 @@ export default class AssignmentMenu extends Component {
   async apiGetAllAssignments() {
     try {
       let result = await getAllAssignments();
-
       this.setState({
         assignments: result.data
       });
+      if (this.state.assignments) {
+        this.setState({ activeDocument: this.state.assignments[0] });
+      }
     } catch (error) {
       //TODO Logger
     }
