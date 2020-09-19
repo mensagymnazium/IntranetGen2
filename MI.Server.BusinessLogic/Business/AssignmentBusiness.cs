@@ -61,8 +61,8 @@ namespace MI.Server.BusinessLogic.Business
                 Name = assignmentDto.Name,
                 SolutionPath = assignmentDto.SolutionPath,
                 Required = assignmentDto.Required,
-                ActiveFrom = Convert.ToDateTime(assignmentDto.ActiveFrom),
-                Deadline = Convert.ToDateTime(assignmentDto.Deadline)
+                ActiveFrom = DateTime.ParseExact(assignmentDto.ActiveFrom, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                Deadline = DateTime.ParseExact(assignmentDto.Deadline, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
             };
 
             var assignmenIntDb = _context.Assignments.SingleOrDefaultAsync(x => x.Id == assignmentDb.Id && x.SolutionPath == assignmentDb.SolutionPath);

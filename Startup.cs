@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-
+using System.Globalization;
 
 namespace MI
 {
@@ -41,9 +41,9 @@ namespace MI
                 cfg.CreateMap<SubmissionDb, SubmissionDto>();
                 cfg.CreateMap<UserDb, UserDto>();
                 cfg.CreateMap<SubmissionDb, SubmissionDto>().ForMember(x => x.UploadTime,
-                    opt => opt.MapFrom(src => ((DateTime)src.UploadTime).ToString("g")));
+                    opt => opt.MapFrom(src => ((DateTime)src.UploadTime).ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture)));
                 cfg.CreateMap<AssignmentDb, AssignmentDto>().ForMember(x => x.Deadline,
-                    opt => opt.MapFrom(src => ((DateTime)src.Deadline).ToString("g")));
+                    opt => opt.MapFrom(src => ((DateTime)src.Deadline).ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture)));
                 //TODO do technical debt
             });
             services.AddSingleton(configuration.CreateMapper());

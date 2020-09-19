@@ -53,20 +53,26 @@ namespace MI.Server.BusinessLogic.Business
 
             ProcessAsyncHelper.ProcessResult result = new ProcessAsyncHelper.ProcessResult();
             int score = 0;
+            var temp = "";
             try
             {
-                var temp = Path.Combine(_config["SavePath"], "temp", userName);
+                temp = Path.Combine(_config["SavePath"], "temp", userName);
+                if (!Directory.Exists(temp))
+                    Directory.CreateDirectory(temp);
                 ZipFile.ExtractToDirectory(assignment.SolutionPath, temp);
                 var directories = Directory.GetDirectories(temp);
                 result = await ProcessFileAsync(directories[0], filePath).ConfigureAwait(false);
                 double d = (double.Parse(result.PassedTest) / double.Parse(result.MaxTest)) * 100;
                 score = (int)Math.Round(d);
-                Directory.Delete(temp, true);
+                
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                score = 0;
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
             }
 
 
@@ -165,7 +171,7 @@ namespace MI.Server.BusinessLogic.Business
             var solutionFile = Directory.GetFiles(solutionPath, "*.sln");
             if(solutionFile.Length != 1)
                 throw new InvalidOperationException();
-            var result = await ProcessAsyncHelper.ExecuteShellCommand("dotnet", $"test  \"{solutionFile[0]}\" ", 60000);
+            var result = await ProcessAsyncHelper.ExecuteShellCommand("dotnet", $"test  \"{solutionFile[0]}\" ", 180000);
 
             if (result.Completed)
             {

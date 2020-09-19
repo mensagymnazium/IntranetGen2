@@ -39,11 +39,11 @@ namespace MI.Controllers
             try
             {
                 await _manager.AssignmentBusiness.InsertOrUpdateAssignment(assignment);
-                return Ok();
+                return Ok("Inserted succesfully");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 

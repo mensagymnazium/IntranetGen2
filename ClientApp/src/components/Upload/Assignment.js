@@ -11,9 +11,9 @@ import { Role } from "../../helpers/Enums";
 export default class Assignment extends Component {
   constructor(props) {
     super(props);
-
+      
     this.state = {
-      id: this.props.id,
+      id: 0,
       name: "",
       deadline: "",
       activeFrom: "",
@@ -44,10 +44,11 @@ export default class Assignment extends Component {
         this.state.file.name.length - 4
       );
       if (lastFour === ".zip") {
-        try {
+          try {
+           
           let result = await uploadFile(
             this.state.file,
-            this.state.id,
+            this.props.id,
             this.onUploadProgress
           );
           notify(result.data, "success", 1000);
@@ -83,9 +84,10 @@ export default class Assignment extends Component {
     };
 
     try {
-      await insertOrUpdateAssignment(assignment);
+        var result = await insertOrUpdateAssignment(assignment);
+        notify(result.data, "success", 1000);
     } catch (error) {
-      //TODO Logger
+        notify(error.result.data, "error", 3000);
     }
   }
 
@@ -100,7 +102,8 @@ export default class Assignment extends Component {
   setFile(e) {
     this.setState({ file: e.target.files[0], readyToUpload: true });
   }
-  render() {
+    render() {
+      
     return this.props.new != "edit" ? (
       <Container>
         <h1>Zadání</h1>

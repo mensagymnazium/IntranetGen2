@@ -44,7 +44,8 @@ export default class AssignmentMenu extends Component {
     }
   }
 
-  setFile(e) {
+    setFile(e) {
+      
     this.setState({ activeDocument: e, new: false });
   }
 

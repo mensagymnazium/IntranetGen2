@@ -56,9 +56,9 @@ namespace MI.Controllers
             {
                 return StatusCode(406, exception.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, $"Some Error Occcured while uploading File");
+                return StatusCode(500, e.Message);
             }
         }
 

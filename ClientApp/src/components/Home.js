@@ -20,7 +20,6 @@ export const Home = props => {
       let token = await getTokenByScope(scope);
       let groups = await getUserGroup(token);
       user.StudentClass = await getStudentClass(groups.value);
-      console.log("skupiny", groups.value);
       user.Group = await getProgrammingGroup(groups.value);
       apiInsertOrUpdateUser();
     }
