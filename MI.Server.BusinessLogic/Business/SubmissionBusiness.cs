@@ -176,7 +176,6 @@ namespace MI.Server.BusinessLogic.Business
             if (result.Completed)
             {
                 var te = "Starting test execution, please wait.";
-                //var text = "Starting test execution, please wait...";
                 if (result.Output.Contains(te))
                 {
                     var index = result.Output.IndexOf(te);
@@ -216,12 +215,6 @@ namespace MI.Server.BusinessLogic.Business
                     result.Output = string.Join(Environment.NewLine, list);
                 }
             }
-            else
-            {
-                result.Output = "Timeout your solution is slower than 60seconds";
-            }
-
-
 
             Directory.Delete(extractedPath, true);
 

@@ -100,6 +100,8 @@ namespace MI.Server.BusinessLogic
                         {
                             // Kill hung process
                             process.Kill();
+                            result.Completed = true;
+                            result.Output = "Killed process due to timeout.";
                         }
                         catch
                         {
