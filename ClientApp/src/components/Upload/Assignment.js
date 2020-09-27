@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TopBarProgress from "react-topbar-progress-indicator";
 import { Container, Row, Col, Button } from "reactstrap";
 import notify from "devextreme/ui/notify";
 import { uploadFile } from "../../services/SubmissionService";
@@ -8,10 +9,18 @@ import {
 } from "../../services/AssignmentService";
 import { Role } from "../../helpers/Enums";
 
+TopBarProgress.config({
+  barColors: {
+    "0": "#fff",
+    "1.0": "#fff"
+  },
+  shadowBlur: 5
+});
+
 export default class Assignment extends Component {
   constructor(props) {
     super(props);
-      
+
     this.state = {
       id: 0,
       name: "",
@@ -24,7 +33,8 @@ export default class Assignment extends Component {
       required: true,
       file: "",
       readyToUpload: false,
-      progress: 0
+      progress: 0,
+      isLoading: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -44,17 +54,19 @@ export default class Assignment extends Component {
         this.state.file.name.length - 4
       );
       if (lastFour === ".zip") {
-          try {
-           
+        try {
+          this.setState({ isLoading: true });
           let result = await uploadFile(
             this.state.file,
             this.props.id,
             this.onUploadProgress
           );
           notify(result.data, "success", 1000);
+          this.setState({ isLoading: false });
           window.location.reload(false);
         } catch (error) {
           notify(error.response.data, "error", 3000);
+          this.setState({ isLoading: false });
         }
       } else {
         notify("Only upload .zip file", "error", 3000);
@@ -84,10 +96,10 @@ export default class Assignment extends Component {
     };
 
     try {
-        var result = await insertOrUpdateAssignment(assignment);
-        notify(result.data, "success", 1000);
+      var result = await insertOrUpdateAssignment(assignment);
+      notify(result.data, "success", 1000);
     } catch (error) {
-        notify(error.result.data, "error", 3000);
+      notify(error.result.data, "error", 3000);
     }
   }
 
@@ -102,10 +114,12 @@ export default class Assignment extends Component {
   setFile(e) {
     this.setState({ file: e.target.files[0], readyToUpload: true });
   }
-    render() {
-      
+  render() {
     return this.props.new != "edit" ? (
-      <Container>
+      <Container
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
+        {this.state.isLoading && <TopBarProgress />}
         <h1>Zadání</h1>
         {this.props.roles &&
         this.props.roles.indexOf(Role.Admin) === -1 ? null : (
