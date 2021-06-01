@@ -16,6 +16,6 @@ namespace MI.Server.BusinessLogic.DTO
         public string Teacher { get; set; }
         public List<SubjectTypeEnum> Type { get; set; } = new List<SubjectTypeEnum>();
         public List<GradeEnum> Grades { get; set; } = new List<GradeEnum>();
-        public SignupSubjectsDto SignedStudents { get; set;}
+		public SignupSubjectsDto SignedStudents { get; set; }
     }
 }

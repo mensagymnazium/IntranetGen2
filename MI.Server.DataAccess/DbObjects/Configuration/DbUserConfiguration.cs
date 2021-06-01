@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MI.Server.DataAccess.DbObjects.Configuration
 {
-    class DbUserConfiguration : IEntityTypeConfiguration<UserDb>
+    internal class DbUserConfiguration : IEntityTypeConfiguration<UserDb>
     {
         public void Configure(EntityTypeBuilder<UserDb> builder)
         {

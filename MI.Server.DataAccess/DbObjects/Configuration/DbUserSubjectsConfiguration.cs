@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MI.Server.DataAccess.DbObjects.Configuration
 {
-    class DbUserSubjectsConfiguration : IEntityTypeConfiguration<UserSubjectsDb>
+    internal class DbUserSubjectsConfiguration : IEntityTypeConfiguration<UserSubjectsDb>
     {
         public void Configure(EntityTypeBuilder<UserSubjectsDb> builder)
         {

@@ -83,9 +83,11 @@ namespace MI.Server.BusinessLogic.Business
         public async Task CreateSignup(UserDb student, int subjectId, Priority priority)
         {
             if (student == null)
-                throw new ArgumentNullException();
+			{
+				throw new ArgumentNullException();
+			}
 
-            var existingSignup = await _context.UserSubjects
+			var existingSignup = await _context.UserSubjects
                 .FirstOrDefaultAsync(us => us.SubjectId == subjectId && us.UserId == student.Id);
 
             if (existingSignup != null)
@@ -109,9 +111,11 @@ namespace MI.Server.BusinessLogic.Business
         public async Task DeleteSignup(UserDb student, int subjectId)
         {
             if (student == null)
-                throw new ArgumentNullException();
+			{
+				throw new ArgumentNullException();
+			}
 
-            UserSubjectsDb signup = await _context.UserSubjects
+			UserSubjectsDb signup = await _context.UserSubjects
                 .FirstOrDefaultAsync(us => us.SubjectId == subjectId && us.UserId == student.Id);
 
             if (signup == null)
