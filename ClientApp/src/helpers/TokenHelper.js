@@ -7,7 +7,7 @@ export async function getTokenByScope(scope) {
   try {
     return await msalAuth.acquireTokenSilent(accessTokenRequest);
   } catch (error) {
-    console.log("AquireTokenSilent failure");
-    return await msalAuth.acquireTokenPopup(accessTokenRequest);
+	  console.log("AquireTokenSilent failure");
+	  return await msalAuth.acquireTokenRedirect(accessTokenRequest);
   }
 }
